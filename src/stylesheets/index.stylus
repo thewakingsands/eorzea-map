@@ -1,0 +1,37 @@
+html, body
+  padding 0
+  margin 0
+html, body, main, section.map
+  width 100%
+  height 100%
+.eorzea-map-label
+  background none
+  border none
+  text-align center
+  color #fff
+  text-shadow 1px 1px #000, 0 0 5px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.3)
+  box-shadow none
+  font-family "宋体", serif
+  cursor pointer
+  &::before
+    content unset
+  paddingSize = 12px
+  // &.eorzea-map-label-top
+  //   margin-top -1 * paddingSize
+  // &.eorzea-map-label-bottom
+  //   margin-top paddingSize
+  // &.eorzea-map-label-left
+  //   margin-left -1 * paddingSize
+  // &.eorzea-map-label-right
+  //   margin-right paddingSize
+  &.eorzea-map-label-area
+    font-size 24px
+    opacity 0.9
+    font-style italic
+    font-family cursive
+    text-shadow 1px 1px #000, -1px -1px #000, 0 0 5px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5)
+  &.eorzea-map-label-travel
+    color #94d3d6
+    &:hover
+      color #a8f0f2
+      text-shadow 1px 1px #000, 0 0 5px #c4bcff

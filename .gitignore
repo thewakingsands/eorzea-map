@@ -1,6 +1,7 @@
 /dist
 /.idea
 /.cache
+/generated
 
 .DS_Store
 
