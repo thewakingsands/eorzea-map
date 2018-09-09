@@ -16,14 +16,6 @@ html, body, main, section.map
   &::before
     content unset
   paddingSize = 12px
-  // &.eorzea-map-label-top
-  //   margin-top -1 * paddingSize
-  // &.eorzea-map-label-bottom
-  //   margin-top paddingSize
-  // &.eorzea-map-label-left
-  //   margin-left -1 * paddingSize
-  // &.eorzea-map-label-right
-  //   margin-right paddingSize
   &.eorzea-map-label-area
     font-size 24px
     opacity 0.9
