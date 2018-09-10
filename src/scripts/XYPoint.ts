@@ -31,7 +31,7 @@ export function eventToGame(
 ): [number, number] {
   return scaleGameXy(
     llXy(
-      map.layerPointToLatLng(
+      map.containerPointToLatLng(
         DomEvent.getMousePosition(e, (map as any)._container)
       )
     ),

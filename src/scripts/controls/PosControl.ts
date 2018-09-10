@@ -1,4 +1,5 @@
 import { Control, ControlOptions, Map as LFMap } from 'leaflet'
+import { MAP_SIZE } from '../map'
 import { eventToGame } from '../XYPoint'
 
 export class PosControl extends Control {
@@ -32,10 +33,15 @@ export class PosControl extends Control {
   }
 
   private onMouseMoveEvent = (event: MouseEvent) => {
-    const [x, y] = eventToGame(event, this.map, this.scaleFactor).map(i =>
-      i.toFixed(2)
-    )
-    this.rootContainer.textContent = `X: ${x}, Y: ${y}`
+    const [x, y] = eventToGame(event, this.map, this.scaleFactor)
+    if (x < 1 || y < 1) {
+      return
+    }
+    const maxSize = (MAP_SIZE / this.scaleFactor) * 2 + 1
+    if (x > maxSize || y > maxSize) {
+      return
+    }
+    this.rootContainer.textContent = `X: ${x.toFixed(2)}, Y: ${y.toFixed(2)}`
   }
 }
 

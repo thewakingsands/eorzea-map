@@ -11,11 +11,11 @@ const map = createMap(mapEl)
 
 async function load() {
   const mapInfos = await getMaps()
-  const mapInfo = mapInfos[25]
+  const mapInfo = mapInfos[12]
   await loadMap(map, mapInfo)
   const posControl = new PosControl({
     position: 'topright',
-    scaleFactor: 100
+    scaleFactor: 200
   })
   posControl.addTo(map)
 }
