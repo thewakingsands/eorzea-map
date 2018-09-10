@@ -55,7 +55,7 @@ export interface IMapMarker {
   y: number
   icon: string
   ['placeName{Subtext}']: string
-  subtextOrientation: string
+  subtextOrientation: number
   mapMarkerRegion: string
   type: number
   ['data{Type}']: number

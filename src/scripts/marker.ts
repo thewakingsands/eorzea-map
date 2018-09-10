@@ -49,7 +49,12 @@ const emptyIcon = new DivIcon({
 })
 
 export function createMarker(markerInfo: IMapMarker): Marker {
+  if (markerInfo.subtextOrientation === 0) {
+    return
+  }
+
   let icon: Icon | DivIcon = getIcon(markerInfo.icon)
+  const extraClass = []
 
   let type = typeMap[markerInfo['data{Type}']] || 'unkown'
   if (markerInfo.type === 1) {
@@ -64,24 +69,33 @@ export function createMarker(markerInfo: IMapMarker): Marker {
     return null
   }
 
+  let direction = orientationMap[markerInfo.subtextOrientation] || 'auto'
   if (!icon) {
     icon = emptyIcon
+    direction = 'center'
+    extraClass.push('no-icon')
   }
 
   const html = text.replace(/\n/g, '<br>')
-  const direction = orientationMap[markerInfo.subtextOrientation] || 'auto'
 
   const marker = new Marker(xy(markerInfo.x, markerInfo.y), {
-    icon
+    icon,
+    interactive: type === 'aetheryte' || type === 'travel'
   })
 
   if (!html) {
-    return null
+    return marker
   }
+
+  const className = [type, direction]
+    .concat(extraClass)
+    .map(x => `eorzea-map-label-${x}`)
+    .concat(['eorzea-map-label'])
+    .join(' ')
 
   marker.bindTooltip(html, {
     permanent: type !== 'tooltip',
-    className: `eorzea-map-label eorzea-map-label-${type} eorzea-map-label-${direction}`,
+    className,
     direction,
     interactive: type === 'aetheryte' || type === 'travel'
   })
