@@ -19,7 +19,7 @@ export class PosControl extends Control {
     this.scaleFactor = factor
   }
 
-  protected onAdd(map: LFMap) {
+  public onAdd(map: LFMap) {
     this.map = map
     this.mapContainer = (map as any)._container
     this.mapContainer.addEventListener('mousemove', this.onMouseMoveEvent, {
@@ -28,7 +28,7 @@ export class PosControl extends Control {
     return this.rootContainer
   }
 
-  protected onRemove(map: LFMap) {
+  public onRemove(map: LFMap) {
     this.mapContainer.removeEventListener('mousemove', this.onMouseMoveEvent)
   }
 
