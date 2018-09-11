@@ -2,6 +2,7 @@ import { DivIcon, Icon, Marker, Point, Tooltip } from 'leaflet'
 import {
   getIconUrl,
   IMapMarker,
+  MAP_ICON_GROUP,
   MINI_MAP_GROUP,
   NULL_ICON_GROUP,
   parseIcon
@@ -19,8 +20,12 @@ export function getIcon(icon: string): Icon {
     ICON_STORAGE.set(icon, null)
     return null
   }
-  const iconSize =
-    group === MINI_MAP_GROUP ? new Point(1024, 1024) : new Point(32, 32)
+  // minimap is not working now
+  if (group !== MAP_ICON_GROUP) {
+    return null
+  }
+  // const iconSize =group === MINI_MAP_GROUP ? new Point(1024, 1024) : new Point(32, 32)
+  const iconSize = new Point(32, 32)
   const iconUrl = getIconUrl(icon)
   const mapIcon = new Icon({
     iconSize,
