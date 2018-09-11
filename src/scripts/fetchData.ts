@@ -1,12 +1,15 @@
+import { memoize } from 'lodash'
 import { CDN_SERVER, IMapInfo, IMapMarker } from './loader'
 
 export const API_URL = CDN_SERVER
 
-export async function getMaps(): Promise<IMapInfo[]> {
+async function realGetAllMaps(): Promise<IMapInfo[]> {
   const res = await fetch(`${API_URL}/data/map.json`)
   const json = await res.json()
   return json
 }
+
+const getAllMaps = memoize(realGetAllMaps)
 
 async function realGetAllMapMarkers(): Promise<IMapMarker[]> {
   const res = await fetch(`${API_URL}/data/mapMarker.json`)
@@ -14,17 +17,16 @@ async function realGetAllMapMarkers(): Promise<IMapMarker[]> {
   return json
 }
 
-let allMapMarkerPromise: Promise<IMapMarker[]> = null
-function getAllMapMarkers() {
-  if (allMapMarkerPromise === null) {
-    allMapMarkerPromise = realGetAllMapMarkers()
-  }
-  return allMapMarkerPromise
-}
+const getAllMapMarkers = memoize(realGetAllMapMarkers)
 
 export async function getMapMarkers(map: IMapInfo): Promise<IMapMarker[]> {
   const markers = await getAllMapMarkers()
   return markers
     .filter(x => x['#'].startsWith(`${map.mapMarkerRange}.`))
     .reverse()
+}
+
+export async function getMap(mapId: number): Promise<IMapInfo> {
+  const maps = await getAllMaps()
+  return maps[mapId]
 }

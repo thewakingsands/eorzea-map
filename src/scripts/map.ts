@@ -6,7 +6,8 @@ import {
   map as createLeafletMap,
   Map as LFMap
 } from 'leaflet'
-import { getMapMarkers } from './fetchData'
+import { PosControl } from './controls/PosControl'
+import { getMap, getMapMarkers } from './fetchData'
 import { getMapUrl, IMapInfo } from './loader'
 import { createMarker } from './marker'
 
@@ -25,7 +26,7 @@ export function createMapOverlay(mapInfo: IMapInfo) {
   return mapImage
 }
 
-export function createMap(el: HTMLElement) {
+export function initMap(el: HTMLElement) {
   const map = createLeafletMap(el, {
     crs: CRS.Simple,
     minZoom: -3,
@@ -45,7 +46,7 @@ export function createMap(el: HTMLElement) {
   return map
 }
 
-export async function loadMap(map: LFMap, mapInfo: IMapInfo) {
+export async function updateMapInfo(map: LFMap, mapInfo: IMapInfo) {
   loadMapOverlay(map, mapInfo)
   const markers = await getMapMarkers(mapInfo)
   for (const marker of markers) {
@@ -55,6 +56,16 @@ export async function loadMap(map: LFMap, mapInfo: IMapInfo) {
     }
   }
   return map
+}
+
+export async function loadMap(map: LFMap, mapId: number) {
+  const mapInfo = await getMap(mapId)
+  await updateMapInfo(map, mapInfo)
+  const posControl = new PosControl({
+    position: 'topright',
+    scaleFactor: mapInfo.sizeFactor
+  })
+  posControl.addTo(map)
 }
 
 export const MAP_SIZE = 2048
