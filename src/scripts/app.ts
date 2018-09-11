@@ -1,10 +1,9 @@
 import 'babel-polyfill'
+import 'dom4'
 
-import { DomEvent } from 'leaflet'
 import { PosControl } from './controls/PosControl'
 import { getMaps } from './fetchData'
 import { createMap, loadMap } from './map'
-import { eventToGame, llXy, scaleGameXy } from './XYPoint'
 
 const mapEl = document.querySelector('section.map') as HTMLElement
 const map = createMap(mapEl)
