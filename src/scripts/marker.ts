@@ -80,7 +80,8 @@ export function createMarker(markerInfo: IMapMarker): Marker {
 
   const marker = new Marker(xy(markerInfo.x, markerInfo.y), {
     icon,
-    interactive: type === 'aetheryte' || type === 'travel'
+    interactive:
+      type === 'aetheryte' || type === 'travel' || !!markerInfo['data{Key}']
   })
 
   marker.on('add', () => {

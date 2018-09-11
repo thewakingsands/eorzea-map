@@ -1,6 +1,5 @@
 import $ = require('jquery')
 import { EoMap } from './EoMap'
-import { getMapKeyById } from './fetchData'
 
 export function initEvents(el: HTMLElement, map: EoMap) {
   initTravelEvents(el, map)
