@@ -1,4 +1,5 @@
-import { DomEvent, LatLng, Map as LFMap, Point } from 'leaflet'
+import { DomEvent, LatLng, Point } from 'leaflet'
+import { EoMap } from './EoMap'
 
 export class XYPoint extends Point {
   constructor(x: number, y: number, round?: boolean) {
@@ -26,7 +27,7 @@ export function scaleGameXy(
 
 export function eventToGame(
   e: any,
-  map: LFMap,
+  map: EoMap,
   scale: number
 ): [number, number] {
   return scaleGameXy(

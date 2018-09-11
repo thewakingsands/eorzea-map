@@ -1,4 +1,4 @@
-import { DivIcon, Icon, Marker, Point } from 'leaflet'
+import { DivIcon, Icon, Marker, Point, Tooltip } from 'leaflet'
 import {
   getIconUrl,
   IMapMarker,
@@ -81,6 +81,17 @@ export function createMarker(markerInfo: IMapMarker): Marker {
   const marker = new Marker(xy(markerInfo.x, markerInfo.y), {
     icon,
     interactive: type === 'aetheryte' || type === 'travel'
+  })
+
+  marker.on('add', () => {
+    const el = marker.getElement()
+    el.dataset.dataKey = markerInfo['data{Key}']
+    el.dataset.dataType = `${markerInfo['data{Type}']}`
+  })
+  ;(marker as any).on('tooltipopen', ({ tooltip }: { tooltip: Tooltip }) => {
+    const el = tooltip.getElement()
+    el.dataset.dataKey = markerInfo['data{Key}']
+    el.dataset.dataType = `${markerInfo['data{Type}']}`
   })
 
   if (!html) {

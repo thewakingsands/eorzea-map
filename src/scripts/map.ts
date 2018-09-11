@@ -3,15 +3,15 @@ import {
   CRS,
   imageOverlay,
   LatLngBoundsLiteral,
-  map as createLeafletMap,
-  Map as LFMap
+  map as createLeafletMap
 } from 'leaflet'
 import { PosControl } from './controls/PosControl'
+import { EoMap } from './EoMap'
 import { getMap, getMapMarkers } from './fetchData'
 import { getMapUrl, IMapInfo } from './loader'
 import { createMarker } from './marker'
 
-export function loadMapOverlay(map: LFMap, mapInfo: IMapInfo) {
+export function loadMapOverlay(map: EoMap, mapInfo: IMapInfo) {
   const overlay = createMapOverlay(mapInfo)
   overlay.addTo(map)
   return map
@@ -27,26 +27,19 @@ export function createMapOverlay(mapInfo: IMapInfo) {
 }
 
 export function initMap(el: HTMLElement) {
-  const map = createLeafletMap(el, {
+  const lfMap = createLeafletMap(el, {
     crs: CRS.Simple,
     minZoom: -3,
     attributionControl: false,
     inertiaMaxSpeed: 5000
   })
-
-  const attribution = new Control.Attribution({
-    prefix: false
-  })
-  map.addControl(attribution)
-
-  map.setMaxBounds([[-1024, -1024], [3072, 3072]])
-  map.fitBounds(MAP_BOUNDS)
-  map.setZoom(0)
+  const map: EoMap = Object.setPrototypeOf(lfMap, EoMap.prototype)
+  map.init()
 
   return map
 }
 
-export async function updateMapInfo(map: LFMap, mapInfo: IMapInfo) {
+export async function updateMapInfo(map: EoMap, mapInfo: IMapInfo) {
   loadMapOverlay(map, mapInfo)
   const markers = await getMapMarkers(mapInfo)
   for (const marker of markers) {
@@ -58,7 +51,7 @@ export async function updateMapInfo(map: LFMap, mapInfo: IMapInfo) {
   return map
 }
 
-export async function loadMap(map: LFMap, mapId: number) {
+export async function loadMap(map: EoMap, mapId: number) {
   const mapInfo = await getMap(mapId)
   await updateMapInfo(map, mapInfo)
   const posControl = new PosControl({
@@ -67,6 +60,8 @@ export async function loadMap(map: LFMap, mapId: number) {
   })
   posControl.addTo(map)
 }
+
+function cleanMap(map: EoMap) {}
 
 export const MAP_SIZE = 2048
 export const MAP_BOUNDS: LatLngBoundsLiteral = [[0, 0], [MAP_SIZE, MAP_SIZE]]

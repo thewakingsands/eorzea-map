@@ -23,6 +23,10 @@
   version "7946.0.4"
   resolved "http://registry.npm.taobao.org/@types/geojson/download/@types/geojson-7946.0.4.tgz#4e049756383c3f055dd8f3d24e63fb543e98eb07"
 
+"@types/jquery@^3.3.6":
+  version "3.3.6"
+  resolved "http://registry.npm.taobao.org/@types/jquery/download/@types/jquery-3.3.6.tgz#5932ead926307ca21e5b36808257f7c926b06565"
+
 "@types/leaflet@^1.2.11":
   version "1.2.11"
   resolved "http://registry.npm.taobao.org/@types/leaflet/download/@types/leaflet-1.2.11.tgz#a80f6d49a200698a24351e93dae654308cacf239"
@@ -2494,6 +2498,10 @@ isobject@^3.0.0, isobject@^3.0.1:
 jest-docblock@^21.0.0:
   version "21.2.0"
   resolved "http://registry.npm.taobao.org/jest-docblock/download/jest-docblock-21.2.0.tgz#51529c3b30d5fd159da60c27ceedc195faf8d414"
+
+jquery@^3.3.1:
+  version "3.3.1"
+  resolved "http://registry.npm.taobao.org/jquery/download/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 js-base64@^2.1.9:
   version "2.4.9"

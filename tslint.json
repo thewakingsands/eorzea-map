@@ -13,7 +13,8 @@
     "no-console": false,
     "no-floating-promises": true,
     "member-ordering": false,
-    "no-submodule-imports": false
+    "no-submodule-imports": false,
+    "radix": false
   },
   "rulesDirectory": []
 }

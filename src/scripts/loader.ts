@@ -40,6 +40,7 @@ export interface IIconParseResult {
 }
 
 export interface IMapInfo {
+  ['#']: string
   id: string
   sizeFactor: number
   ['placeName{Region}']: string

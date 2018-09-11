@@ -26,7 +26,16 @@ export async function getMapMarkers(map: IMapInfo): Promise<IMapMarker[]> {
     .reverse()
 }
 
-export async function getMap(mapId: number): Promise<IMapInfo> {
+export async function getMap(mapKey: number): Promise<IMapInfo> {
   const maps = await getAllMaps()
-  return maps[mapId]
+  return maps[mapKey]
+}
+
+export async function getMapKeyById(mapId: string): Promise<number> {
+  const maps = await getAllMaps()
+  const map = maps.find(x => x.id === mapId)
+  if (!map) {
+    return null
+  }
+  return parseInt(map['#'])
 }
