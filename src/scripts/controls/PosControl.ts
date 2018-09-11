@@ -1,11 +1,13 @@
-import { Control, ControlOptions, Map as LFMap } from 'leaflet'
+import { Control, ControlOptions } from 'leaflet'
+import { EoMap } from '../EoMap'
+import { IMapInfo } from '../loader'
 import { MAP_SIZE } from '../map'
 import { eventToGame } from '../XYPoint'
 
 export class PosControl extends Control {
   private rootContainer: HTMLElement
   private mapContainer: HTMLElement
-  private map: LFMap
+  private map: EoMap
   private scaleFactor: number
 
   constructor(options: IPosControlOptions) {
@@ -19,17 +21,23 @@ export class PosControl extends Control {
     this.scaleFactor = factor
   }
 
-  public onAdd(map: LFMap) {
+  public onAdd(map: EoMap) {
     this.map = map
     this.mapContainer = (map as any)._container
     this.mapContainer.addEventListener('mousemove', this.onMouseMoveEvent, {
       passive: false
     })
+    this.map.onUpdateInfo(this.onUpdateInfo)
     return this.rootContainer
   }
 
-  public onRemove(map: LFMap) {
+  private onUpdateInfo = (mapInfo: IMapInfo) => {
+    this.setScaleFactor(mapInfo.sizeFactor)
+  }
+
+  public onRemove(map: EoMap) {
     this.mapContainer.removeEventListener('mousemove', this.onMouseMoveEvent)
+    this.map.offUpdateInfo(this.onUpdateInfo)
   }
 
   private onMouseMoveEvent = (event: MouseEvent) => {

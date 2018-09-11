@@ -1,4 +1,12 @@
-import { Control, imageOverlay, ImageOverlay, Map, map, Marker } from 'leaflet'
+import {
+  Control,
+  imageOverlay,
+  ImageOverlay,
+  map,
+  Map as LFMap,
+  Marker
+} from 'leaflet'
+import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
 import { getMap, getMapKeyById, getMapMarkers } from './fetchData'
 import { getMapUrl, IMapInfo } from './loader'
@@ -6,14 +14,15 @@ import { MAP_BOUNDS } from './map'
 import { createMarker } from './marker'
 import { xy } from './XYPoint'
 
-export class EoMap extends Map {
-  private posControl: PosControl
+export class EoMap extends LFMap {
   private markers: Marker[]
   private overlay: ImageOverlay
   private previousMapInfo: IMapInfo
+  private updateInfoHandlers: Map<any, any>
 
   public init() {
     this.markers = []
+    this.updateInfoHandlers = new Map()
 
     const attribution = new Control.Attribution({
       prefix: false
@@ -24,11 +33,14 @@ export class EoMap extends Map {
     this.fitBounds(MAP_BOUNDS)
     this.setZoom(0)
 
-    this.posControl = new PosControl({
+    new PosControl({
       position: 'topright',
       scaleFactor: 100
-    })
-    this.posControl.addTo(this)
+    }).addTo(this)
+
+    new NavigateControl({
+      position: 'topleft'
+    }).addTo(this)
   }
 
   private loadMapOverlay(mapInfo: IMapInfo) {
@@ -60,8 +72,9 @@ export class EoMap extends Map {
         }
       }
     }
-    this.posControl.setScaleFactor(mapInfo.sizeFactor)
+    // this.posControl.setScaleFactor(mapInfo.sizeFactor)
     this.previousMapInfo = mapInfo
+    this.fire('updateInfo', { mapInfo })
     return this
   }
 
@@ -73,6 +86,23 @@ export class EoMap extends Map {
   public async loadMapId(mapId: string) {
     const mapKey = await getMapKeyById(mapId)
     return this.loadMapKey(mapKey)
+  }
+
+  public onUpdateInfo(handler: (info: IMapInfo) => void) {
+    this.offUpdateInfo(handler)
+
+    const realHandler = (e: any) => {
+      handler(e.mapInfo)
+    }
+    this.on('updateInfo', realHandler)
+
+    this.updateInfoHandlers.set(handler, realHandler)
+  }
+
+  public offUpdateInfo(handler: (info: IMapInfo) => void) {
+    if (this.updateInfoHandlers.has(handler)) {
+      this.off('updateInfo', this.updateInfoHandlers.get(handler))
+    }
   }
 }
 
