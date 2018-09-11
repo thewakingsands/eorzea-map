@@ -23,6 +23,20 @@ html, body, main, section.map
     text-shadow 1px 1px #000, -1px -1px #000, 0 0 5px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5)
   &.eorzea-map-label-no-icon
     margin 0
+  &.eorzea-map-label.eorzea-map-label-tooltip
+    margin 18px
+    &::after
+      content ' '
+      display block
+      position absolute
+      top 50%
+      left 5%
+      width 90%
+      height 0
+      border none
+      margin 0
+      box-shadow 0 0 8px 9px rgba(0, 0, 0, 0.6)
+      z-index -1
   &.eorzea-map-label-travel
     color #94d3d6
     &:hover

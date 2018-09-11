@@ -108,7 +108,7 @@ export function createMarker(markerInfo: IMapMarker): Marker {
   marker.bindTooltip(html, {
     permanent: type !== 'tooltip',
     className,
-    direction,
+    direction: type === 'tooltip' ? 'auto' : direction,
     interactive: type === 'aetheryte' || type === 'travel'
   })
 
