@@ -39,3 +39,22 @@ export async function getMapKeyById(mapId: string): Promise<number> {
   }
   return parseInt(map['#'])
 }
+
+export const getRegion = memoize(
+  async (): Promise<IRegion[]> => {
+    const res = await fetch(`${API_URL}/data/region.json`)
+    const json = await res.json()
+    return json
+  }
+)
+
+export interface IRegion {
+  regionName: string
+  maps: Array<{
+    id: string
+    key: number
+    hierarchy: number
+    name: string
+    subName: string
+  }>
+}

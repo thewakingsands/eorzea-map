@@ -1,7 +1,8 @@
 import { CRS, LatLngBoundsLiteral, map as createLeafletMap } from 'leaflet'
 import { EoMap } from './EoMap'
+import { getRegion } from './fetchData'
 
-export function initMap(el: HTMLElement) {
+export async function initMap(el: HTMLElement) {
   const lfMap = createLeafletMap(el, {
     crs: CRS.Simple,
     minZoom: -3,
@@ -9,7 +10,9 @@ export function initMap(el: HTMLElement) {
     inertiaMaxSpeed: 5000
   })
   const map: EoMap = Object.setPrototypeOf(lfMap, EoMap.prototype)
-  map.init()
+
+  const regions = await getRegion()
+  map.init(regions)
 
   return map
 }

@@ -4,9 +4,12 @@ import 'dom4'
 import { initEvents } from './events'
 import { initMap } from './map'
 
-const mapEl = document.querySelector('section.map') as HTMLElement
+async function init() {
+  const mapEl = document.querySelector('section.map') as HTMLElement
+  const map = await initMap(mapEl)
+  initEvents(mapEl, map)
 
-const map = initMap(mapEl)
-initEvents(mapEl, map)
+  await map.loadMapKey(92)
+}
 
-map.loadMapKey(92).catch(e => console.error(e))
+init().catch(e => console.error(e))

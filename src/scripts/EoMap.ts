@@ -8,19 +8,21 @@ import {
 } from 'leaflet'
 import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
-import { getMap, getMapKeyById, getMapMarkers } from './fetchData'
+import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { getMapUrl, IMapInfo } from './loader'
 import { MAP_BOUNDS } from './map'
 import { createMarker } from './marker'
 import { xy } from './XYPoint'
 
 export class EoMap extends LFMap {
+  public mapInfo: IMapInfo
+
   private markers: Marker[]
   private overlay: ImageOverlay
   private previousMapInfo: IMapInfo
   private updateInfoHandlers: Map<any, any>
 
-  public init() {
+  public init(regions: IRegion[]) {
     this.markers = []
     this.updateInfoHandlers = new Map()
 
@@ -39,7 +41,8 @@ export class EoMap extends LFMap {
     }).addTo(this)
 
     new NavigateControl({
-      position: 'topleft'
+      position: 'topleft',
+      regions
     }).addTo(this)
   }
 
@@ -50,6 +53,7 @@ export class EoMap extends LFMap {
   }
 
   public async loadMapInfo(mapInfo: IMapInfo) {
+    this.mapInfo = mapInfo
     if (this.markers.length > 0) {
       this.markers.map(m => m.remove())
       this.markers = []
