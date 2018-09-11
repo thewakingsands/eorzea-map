@@ -9,4 +9,4 @@ const mapEl = document.querySelector('section.map') as HTMLElement
 const map = initMap(mapEl)
 initEvents(mapEl, map)
 
-map.loadMapKey(12).catch(e => console.error(e))
+map.loadMapKey(92).catch(e => console.error(e))
