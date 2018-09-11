@@ -23,6 +23,12 @@ export class EoMap extends Map {
     this.setMaxBounds([[-1024, -1024], [3072, 3072]])
     this.fitBounds(MAP_BOUNDS)
     this.setZoom(0)
+
+    this.posControl = new PosControl({
+      position: 'topright',
+      scaleFactor: 100
+    })
+    this.posControl.addTo(this)
   }
 
   private loadMapOverlay(mapInfo: IMapInfo) {
@@ -32,10 +38,6 @@ export class EoMap extends Map {
   }
 
   public async loadMapInfo(mapInfo: IMapInfo) {
-    if (this.posControl) {
-      this.posControl.remove()
-      this.posControl = null
-    }
     if (this.markers.length > 0) {
       this.markers.map(m => m.remove())
       this.markers = []
@@ -58,11 +60,7 @@ export class EoMap extends Map {
         }
       }
     }
-    this.posControl = new PosControl({
-      position: 'topright',
-      scaleFactor: mapInfo.sizeFactor
-    })
-    this.posControl.addTo(this)
+    this.posControl.setScaleFactor(mapInfo.sizeFactor)
     this.previousMapInfo = mapInfo
     return this
   }
