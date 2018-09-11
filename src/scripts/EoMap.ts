@@ -1,4 +1,4 @@
-import { Control, imageOverlay, Map, map } from 'leaflet'
+import { Control, imageOverlay, ImageOverlay, Map, map, Marker } from 'leaflet'
 import { PosControl } from './controls/PosControl'
 import { getMap, getMapKeyById, getMapMarkers } from './fetchData'
 import { getMapUrl, IMapInfo } from './loader'
@@ -7,8 +7,12 @@ import { createMarker } from './marker'
 
 export class EoMap extends Map {
   private posControl: PosControl
+  private markers: Marker[]
+  private overlay: ImageOverlay
 
   public init() {
+    this.markers = []
+
     const attribution = new Control.Attribution({
       prefix: false
     })
@@ -20,18 +24,31 @@ export class EoMap extends Map {
   }
 
   private loadMapOverlay(mapInfo: IMapInfo) {
-    const overlay = createMapOverlay(mapInfo)
-    overlay.addTo(this)
+    this.overlay = createMapOverlay(mapInfo)
+    this.overlay.addTo(this)
     return this
   }
 
   public async loadMapInfo(mapInfo: IMapInfo) {
+    if (this.posControl) {
+      this.posControl.remove()
+      this.posControl = null
+    }
+    if (this.markers.length > 0) {
+      this.markers.map(m => m.remove())
+      this.markers = []
+    }
+    if (this.overlay) {
+      this.overlay.remove()
+      this.overlay = null
+    }
     this.loadMapOverlay(mapInfo)
     const markers = await getMapMarkers(mapInfo)
     for (const marker of markers) {
       const mapMarker = createMarker(marker)
       if (mapMarker) {
         mapMarker.addTo(this)
+        this.markers.push(mapMarker)
       }
     }
     this.posControl = new PosControl({
