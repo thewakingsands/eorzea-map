@@ -4,11 +4,13 @@ import { getMap, getMapKeyById, getMapMarkers } from './fetchData'
 import { getMapUrl, IMapInfo } from './loader'
 import { MAP_BOUNDS } from './map'
 import { createMarker } from './marker'
+import { xy } from './XYPoint'
 
 export class EoMap extends Map {
   private posControl: PosControl
   private markers: Marker[]
   private overlay: ImageOverlay
+  private previousMapInfo: IMapInfo
 
   public init() {
     this.markers = []
@@ -44,11 +46,16 @@ export class EoMap extends Map {
     }
     this.loadMapOverlay(mapInfo)
     const markers = await getMapMarkers(mapInfo)
+    const previousId = this.previousMapInfo && this.previousMapInfo.id
     for (const marker of markers) {
       const mapMarker = createMarker(marker)
       if (mapMarker) {
         mapMarker.addTo(this)
         this.markers.push(mapMarker)
+        if (marker['data{Type}'] === 1 && marker['data{Key}'] === previousId) {
+          this.panTo(xy(marker.x, marker.y))
+          mapMarker.getElement().classList.add('eorzeamap-label-current')
+        }
       }
     }
     this.posControl = new PosControl({
@@ -56,6 +63,7 @@ export class EoMap extends Map {
       scaleFactor: mapInfo.sizeFactor
     })
     this.posControl.addTo(this)
+    this.previousMapInfo = mapInfo
     return this
   }
 
