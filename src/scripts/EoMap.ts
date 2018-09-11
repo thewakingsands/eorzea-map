@@ -10,7 +10,7 @@ import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
 import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { getMapUrl, IMapInfo } from './loader'
-import { MAP_BOUNDS } from './map'
+import { MAP_BOUNDS, MAP_SIZE } from './map'
 import { createMarker } from './marker'
 import { xy } from './XYPoint'
 
@@ -65,17 +65,19 @@ export class EoMap extends LFMap {
     this.loadMapOverlay(mapInfo)
     const markers = await getMapMarkers(mapInfo)
     const previousId = this.previousMapInfo && this.previousMapInfo.id
+    let panPoint: [number, number] = xy(MAP_SIZE / 2, MAP_SIZE / 2)
     for (const marker of markers) {
       const mapMarker = createMarker(marker)
       if (mapMarker) {
         mapMarker.addTo(this)
         this.markers.push(mapMarker)
         if (marker['data{Type}'] === 1 && marker['data{Key}'] === previousId) {
-          this.panTo(xy(marker.x, marker.y))
+          panPoint = xy(marker.x, marker.y)
           mapMarker.getElement().classList.add('eorzeamap-label-current')
         }
       }
     }
+    this.panTo(panPoint)
     // this.posControl.setScaleFactor(mapInfo.sizeFactor)
     this.previousMapInfo = mapInfo
     this.fire('updateInfo', { mapInfo })
