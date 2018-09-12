@@ -45,11 +45,6 @@ export class EoMap extends LFMap {
     this.overlays = []
     this.updateInfoHandlers = new Map()
 
-    const attribution = new Control.Attribution({
-      prefix: false
-    })
-    this.addControl(attribution)
-
     this.setMaxBounds([[-1024, -1024], [3072, 3072]])
     this.fitBounds(MAP_BOUNDS)
     this.setZoom(-1)
@@ -65,8 +60,6 @@ export class EoMap extends LFMap {
     }).addTo(this)
 
     this.backgroundLayer = imageOverlay(getBgUrl(), MAP_BOUNDS, {
-      attribution:
-        'FINAL FANTASY XIV © 2010 - 2018 SQUARE ENIX CO., LTD. All Rights Reserved.',
       opacity: 0.5,
       pane: 'tilePane'
     }).addTo(this)

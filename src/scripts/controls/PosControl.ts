@@ -12,9 +12,11 @@ export class PosControl extends Control {
 
   constructor(options: IPosControlOptions) {
     super(options)
+
     this.rootContainer = document.createElement('section')
     this.rootContainer.classList.add('eorzea-map-pos')
     this.rootContainer.classList.add('eorzea-map-text')
+
     this.scaleFactor = options.scaleFactor || 100
   }
 
@@ -50,7 +52,15 @@ export class PosControl extends Control {
     if (x > maxSize || y > maxSize) {
       return
     }
-    this.rootContainer.textContent = `X: ${x.toFixed(2)}, Y: ${y.toFixed(2)}`
+
+    this.rootContainer.innerHTML = [
+      '<span class="eorzea-map-letter">X: </span>',
+      `<span class="eorzea-map-int">${Math.ceil(x)}</span>`,
+      `.<span class="eorzea-map-demical">${x.toFixed(2).split('.')[1]}</span>`,
+      ' <span class="eorzea-map-letter">Y: </span>',
+      `<span class="eorzea-map-int">${Math.ceil(y)}</span>`,
+      `.<span class="eorzea-map-demical">${y.toFixed(2).split('.')[1]}</span>`
+    ].join('')
   }
 }
 
