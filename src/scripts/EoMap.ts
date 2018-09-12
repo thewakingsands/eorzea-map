@@ -2,6 +2,7 @@ import {
   Control,
   imageOverlay,
   ImageOverlay,
+  Layer,
   map,
   Map as LFMap,
   Marker
@@ -18,7 +19,7 @@ export class EoMap extends LFMap {
   public mapInfo: IMapInfo
 
   private markers: Marker[]
-  private overlay: ImageOverlay
+  private mapLayer: Layer
   private previousMapInfo: IMapInfo
   private updateInfoHandlers: Map<any, any>
 
@@ -46,9 +47,9 @@ export class EoMap extends LFMap {
     }).addTo(this)
   }
 
-  private loadMapOverlay(mapInfo: IMapInfo) {
-    this.overlay = createMapOverlay(mapInfo)
-    this.overlay.addTo(this)
+  private loadMapLayer(mapInfo: IMapInfo) {
+    this.mapLayer = createMapOverlay(mapInfo)
+    this.mapLayer.addTo(this)
     return this
   }
 
@@ -58,11 +59,11 @@ export class EoMap extends LFMap {
       this.markers.map(m => m.remove())
       this.markers = []
     }
-    if (this.overlay) {
-      this.overlay.remove()
-      this.overlay = null
+    if (this.mapLayer) {
+      this.mapLayer.remove()
+      this.mapLayer = null
     }
-    this.loadMapOverlay(mapInfo)
+    this.loadMapLayer(mapInfo)
     const markers = await getMapMarkers(mapInfo)
     const previousId = this.previousMapInfo && this.previousMapInfo.id
     let panPoint: [number, number] = xy(MAP_SIZE / 2, MAP_SIZE / 2)
@@ -112,7 +113,7 @@ export class EoMap extends LFMap {
   }
 }
 
-function createMapOverlay(mapInfo: IMapInfo) {
+function createMapOverlay(mapInfo: IMapInfo): Layer {
   const url = getMapUrl(mapInfo.id)
   const mapImage = imageOverlay(url, MAP_BOUNDS, {
     attribution:
