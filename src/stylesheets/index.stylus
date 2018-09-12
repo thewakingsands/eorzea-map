@@ -4,6 +4,7 @@ html, body
 html, body, main, section.map
   width 100%
   height 100%
+  background black
 .eorzea-map-label
   background none
   border none
