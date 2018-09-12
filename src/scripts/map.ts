@@ -6,6 +6,7 @@ export async function initMap(el: HTMLElement) {
   const lfMap = createLeafletMap(el, {
     crs: CRS.Simple,
     minZoom: -3,
+    maxZoom: 4,
     attributionControl: false,
     inertiaMaxSpeed: 5000
   })
