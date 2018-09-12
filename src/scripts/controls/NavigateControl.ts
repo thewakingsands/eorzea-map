@@ -11,7 +11,6 @@ export class NavigateControl extends Control {
   private rootContainer: JQuery<HTMLElement>
   private placeNameContainer: JQuery<HTMLElement>
   private rangeInput: HTMLInputElement
-  private selectContainer: HTMLDivElement
   private select: HTMLSelectElement
 
   constructor(options: INavigateControlOptions) {
@@ -24,23 +23,26 @@ export class NavigateControl extends Control {
     this.map.onUpdateInfo(this.onUpdateInfo)
 
     this.rootContainer = $(`<nav class="eorzea-map-nav">
-      <div class="eorzea-map-place-name"></div>
+      <button class="eorza-map-nav-button eorza-map-world"></button>
       <button class="eorza-map-nav-button eorza-map-zoom-in"></button>
       <div class="eorzea-map-range-container">
         <div class="eorzea-map-range-slider"></div>
         <input type="range" min="-3" max="4" step="1">
       </div>
       <button class="eorza-map-nav-button eorza-map-zoom-out"></button>
+      <div class="eorzea-map-nav-aside">
+        <div class="eorzea-map-place-name" for="eroza-map-place-select">？？？？</div>
+        <div class="eorzea-map-place-select-container"></div>
+      </div>
     </nav>`)
 
     this.placeNameContainer = this.rootContainer.find('.eorzea-map-place-name')
 
-    this.selectContainer = document.createElement('div')
     this.select = document.createElement('select')
+    this.select.id = 'eroza-map-place-select'
     this.select.addEventListener('change', this.onSelectChange, {
       passive: true
     })
-    this.selectContainer.appendChild(this.select)
 
     for (const group of this.regions) {
       const optGroup = document.createElement('optgroup')
@@ -58,7 +60,9 @@ export class NavigateControl extends Control {
       }
     }
 
-    this.rootContainer.append(this.selectContainer)
+    this.rootContainer
+      .find('.eorzea-map-place-select-container')
+      .append(this.select)
 
     this.rootContainer.on(
       'mousedown pointerdown mouseup pointerup click mousemove pointermove dblclick',
