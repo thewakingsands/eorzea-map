@@ -68,7 +68,6 @@ export class EoMap extends LFMap {
   }
 
   private loadMapLayer(mapInfo: IMapInfo) {
-    // const url = getMapUrl(mapInfo.id)
     const tileOptions: TileLayerOptions = {
       bounds: MAP_BOUNDS,
       minZoom: -3,
@@ -79,7 +78,7 @@ export class EoMap extends LFMap {
     this.tileLayer.addTo(this)
 
     this.debugLayer = new DebugLayer(tileOptions)
-    this.debugLayer.addTo(this)
+    // this.debugLayer.addTo(this)
 
     this.gridOverlay.setUrl(createSvgUrl(mapInfo.sizeFactor))
 
