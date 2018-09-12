@@ -14,7 +14,14 @@ import { PosControl } from './controls/PosControl'
 import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { createSvgUrl } from './gridSvg'
 import { DebugLayer } from './layers/DebugLayer'
-import { getBgUrl, getTileUrl, IMapInfo } from './loader'
+import {
+  getBgUrl,
+  getIconUrl,
+  getTileUrl,
+  IMapInfo,
+  MINI_MAP_GROUP,
+  parseIcon
+} from './loader'
 import { MAP_BOUNDS, MAP_SIZE } from './map'
 import { createMarker } from './marker'
 import { xy } from './XYPoint'
@@ -23,6 +30,7 @@ export class EoMap extends LFMap {
   public mapInfo: IMapInfo
 
   private markers: Marker[]
+  private overlays: ImageOverlay[]
 
   private tileLayer: Layer
   private debugLayer: Layer
@@ -34,6 +42,7 @@ export class EoMap extends LFMap {
 
   public init(regions: IRegion[]) {
     this.markers = []
+    this.overlays = []
     this.updateInfoHandlers = new Map()
 
     const attribution = new Control.Attribution({
@@ -91,6 +100,10 @@ export class EoMap extends LFMap {
       this.markers.map(m => m.remove())
       this.markers = []
     }
+    if (this.overlays.length > 0) {
+      this.overlays.map(m => m.remove())
+      this.overlays = []
+    }
     if (this.tileLayer) {
       this.tileLayer.remove()
       this.tileLayer = null
@@ -112,6 +125,23 @@ export class EoMap extends LFMap {
           panPoint = xy(marker.x, marker.y)
           mapMarker.getElement().classList.add('eorzeamap-label-current')
         }
+      }
+      const { group } = parseIcon(marker.icon)
+      if (group === MINI_MAP_GROUP) {
+        const url = getIconUrl(marker.icon)
+        const overlay = imageOverlay(
+          url,
+          [
+            xy(marker.x - 512, marker.y - 512),
+            xy(marker.x + 512, marker.y + 512)
+          ],
+          {
+            interactive: true,
+            opacity: 0.5
+          }
+        )
+        this.overlays.push(overlay)
+        overlay.addTo(this)
       }
     }
     this.panTo(panPoint)
