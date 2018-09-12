@@ -33,7 +33,7 @@ export class EoMap extends LFMap {
 
     this.setMaxBounds([[-1024, -1024], [3072, 3072]])
     this.fitBounds(MAP_BOUNDS)
-    this.setZoom(0)
+    this.setZoom(-1)
 
     new PosControl({
       position: 'topright',
