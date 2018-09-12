@@ -14,7 +14,7 @@ import { PosControl } from './controls/PosControl'
 import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { AxiesGridLayer } from './layers/AxiesGridLayer'
 import { DebugLayer } from './layers/DebugLayer'
-import { getMapUrl, IMapInfo } from './loader'
+import { getBgUrl, getMapUrl, getTileUrl, IMapInfo } from './loader'
 import { MAP_BOUNDS, MAP_SIZE } from './map'
 import { createMarker } from './marker'
 import { xy } from './XYPoint'
@@ -23,9 +23,11 @@ export class EoMap extends LFMap {
   public mapInfo: IMapInfo
 
   private markers: Marker[]
-  private mapLayer: Layer
+
   private tileLayer: Layer
   private debugLayer: Layer
+  private backgroundLayer: ImageOverlay
+
   private previousMapInfo: IMapInfo
   private updateInfoHandlers: Map<any, any>
 
@@ -51,23 +53,26 @@ export class EoMap extends LFMap {
       position: 'topleft',
       regions
     }).addTo(this)
+
+    this.backgroundLayer = imageOverlay(getBgUrl(), MAP_BOUNDS, {
+      attribution:
+        'FINAL FANTASY XIV © 2010 - 2018 SQUARE ENIX CO., LTD. All Rights Reserved.',
+      opacity: 0.5,
+      pane: 'tilePane'
+    }).addTo(this)
   }
 
   private loadMapLayer(mapInfo: IMapInfo) {
-    const url = getMapUrl(mapInfo.id)
-    this.mapLayer = imageOverlay(url, MAP_BOUNDS, {
-      attribution:
-        'FINAL FANTASY XIV © 2010 - 2018 SQUARE ENIX CO., LTD. All Rights Reserved.',
-      opacity: 0.5
-    })
-    this.mapLayer.addTo(this)
+    // const url = getMapUrl(mapInfo.id)
     const tileOptions: TileLayerOptions = {
       bounds: MAP_BOUNDS,
       minZoom: -3,
       maxNativeZoom: 0
     }
-    this.tileLayer = tileLayer(`${url}/{z}/{x}_{y}.jpg`, tileOptions)
+    const tileUrl = getTileUrl(mapInfo.id)
+    this.tileLayer = tileLayer(`${tileUrl}/{z}_{x}_{y}.jpg`, tileOptions)
     this.tileLayer.addTo(this)
+
     this.debugLayer = new DebugLayer(tileOptions)
     this.debugLayer.addTo(this)
     return this
@@ -78,10 +83,6 @@ export class EoMap extends LFMap {
     if (this.markers.length > 0) {
       this.markers.map(m => m.remove())
       this.markers = []
-    }
-    if (this.mapLayer) {
-      this.mapLayer.remove()
-      this.mapLayer = null
     }
     if (this.tileLayer) {
       this.tileLayer.remove()

@@ -7,6 +7,14 @@ export function getMapUrl(id: string) {
   return `${CDN_SERVER}/maps/${id.replace(/\//g, '_')}.png`
 }
 
+export function getBgUrl() {
+  return `${CDN_SERVER}/files/bg.jpg`
+}
+
+export function getTileUrl(id: string) {
+  return `${CDN_SERVER}/tiles/${id.replace(/\//g, '_')}`
+}
+
 export function getIconUrl(icon: string) {
   const { id, group } = parseIcon(icon)
   if (id === NULL_ICON_GROUP) {
