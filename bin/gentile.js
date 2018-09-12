@@ -4,6 +4,7 @@ const glob = require('glob')
 const path = require('path')
 const Promise = require('bluebird')
 const fs = require('fs')
+const _ = require('lodash')
 
 const minZoom = -3
 const maxZoom = 0
@@ -48,29 +49,36 @@ function getTileArgs() {
   return tileArgs
 }
 
+function realGetScaledBuffer(filename, zoom) {
+  const size = MAP_SIZE * Math.pow(2, zoom)
+  return sharp(filename).resize(size, size).toBuffer()
+}
+
+const getScaledBuffer = _.memoize(realGetScaledBuffer, (a, b, c) => [a, b, c].join('__'))
+
 function tileFile(originalFile, outDir) {
   mkdirp.sync(outDir)
   const tileArgs = getTileArgs()
-  return Promise.map(tileArgs, ({col, row, zoom, top, left, fileName, size}) => {
+  return Promise.mapSeries(tileArgs, async ({col, row, zoom, amount, top, left, fileName, size}) => {
     const destFile = path.join(outDir, fileName)
     if (fs.existsSync(destFile)){
       return
     }
-    console.log(`  + ${originalFile} (${row}, ${col}) @ ${zoom}; topLeft = (${top}, ${left})`)
-    return sharp(originalFile)
+    console.log(`  + ${originalFile} (${row}, ${col}) @ ${zoom} ${size}; topLeft = (${col * TILE_SIZE}, ${row * TILE_SIZE})`)
+    return sharp(await getScaledBuffer(originalFile, zoom))
     .extract({
-      top: top,
-      left: left,
-      width: size,
-      height: size
+      top: col * TILE_SIZE,
+      left: row * TILE_SIZE,
+      width: TILE_SIZE,
+      height: TILE_SIZE
     })
-    .resize(TILE_SIZE, TILE_SIZE)
     .jpeg({quality: 90, progressive: true})
     .toFile(destFile)
-  }, { concurrency: 4 })
+  })
 }
 
 async function generateAll() {
+  return tileFile('generated/webroot/maps/w1t1_01.png', 'generated/webroot/tiles/w1t1_01')
   await generateBackground()
   const files = glob.sync('generated/webroot/maps/*.png')
   for (const file of files) {
