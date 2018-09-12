@@ -59,7 +59,7 @@ const getScaledBuffer = _.memoize(realGetScaledBuffer, (a, b, c) => [a, b, c].jo
 function tileFile(originalFile, outDir) {
   mkdirp.sync(outDir)
   const tileArgs = getTileArgs()
-  return Promise.mapSeries(tileArgs, async ({col, row, zoom, amount, top, left, fileName, size}) => {
+  return Promise.map(tileArgs, async ({col, row, zoom, amount, top, left, fileName, size}) => {
     const destFile = path.join(outDir, fileName)
     if (fs.existsSync(destFile)){
       return
@@ -74,7 +74,7 @@ function tileFile(originalFile, outDir) {
     })
     .jpeg({quality: 90, progressive: true})
     .toFile(destFile)
-  })
+  }, { concurrency: 4 })
 }
 
 async function generateAll() {
