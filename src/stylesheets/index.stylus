@@ -7,6 +7,7 @@ html, body, main, section.map, .eorzea-map-glass
   width 100%
   height 100%
   background black
+  overflow hidden
 .eorzea-map-glass
   position absolute
   top 0
@@ -55,20 +56,19 @@ html, body, main, section.map, .eorzea-map-glass
       background transparent
       height 21px
       width 91px
-      transform rotate3d(0, 0, 1, 90deg)
+      transform rotate3d(0, 0, 1, 270deg)
       position absolute
-      transform-origin top left
-      top -3px
-      left 25px
+      top 32px
+      left -31px
       sliderThumb()
         -webkit-appearance none
         background url('../assets/areamap/thumb.png') no-repeat
-        transform rotate3d(0, 0, 1, -90deg)
+        transform rotate3d(0, 0, 1, -270deg)
         opacity 0.9
         height 21px
         width 21px
         &:active
-          transform rotate3d(0, 0, 1, -90deg) translate3d(1px, 1px, 0)
+          transform rotate3d(0, 0, 1, -270deg) translate3d(1px, 1px, 0)
           opacity 1
       &::-webkit-slider-thumb
         sliderThumb()
@@ -102,14 +102,30 @@ html, body, main, section.map, .eorzea-map-glass
 .eorzea-map-copyright
   position absolute
   top 0
-  left 0
+  left 32px
   width 100%
-  text-align center
-  z-index 990
+  z-index 1100
   line-height 25px
   color #aaa
   text-shadow 1px 1px 0 #333
   font-size 12px
+  a
+    color #ccc
+    &:hover
+      color #fff
+    text-decoration none
+@media(max-width 767px)
+  .eorzea-map-copyright
+    word-break break-all
+    word-wrap break-word
+    box-sizing border-box
+    top unset
+    left 0
+    bottom 0
+    margin 4px
+    color #ddd
+    text-align left
+    line-height 16px
 .eorzea-map-pos.leaflet-control
   background none
   margin-top 0
