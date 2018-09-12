@@ -62,7 +62,9 @@ export class EoMap extends LFMap {
       pane: 'tilePane'
     }).addTo(this)
 
-    this.gridOverlay = imageOverlay(createSvgUrl(100), MAP_BOUNDS).addTo(this)
+    this.gridOverlay = imageOverlay(createSvgUrl(100), MAP_BOUNDS, {
+      opacity: 0.3
+    }).addTo(this)
   }
 
   private loadMapLayer(mapInfo: IMapInfo) {

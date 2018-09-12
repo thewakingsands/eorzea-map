@@ -10,6 +10,13 @@ async function init() {
   initEvents(mapEl, map)
 
   await map.loadMapKey(92)
+
+  const hot = (module as any).hot
+  if (hot) {
+    hot.accept(() => {
+      map.loadMapInfo(map.mapInfo)
+    })
+  }
 }
 
 init().catch(e => console.error(e))
