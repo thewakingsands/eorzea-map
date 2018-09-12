@@ -7,7 +7,7 @@ export class DebugLayer extends GridLayer {
     tile.style.border = '1px solid rgba(255, 0, 0, 0.4)'
     tile.style.boxSizing = 'border-box'
     tile.style.textShadow =
-      '0 0 8px white, 0 0 6px white, 0 0 4px white, 0 0 2px white'
+      '0 0 8px black, 0 0 6px black, 0 0 4px black, 0 0 2px black'
     tile.style.fontSize = '14px'
     tile.style.fontFamily = 'monospace'
     setTimeout(() => {

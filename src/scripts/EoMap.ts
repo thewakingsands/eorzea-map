@@ -12,9 +12,9 @@ import {
 import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
 import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
-import { AxiesGridLayer } from './layers/AxiesGridLayer'
+import { createSvgUrl } from './gridSvg'
 import { DebugLayer } from './layers/DebugLayer'
-import { getBgUrl, getMapUrl, getTileUrl, IMapInfo } from './loader'
+import { getBgUrl, getTileUrl, IMapInfo } from './loader'
 import { MAP_BOUNDS, MAP_SIZE } from './map'
 import { createMarker } from './marker'
 import { xy } from './XYPoint'
@@ -27,6 +27,7 @@ export class EoMap extends LFMap {
   private tileLayer: Layer
   private debugLayer: Layer
   private backgroundLayer: ImageOverlay
+  private gridOverlay: ImageOverlay
 
   private previousMapInfo: IMapInfo
   private updateInfoHandlers: Map<any, any>
@@ -60,6 +61,8 @@ export class EoMap extends LFMap {
       opacity: 0.5,
       pane: 'tilePane'
     }).addTo(this)
+
+    this.gridOverlay = imageOverlay(createSvgUrl(100), MAP_BOUNDS).addTo(this)
   }
 
   private loadMapLayer(mapInfo: IMapInfo) {
@@ -75,6 +78,8 @@ export class EoMap extends LFMap {
 
     this.debugLayer = new DebugLayer(tileOptions)
     this.debugLayer.addTo(this)
+
+    this.gridOverlay.setUrl(createSvgUrl(mapInfo.sizeFactor))
 
     return this
   }
