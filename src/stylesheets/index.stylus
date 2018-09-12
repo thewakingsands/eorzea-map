@@ -5,6 +5,9 @@ html, body, main, section.map
   width 100%
   height 100%
   background black
+.eorzea-map-text
+  color #fff
+  background rgba(0, 0, 0, 0.3)
 .eorzea-map-label
   background none
   border none

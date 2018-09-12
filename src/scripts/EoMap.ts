@@ -75,6 +75,7 @@ export class EoMap extends LFMap {
 
     this.debugLayer = new DebugLayer(tileOptions)
     this.debugLayer.addTo(this)
+
     return this
   }
 

@@ -14,6 +14,7 @@ export class PosControl extends Control {
     super(options)
     this.rootContainer = document.createElement('section')
     this.rootContainer.classList.add('eorzea-map-pos')
+    this.rootContainer.classList.add('eorzea-map-text')
     this.scaleFactor = options.scaleFactor || 100
   }
 

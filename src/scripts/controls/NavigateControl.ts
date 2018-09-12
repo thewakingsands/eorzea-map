@@ -22,6 +22,8 @@ export class NavigateControl extends Control {
     this.map.onUpdateInfo(this.onUpdateInfo)
 
     this.rootContainer = document.createElement('nav')
+    this.rootContainer.classList.add('eorzea-map-nav')
+    this.rootContainer.classList.add('eorzea-map-text')
 
     this.placeNameContainer = document.createElement('div')
 
