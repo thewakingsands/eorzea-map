@@ -1,3 +1,4 @@
+import $ = require('jquery')
 import { Control, ControlOptions } from 'leaflet'
 import { EoMap } from '../EoMap'
 import { IRegion } from '../fetchData'
@@ -7,8 +8,9 @@ export class NavigateControl extends Control {
   public regions: IRegion[]
 
   private map: EoMap
-  private rootContainer: HTMLElement
-  private placeNameContainer: HTMLElement
+  private rootContainer: JQuery<HTMLElement>
+  private placeNameContainer: JQuery<HTMLElement>
+  private rangeInput: HTMLInputElement
   private selectContainer: HTMLDivElement
   private select: HTMLSelectElement
 
@@ -21,11 +23,17 @@ export class NavigateControl extends Control {
     this.map = map
     this.map.onUpdateInfo(this.onUpdateInfo)
 
-    this.rootContainer = document.createElement('nav')
-    this.rootContainer.classList.add('eorzea-map-nav')
-    this.rootContainer.classList.add('eorzea-map-text')
+    this.rootContainer = $(`<nav class="eorzea-map-nav">
+      <div class="eorzea-map-place-name"></div>
+      <button class="eorza-map-nav-button eorza-map-zoom-in"></button>
+      <div class="eorzea-map-range-container">
+        <div class="eorzea-map-range-slider"></div>
+        <input type="range" min="-3" max="4" step="1">
+      </div>
+      <button class="eorza-map-nav-button eorza-map-zoom-out"></button>
+    </nav>`)
 
-    this.placeNameContainer = document.createElement('div')
+    this.placeNameContainer = this.rootContainer.find('.eorzea-map-place-name')
 
     this.selectContainer = document.createElement('div')
     this.select = document.createElement('select')
@@ -50,9 +58,13 @@ export class NavigateControl extends Control {
       }
     }
 
-    this.rootContainer.appendChild(this.placeNameContainer)
-    this.rootContainer.appendChild(this.selectContainer)
-    return this.rootContainer
+    this.rootContainer.append(this.selectContainer)
+
+    this.rootContainer.on(
+      'mousedown pointerdown mouseup pointerup click mousemove pointermove dblclick',
+      e => e.stopPropagation()
+    )
+    return this.rootContainer[0]
   }
 
   private onSelectChange = () => {
@@ -66,7 +78,7 @@ export class NavigateControl extends Control {
   }
 
   private onUpdateInfo = (mapInfo: IMapInfo) => {
-    this.placeNameContainer.textContent = mapInfo.placeName
+    this.placeNameContainer.text(mapInfo.placeName)
     this.select.value = mapInfo['#']
   }
 }

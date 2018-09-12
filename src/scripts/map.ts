@@ -8,6 +8,7 @@ export async function initMap(el: HTMLElement) {
     minZoom: -3,
     maxZoom: 4,
     attributionControl: false,
+    zoomControl: false,
     inertiaMaxSpeed: 5000
   })
   const map: EoMap = Object.setPrototypeOf(lfMap, EoMap.prototype)
