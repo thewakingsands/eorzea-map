@@ -6,6 +6,7 @@ import { initMap } from './map'
 
 async function init() {
   const mapEl = document.querySelector('section.map') as HTMLElement
+  mapEl.innerHTML = ''
   const map = await initMap(mapEl)
   initEvents(mapEl, map)
 

@@ -102,7 +102,14 @@ export class NavigateControl extends Control {
   }
 
   private onUpdateInfo = (mapInfo: IMapInfo) => {
-    this.placeNameContainer.text(mapInfo.placeName)
+    let text = mapInfo.placeName
+    if (mapInfo['placeName{Sub}']) {
+      text += '<br>' + mapInfo['placeName{Sub}']
+    }
+    if (mapInfo.id.startsWith('region')) {
+      text += '<br>区域地图显示信息可能有所缺失<br>可点击上面地名选择地图'
+    }
+    this.placeNameContainer.html(text)
     this.select.value = mapInfo['#']
   }
 
