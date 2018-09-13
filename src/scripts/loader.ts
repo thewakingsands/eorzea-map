@@ -1,4 +1,4 @@
-export const CDN_SERVER = '/files'
+export const CDN_SERVER = process.env.CDN_SERVER || '/files'
 export const MAP_ICON_GROUP = '060000'
 export const MINI_MAP_GROUP = '063000'
 export const NULL_ICON_GROUP = '000000'
