@@ -1,0 +1,17 @@
+image: node:carbon
+
+pages:
+  stage: deploy
+  script:
+    - yarn
+    - yarn build
+    - cp -r dist/production public
+    - find public -name '*.map' -delete
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+
+stages:
+  - deploy
