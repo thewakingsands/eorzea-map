@@ -22,6 +22,7 @@
     "mkdirp": "^0.5.1",
     "parcel-bundler": "^1.9.7",
     "prettier": "^1.9.1",
+    "rimraf": "^2.6.2",
     "sharp": "^0.20.8",
     "stylus": "^0.54.5",
     "ts-node": "^7.0.1",
