@@ -4,7 +4,8 @@
   "description": "Eorzea Interacive Map",
   "main": "src/app.ts",
   "scripts": {
-    "start": "node devServer.js"
+    "start": "node devServer.js",
+    "build": "rimraf dist/production && node make.js"
   },
   "author": "oott123",
   "license": "UNLICENSED",

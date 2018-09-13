@@ -1,6 +1,3 @@
-import 'babel-polyfill'
-import 'dom4'
-
 import { initEvents } from './events'
 import { initMap } from './map'
 
