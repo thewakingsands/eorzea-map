@@ -19,7 +19,7 @@ export function createSvgUrl(scaleFactor: number) {
   if (urlMap.has(scaleFactor)) {
     return urlMap.get(scaleFactor)
   }
-  const code = genSvgCode(scaleFactor / 4)
+  const code = genSvgCode(scaleFactor / 2)
     .trim()
     .replace(/\n\s+/, '')
   const url = 'data:image/svg+xml,' + code
