@@ -28,6 +28,7 @@ const bundler = new Bundler(file, options)
 
 app.use(express.static('./dist'))
 app.use('/files', express.static('./generated/webroot'))
+app.use('/huiji', express.static('./huiji'))
 
 console.log(`Starting server at http://localhost:${port}`)
 app.listen(port)
