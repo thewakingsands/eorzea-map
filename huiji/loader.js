@@ -1,12 +1,11 @@
 (function () {
   var map, loadingArguments, $loading, $mapContainer
 
-  window.YZWF = {
-    debug: function () {
-      loadModules(initMap)
-    },
-    loadMap: loadMap
+  window.YZWF = window.YZWF || {}
+  window.YZWF.debug = function () {
+    loadModules(initMap)
   }
+  window.YZWF.loadMap = loadMap
 
   if ($('#wiki-body .eorzea-map-trigger').length > 0) {
     loadModules(initMap)
@@ -84,17 +83,27 @@
   }
   
   function initMap(eorzeaMap) {
-    $mapContainer = $('<section class="map"><div>')
+    $mapContainer = $('<section><div class="eorzea-map-glass"></div><div class="eorzea-map-inner"></div>')
     $mapContainer.css({
       visibility: 'hidden',
       position: 'fixed',
       height: '500px',
       width: '500px',
+      top: 0,
+      left: 0,
       position: 'absolute'
     })
-    $mapContainer.hide().appendTo('body');
-    eorzeaMap.create($mapContainer.find('div')[0])
+    $mapContainer.find('.eorzea-map-inner').css({
+      width: '100%',
+      height: '100%'
+    })
+    $mapContainer.appendTo('body');
+    eorzeaMap.create($mapContainer.find('.eorzea-map-inner')[0])
     .then(function (mapInstance) {
+      $mapContainer.css({
+        display: 'none',
+        visibility: 'visible'
+      })
       map = mapInstance
       if (loadingArguments) {
         loadMap.apply(this, loadingArguments)
