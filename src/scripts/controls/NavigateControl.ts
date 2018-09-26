@@ -1,4 +1,4 @@
-import $ = require('jquery')
+import { $ } from '../jquery'
 import { Control, ControlOptions } from 'leaflet'
 import { EoMap } from '../EoMap'
 import { IRegion } from '../fetchData'

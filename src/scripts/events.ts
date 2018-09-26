@@ -1,4 +1,4 @@
-import $ = require('jquery')
+import { $ } from './jquery'
 import { EoMap } from './EoMap'
 
 export function initEvents(el: HTMLElement, map: EoMap) {

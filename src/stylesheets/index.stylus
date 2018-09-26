@@ -1,3 +1,11 @@
+$url-areamap-glass = 'https://huiji-public.huijistatic.com/ff14/uploads/f/f0/EorzeaMapAssets_glass.png'
+$url-areamap-nameFade = 'https://huiji-public.huijistatic.com/ff14/uploads/5/51/EorzeaMapAssets_NameFade.png'
+$url-areamap-thumb = 'https://huiji-public.huijistatic.com/ff14/uploads/7/7a/EorzeaMapAssets_thumb.png'
+$url-areamap-track = 'https://huiji-public.huijistatic.com/ff14/uploads/a/a0/EorzeaMapAssets_track.png'
+$url-areamap-zoomIn = 'https://huiji-public.huijistatic.com/ff14/uploads/7/79/EorzeaMapAssets_zoomIn.png'
+$url-areamap-zoomOut = 'https://huiji-public.huijistatic.com/ff14/uploads/9/9b/EorzeaMapAssets_zoomOut.png'
+$url-areamap-world = 'https://huiji-public.huijistatic.com/ff14/uploads/c/c2/EorzeaMapAssets_world.png'
+
 html
   color white
 html, body
@@ -18,17 +26,17 @@ html, body, main, section.map, .eorzea-map-glass
   box-sizing border-box
   border-style solid
   border-width 24px 11px 12px 12px
-  -moz-border-image url('../assets/areamap/glass.png') 24 11 12 12 stretch
-  -webkit-border-image url('../assets/areamap/glass.png') 24 11 12 12 stretch
-  -o-border-image url('../assets/areamap/glass.png') 24 11 12 12 stretch
-  border-image url('../assets/areamap/glass.png') 24 11 12 12 fill stretch
+  -moz-border-image url($url-areamap-glass) 24 11 12 12 stretch
+  -webkit-border-image url($url-areamap-glass) 24 11 12 12 stretch
+  -o-border-image url($url-areamap-glass) 24 11 12 12 stretch
+  border-image url($url-areamap-glass) 24 11 12 12 fill stretch
 .eorzea-map-nav.leaflet-control
   font-size 0
   *
     font-size 12px
   margin-top 4px
   margin-left 1px
-  background url('../assets/areamap/nameFade.png') no-repeat transparent
+  background url($url-areamap-nameFade) no-repeat transparent
   background-position 3px 18px
   width 200px
   background-size 200px 90px
@@ -49,7 +57,7 @@ html, body, main, section.map, .eorzea-map-glass
       height 85px
       width 21px
       margin-left 3px
-      background url('../assets/areamap/track.png') no-repeat center
+      background url($url-areamap-track) no-repeat center
     input[type=range]
       outline none
       -webkit-appearance none
@@ -62,7 +70,7 @@ html, body, main, section.map, .eorzea-map-glass
       left -31px
       sliderThumb()
         -webkit-appearance none
-        background url('../assets/areamap/thumb.png') no-repeat
+        background url($url-areamap-thumb) no-repeat
         transform rotate3d(0, 0, 1, -270deg)
         opacity 0.9
         height 21px
@@ -92,11 +100,11 @@ html, body, main, section.map, .eorzea-map-glass
     &:active
       transform translate3d(1px, 1px, 0)
     &.eorza-map-zoom-in
-      background-image url('../assets/areamap/zoomIn.png')
+      background-image url($url-areamap-zoomIn)
     &.eorza-map-zoom-out
-      background-image url('../assets/areamap/zoomOut.png')
+      background-image url($url-areamap-zoomOut)
     &.eorza-map-world
-      background-image url('../assets/areamap/world.png')
+      background-image url($url-areamap-world)
 .eorzea-map-text
   color #fff
 .eorzea-map-copyright
