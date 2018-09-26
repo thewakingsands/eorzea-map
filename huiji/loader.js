@@ -1,5 +1,6 @@
 (function () {
-  var map, loadingArguments, $loading, $mapContainer
+  var map, eorzea, loadingArguments, $loading, $mapContainer
+  var MARKER_URL = 'https://huiji-public.huijistatic.com/ff14/uploads/e/e6/Map_mark.png'
 
   window.YZWF = window.YZWF || {}
   window.YZWF.debug = function () {
@@ -58,7 +59,15 @@
   }
 
   function initMap(eorzeaMap) {
-    $mapContainer = $('<section class="erozea-map-outer"><div class="eorzea-map-glass"></div><div class="eorzea-map-move-handler"></div><div class="eorzea-map-inner"></div>')
+    eorzea = eorzeaMap
+    $mapContainer = $([
+      '<section class="erozea-map-outer">',
+        '<div class="eorzea-map-glass"></div>',
+        '<div class="eorzea-map-move-handler"></div>',
+        '<div class="eorzea-map-close-button">关闭</div>',
+        '<div class="eorzea-map-inner"></div>',
+      '</section>'
+    ].join(''))
     if (localStorage && localStorage.YZWFEorzeaMapPos) {
       var pos = localStorage.YZWFEorzeaMapPos.split(',')
       if (pos.length === 2) {
@@ -68,6 +77,7 @@
         })
       }
     }
+    $mapContainer.find('.eorzea-map-close-button').click(closeMap)
     $mapContainer.appendTo('body')
     mapMover($mapContainer.find('.eorzea-map-move-handler'), $mapContainer)
     eorzeaMap.create($mapContainer.find('.eorzea-map-inner')[0])
@@ -77,6 +87,7 @@
         visibility: 'visible'
       })
       map = mapInstance
+      window.YZWF.eorzeaMap.map = map
       if (loadingArguments) {
         loadMap.apply(this, loadingArguments)
         closeLoding()
@@ -86,7 +97,20 @@
 
   function loadMap(mapId, x, y) {
     map.loadMapKey(mapId)
+    .then(function () {
+      var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
+      marker.addTo(map)
+      map.currentMarker = marker
+    })
     $mapContainer.show()
+  }
+
+  function closeMap() {
+    if (map.currentMarker) {
+      map.currentMarker.remove()
+      map.currentMarker = null
+    }
+    $mapContainer.hide()
   }
 
   function mapMover($handler, $container) {

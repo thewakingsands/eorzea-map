@@ -1,5 +1,8 @@
+import { Icon, Marker, Point } from 'leaflet'
 import { initEvents } from './events'
+import { IMapInfo } from './loader'
 import { initMap } from './map'
+import { fromGameXy, scaleGameXy, xy } from './XYPoint'
 
 async function create(mapEl: HTMLElement) {
   mapEl.innerHTML = ''
@@ -22,10 +25,26 @@ async function init() {
   }
 }
 
+function simpleMarker(
+  x: number,
+  y: number,
+  iconUrl: string,
+  mapInfo: IMapInfo
+) {
+  const icon = new Icon({
+    iconSize: new Point(32, 32),
+    iconUrl
+  })
+  const marker = new Marker(fromGameXy([x, y], mapInfo.sizeFactor), {
+    icon
+  })
+  return marker
+}
+
 const untypedWindow = window as any
 
 untypedWindow.YZWF = untypedWindow.YZWF || {}
-untypedWindow.YZWF.eorzeaMap = { create }
+untypedWindow.YZWF.eorzeaMap = { create, xy, simpleMarker }
 
 if (untypedWindow.standaloneEorzeaMap) {
   init().catch(e => console.error(e))

@@ -25,6 +25,14 @@ export function scaleGameXy(
   return result
 }
 
+export function fromGameXy(
+  i: [number, number],
+  factor: number
+): [number, number] {
+  factor /= 2
+  return xy((i[0] - 2) * factor, (i[1] - 2) * factor)
+}
+
 export function eventToGame(
   e: any,
   map: EoMap,
