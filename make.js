@@ -1,7 +1,9 @@
 const Bundler = require('parcel-bundler')
 const path = require('path')
+const config = require('./config')
 
 const file = path.join(__dirname, 'src/index.html')
+process.env.CDN_SERVER = process.env.CDN_SERVER || config.cdnServer
 
 const options = {
   outDir: './dist/production',
