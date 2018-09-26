@@ -101,6 +101,7 @@
       var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
       marker.addTo(map)
       map.currentMarker = marker
+      map.panTo(eorzea.fromGameXy([x, y], map.mapInfo.sizeFactor))
     })
     $mapContainer.show()
   }

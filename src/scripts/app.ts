@@ -44,7 +44,7 @@ function simpleMarker(
 const untypedWindow = window as any
 
 untypedWindow.YZWF = untypedWindow.YZWF || {}
-untypedWindow.YZWF.eorzeaMap = { create, xy, simpleMarker }
+untypedWindow.YZWF.eorzeaMap = { create, xy, fromGameXy, simpleMarker }
 
 if (untypedWindow.standaloneEorzeaMap) {
   init().catch(e => console.error(e))

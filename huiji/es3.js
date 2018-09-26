@@ -6,4 +6,7 @@ const appJs = glob('dist/production/app.*.js')[0]
 const appContent = fs.readFileSync(appJs).toString()
 
 const transformedContent = es3ify(appContent)
-fs.writeFileSync('dist/production/app.es3.js', transformedContent)
+fs.writeFileSync('dist/production/app.es3.js', `(function () {
+/* Eorzea Map - By YZWF */
+${transformedContent}
+})();`)
