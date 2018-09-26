@@ -6,16 +6,20 @@ $url-areamap-zoomIn = 'https://huiji-public.huijistatic.com/ff14/uploads/7/79/Eo
 $url-areamap-zoomOut = 'https://huiji-public.huijistatic.com/ff14/uploads/9/9b/EorzeaMapAssets_zoomOut.png'
 $url-areamap-world = 'https://huiji-public.huijistatic.com/ff14/uploads/c/c2/EorzeaMapAssets_world.png'
 
-html
+html.eorzea-map-standalone
   color white
-html, body
   padding 0
   margin 0
-html, body, main, section.map, .eorzea-map-glass
   width 100%
   height 100%
-  background black
-  overflow hidden
+  body
+    padding 0
+    margin 0
+  body, main, section.map, .eorzea-map-glass
+    width 100%
+    height 100%
+    background black
+    overflow hidden
 .eorzea-map-glass
   position absolute
   top 0
