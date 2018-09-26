@@ -44,3 +44,13 @@
   cursor: pointer;
   color: #77d1ff;
 }
+.eorzea-map-move-handler {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  width: 100%;
+  width: calc( 100% - 24px );
+  height: 24px;
+  z-index: 2001;
+  cursor: move;
+}

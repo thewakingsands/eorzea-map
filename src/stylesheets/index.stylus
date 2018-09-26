@@ -22,6 +22,8 @@ html.eorzea-map-standalone
     overflow hidden
 .leaflet-container
   background transparent
+  border-radius 5px
+  border-right 2px solid transparent
 .eorzea-map-glass
   width 100%
   height 100%
