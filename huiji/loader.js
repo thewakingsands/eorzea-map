@@ -24,7 +24,7 @@
       }
     })
   }
-  
+
   function loadModules(callback) {
     mw.loader.using([
       "ext.gadget.Dom4",
@@ -34,7 +34,7 @@
       callback(window.YZWF.eorzeaMap)
     }, console.error)
   }
-  
+
   function showLoading($el, mapArugments) {
     if (!$loading) {
       createLoading()
@@ -43,60 +43,22 @@
     $loading.appendTo('body')
     loadingArguments = mapArugments
   }
-  
+
   function createLoading() {
-    $loading = $('<div><div class="ff14-loading"></div><div class="eorzea-loading-text"></div></div>')
-    $loading.find('.eorzea-loading-text').css({
-      flex: 1,
-      margin: '10px',
-      textAlign: 'center'
-    })
-    $loading.find('.ff14-loading').css({
-      margin: '10px'
-    })
-    $loading.css({
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      width: '300px',
-      height: '80px',
-      marginLeft: '-150px',
-      marginTop: '-40px',
-      background: '#262626',
-      color: '#ccc',
-      display: 'flex',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
-      border: '1px solid #b9a465',
-      borderRadius: '5px',
-      boxShadow: '3px 3px 8px rgba(0, 0, 0, 0.3)'
-    })
-    
+    $loading = $('<div class="eorzea-map-loading"><div class="ff14-loading"></div><div class="eorzea-map-loading-text"></div></div>')
+
     $loading.click(function () {
       closeLoding()
     })
   }
-  
+
   function closeLoding() {
     $loading.remove()
     loadingArguments = null
   }
-  
+
   function initMap(eorzeaMap) {
-    $mapContainer = $('<section><div class="eorzea-map-glass"></div><div class="eorzea-map-inner"></div>')
-    $mapContainer.css({
-      visibility: 'hidden',
-      position: 'fixed',
-      height: '500px',
-      width: '500px',
-      top: 0,
-      left: 0,
-      position: 'absolute'
-    })
-    $mapContainer.find('.eorzea-map-inner').css({
-      width: '100%',
-      height: '100%'
-    })
+    $mapContainer = $('<section class="erozea-map-outer"><div class="eorzea-map-glass"></div><div class="eorzea-map-inner"></div>')
     $mapContainer.appendTo('body');
     eorzeaMap.create($mapContainer.find('.eorzea-map-inner')[0])
     .then(function (mapInstance) {
@@ -109,12 +71,12 @@
         loadMap.apply(this, loadingArguments)
         closeLoding()
       }
-    });
+    })
   }
-  
+
   function loadMap(mapId, x, y) {
-    map.loadMapKey(92)
+    map.loadMapKey(mapId)
     $mapContainer.show()
   }
-  
+
 })()

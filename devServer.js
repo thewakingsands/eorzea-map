@@ -1,15 +1,18 @@
 const Bundler = require('parcel-bundler')
 const Path = require('path')
 const express = require('express')
+const config = require('./config')
 
 const app = express()
 const port = process.env.PORT || 8234
+process.env.CDN_SERVER = process.env.CDN_SERVER || config.cdnServer
 
 const file = Path.join(__dirname, 'src/index.html')
 
 const options = {
   outDir: './dist',
   outFile: 'index.html',
+  contentHash: false,
   publicUrl: '/',
   watch: process.env.NODE_ENV !== 'production',
   cache: true,
