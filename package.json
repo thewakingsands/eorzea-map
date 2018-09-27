@@ -5,7 +5,8 @@
   "main": "src/app.ts",
   "scripts": {
     "start": "node devServer.js",
-    "build": "rimraf dist/production && node make.js"
+    "build": "rimraf dist/production && node make.js && node huiji/es3.js",
+    "huiji": "node huiji/upload.js"
   },
   "author": "oott123",
   "license": "UNLICENSED",

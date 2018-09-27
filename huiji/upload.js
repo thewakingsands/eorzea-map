@@ -1,6 +1,7 @@
 const MWBot = require('mwbot')
 const config = require('../config')
 const fs = require('fs')
+const glob = require('glob').sync
 
 async function upload() {
   const bot = new MWBot()
@@ -10,17 +11,24 @@ async function upload() {
     password: config.huiji.password
   })
   await bot.getEditToken()
-  await uploadFile(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
-  await uploadFile(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
-  await uploadFile(bot, 'dist/production/stylesheets.fa3c98b8.css', 'EorzeaMap.css')
-  await uploadFile(bot, 'dist/production/app.es3.js', 'EorzeaMap.js')
+  await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
+  await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
+  await updateGadget(bot, glob('dist/production/stylesheets.*.css')[0], 'EorzeaMap.css')
+  await updateGadget(bot, 'dist/production/app.es3.js', 'EorzeaMap.js')
 }
 
-async function uploadFile(bot, src, dest) {
-  console.log(`Uploading ${dest} ...`)
+async function updateGadget(bot, src, dest) {
+  console.log(`Updating ${dest} ...`)
   const content = fs.readFileSync(src).toString()
-  const resp = await bot.update('Gadget:' + dest, content, 'bot 自动施工，有问题请联系 [[用户:云泽宛风]]')
-  return resp
+  await bot.request({
+    action: 'edit',
+    title: `Gadget:${dest}`,
+    text: content,
+    summary: '自动化脚本更新代码，有问题请联系 [[用户:云泽宛风]]',
+    nocreate: true,
+    bot: true,
+    token: bot.editToken
+  })
 }
 
 upload()
