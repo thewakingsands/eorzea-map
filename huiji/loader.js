@@ -1,3 +1,5 @@
+/* Eorzea Map Loader - By [[用户:云泽宛风]] */
+
 (function () {
   var map, eorzea, loadingArguments, $loading, $mapContainer
   var MARKER_URL = 'https://huiji-public.huijistatic.com/ff14/uploads/e/e6/Map_mark.png'
