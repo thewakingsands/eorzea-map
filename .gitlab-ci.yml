@@ -4,6 +4,7 @@ pages:
   stage: deploy
   script:
     - yarn
+    - cp config.example.js config.js
     - CDN_SERVER=$CDN_SERVER node make.js
     - cp -r dist/production public
     - find public -name '*.map' -delete
