@@ -1,4 +1,5 @@
 import { Icon, Marker, Point } from 'leaflet'
+import '../stylesheets/index.stylus'
 import { initEvents } from './events'
 import { IMapInfo } from './loader'
 import { initMap } from './map'
