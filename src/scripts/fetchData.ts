@@ -1,4 +1,4 @@
-import { memoize } from 'lodash'
+import memoize from 'lodash-es/memoize'
 import { CDN_SERVER, IMapInfo, IMapMarker } from './loader'
 
 export const API_URL = CDN_SERVER
@@ -44,13 +44,12 @@ export async function getMapKeyById(mapId: string): Promise<number> {
   return parseInt(map['#'])
 }
 
-export const getRegion = memoize(
-  async (): Promise<IRegion[]> => {
-    const res = await fetch(`${API_URL}/data/region.json`, fetchOptions)
-    const json = await res.json()
-    return json
-  }
-)
+// tslint:disable-next-line:only-arrow-functions
+export const getRegion = memoize(async function(): Promise<IRegion[]> {
+  const res = await fetch(`${API_URL}/data/region.json`, fetchOptions)
+  const json = await res.json()
+  return json
+})
 
 export interface IRegion {
   regionName: string
