@@ -85,18 +85,28 @@
         '</section>'
       ].join('')
     )
-    if (localStorage && localStorage.YZWFEorzeaMapPos) {
-      var pos = localStorage.YZWFEorzeaMapPos.split(',')
-      if (pos.length === 2) {
-        $mapContainer.css({
-          top: pos[0] + 'px',
-          left: pos[1] + 'px'
-        })
+    if (window.innerHeight < 500 || window.innerWidth < 500) {
+      // 判定为手机，半屏走起，并且禁用移动功能
+      $mapContainer.css({
+        top: '20%',
+        left: 0,
+        width: '100%',
+        height: '80%'
+      })
+    } else {
+      if (localStorage && localStorage.YZWFEorzeaMapPos) {
+        var pos = localStorage.YZWFEorzeaMapPos.split(',')
+        if (pos.length === 2) {
+          $mapContainer.css({
+            top: pos[0] + 'px',
+            left: pos[1] + 'px'
+          })
+        }
       }
+      mapMover($mapContainer.find('.eorzea-map-move-handler'), $mapContainer)
     }
     $mapContainer.find('.eorzea-map-close-button').click(closeMap)
     $mapContainer.appendTo('body')
-    mapMover($mapContainer.find('.eorzea-map-move-handler'), $mapContainer)
     eorzeaMap
       .create($mapContainer.find('.eorzea-map-inner')[0])
       .then(function(mapInstance) {
