@@ -140,7 +140,7 @@
           closeLoding()
         }
       })
-      .catch(function(err) {
+      ['catch'](function(err) {
         loadingError = err
         if (loadingArguments) {
           alert('地图加载失败，原因：' + err.message)
