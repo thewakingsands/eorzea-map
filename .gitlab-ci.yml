@@ -5,8 +5,9 @@ pages:
   script:
     - yarn
     - cp config.example.js config.js
-    - CDN_SERVER=$CDN_SERVER node make.js
-    - cp -r dist/production public
+    - CDN_SERVER=$CDN_SERVER NODE_ENV=production yarn build
+    - cp -r dist public
+    - cp example/standalone.html public/index.html
     - find public -name '*.map' -delete
   artifacts:
     paths:
