@@ -58,6 +58,20 @@
   z-index: 2001;
   cursor: move;
 }
+.eorzea-map-resize-handler {
+  background: url('../src/assets/areamap/resizeHandler.png') no-repeat top left;
+  cursor: se-resize;
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
+  z-index: 2001;
+}
+.eorzea-map-fixed-window .eorzea-map-move-handler,
+.eorzea-map-fixed-window .eorzea-map-resize-handler {
+  display: none;
+}
 .eorzea-map-close-button {
   position: absolute;
   top: 0;

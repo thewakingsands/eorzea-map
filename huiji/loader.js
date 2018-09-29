@@ -15,6 +15,10 @@
   if ($('#wiki-body .eorzea-map-trigger').length > 0) {
     loadModules(initMap)
     delegateEvents()
+    var $openEls = $('#wiki-body .eorzea-map-trigger[data-map-open="true"]')
+    if ($openEls.length > 0) {
+      $openEls.eq(0).click()
+    }
   }
 
   function delegateEvents() {
@@ -82,6 +86,7 @@
         '<div class="eorzea-map-move-handler"></div>',
         '<div class="eorzea-map-close-button">关闭</div>',
         '<div class="eorzea-map-inner"></div>',
+        '<div class="eorzea-map-resize-handler"></div>',
         '</section>'
       ].join('')
     )
@@ -93,6 +98,7 @@
         width: '100%',
         height: '80%'
       })
+      $mapContainer.addClass('eorzea-map-fixed-window')
     } else {
       if (localStorage && localStorage.YZWFEorzeaMapPos) {
         var pos = localStorage.YZWFEorzeaMapPos.split(',')
@@ -103,7 +109,20 @@
           })
         }
       }
+      if (localStorage && localStorage.YZWFEorzeaMapSize) {
+        var size = localStorage.YZWFEorzeaMapSize.split(',')
+        if (size.length === 2) {
+          $mapContainer.css({
+            width: size[0] + 'px',
+            height: size[1] + 'px'
+          })
+        }
+      }
       mapMover($mapContainer.find('.eorzea-map-move-handler'), $mapContainer)
+      mapResizer(
+        $mapContainer.find('.eorzea-map-resize-handler'),
+        $mapContainer
+      )
     }
     $mapContainer.find('.eorzea-map-close-button').click(closeMap)
     $mapContainer.appendTo('body')
@@ -151,6 +170,50 @@
   }
 
   function mapMover($handler, $container) {
+    drag($handler, {
+      down: function() {},
+      move: function(opts) {
+        var translate = '(' + opts.diffX + 'px, ' + opts.diffY + 'px, 0)'
+        $container.css({
+          transform: 'translate3d' + translate
+        })
+      },
+      up: function() {
+        var pos = $container.position()
+        $container.css({
+          top: pos.top,
+          left: pos.left,
+          transform: 'none'
+        })
+        if (localStorage) {
+          localStorage.YZWFEorzeaMapPos = pos.top + ',' + pos.left
+        }
+      }
+    })
+  }
+
+  function mapResizer($handler, $container) {
+    var height, width
+    drag($handler, {
+      down: function() {
+        height = $container.height()
+        width = $container.width()
+      },
+      move: function(opts) {
+        $container.height(height + opts.diffY)
+        $container.width(width + opts.diffX)
+      },
+      up: function(opts) {
+        map.invalidateSize()
+        if (localStorage) {
+          localStorage.YZWFEorzeaMapSize =
+            width + opts.diffX + ',' + (height + opts.diffY)
+        }
+      }
+    })
+  }
+
+  function drag($handler, callbacks) {
     var isDragging = false
     var startX, startY
     $handler.on('mousedown pointerdown touchdown', function(event) {
@@ -158,6 +221,10 @@
       isDragging = true
       startX = event.clientX
       startY = event.clientY
+      callbacks.down({
+        startX: startX,
+        startY: startY
+      })
     })
     $(window).on('mousemove pointermove touchmove', function(event) {
       if (!isDragging) {
@@ -166,9 +233,9 @@
       event.preventDefault()
       var diffX = event.clientX - startX
       var diffY = event.clientY - startY
-      var translate = '(' + diffX + 'px, ' + diffY + 'px, 0)'
-      $container.css({
-        transform: 'translate3d' + translate
+      callbacks.move({
+        diffX: diffX,
+        diffY: diffY
       })
     })
     $(window).on('mouseup pointerup touchup', function(event) {
@@ -177,15 +244,12 @@
       }
       isDragging = false
       event.preventDefault()
-      var pos = $container.position()
-      $container.css({
-        top: pos.top,
-        left: pos.left,
-        transform: 'none'
+      var diffX = event.clientX - startX
+      var diffY = event.clientY - startY
+      callbacks.up({
+        diffX: diffX,
+        diffY: diffY
       })
-      if (localStorage) {
-        localStorage.YZWFEorzeaMapPos = pos.top + ',' + pos.left
-      }
     })
   }
 })()
