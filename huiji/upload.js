@@ -13,7 +13,11 @@ async function upload() {
   await bot.getEditToken()
   await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
   await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
-  await updateGadget(bot, glob('dist/production/stylesheets.*.css')[0], 'EorzeaMap.css')
+  await updateGadget(
+    bot,
+    glob('dist/production/stylesheets.*.css')[0],
+    'EorzeaMap.css'
+  )
   await updateGadget(bot, 'dist/production/app.es3.js', 'EorzeaMap.js')
 }
 
