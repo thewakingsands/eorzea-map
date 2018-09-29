@@ -59,7 +59,7 @@
   cursor: move;
 }
 .eorzea-map-resize-handler {
-  background: url('../src/assets/areamap/resizeHandler.png') no-repeat top left;
+  background: url('//huiji-public.huijistatic.com/ff14/uploads/f/fc/ResizeHandler.png') no-repeat top left;
   cursor: se-resize;
   position: absolute;
   bottom: -6px;
