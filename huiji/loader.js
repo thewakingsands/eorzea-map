@@ -125,6 +125,7 @@
     map.loadMapKey(mapId).then(function() {
       var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
       marker.addTo(map)
+      map.markers.push(marker) // 保证地图切换时清空标记
       map.currentMarker = marker
       map.panTo(eorzea.fromGameXy([x, y], map.mapInfo.sizeFactor))
     })

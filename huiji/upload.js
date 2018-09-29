@@ -1,7 +1,6 @@
 const MWBot = require('mwbot')
 const config = require('../config')
 const fs = require('fs')
-const glob = require('glob').sync
 
 async function upload() {
   const bot = new MWBot()
@@ -13,12 +12,8 @@ async function upload() {
   await bot.getEditToken()
   await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
   await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
-  await updateGadget(
-    bot,
-    glob('dist/production/stylesheets.*.css')[0],
-    'EorzeaMap.css'
-  )
-  await updateGadget(bot, 'dist/production/app.es3.js', 'EorzeaMap.js')
+  await updateGadget(bot, 'dist/map.css', 'EorzeaMap.css')
+  await updateGadget(bot, 'dist/map.js', 'EorzeaMap.js')
 }
 
 async function updateGadget(bot, src, dest) {

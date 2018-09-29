@@ -78,7 +78,7 @@ html.eorzea-map-standalone
       transform rotate3d(0, 0, 1, 270deg)
       position absolute
       top 32px
-      left -31px
+      left -33px
       sliderThumb()
         -webkit-appearance none
         background url($url-areamap-thumb) no-repeat
