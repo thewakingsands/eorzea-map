@@ -2,7 +2,7 @@
 
 ;(function() {
   /* globals $, mw */
-  var map, eorzea, loadingArguments, $loading, $mapContainer
+  var map, eorzea, loadingArguments, loadingError, $loading, $mapContainer
   var MARKER_URL =
     'https://huiji-public.huijistatic.com/ff14/uploads/e/e6/Map_mark.png'
 
@@ -44,9 +44,16 @@
     if (!$loading) {
       createLoading()
     }
+    if (loadingError) {
+      if (confirm('地图加载失败，是否重试？')) {
+        loadModules(initMap)
+      } else {
+        return
+      }
+    }
     $loading
-      .find('.eorzea-loading-text')
-      .text('正在加载 ' + $el.text() + ' 的地图')
+      .find('.eorzea-map-loading-text')
+      .text('正在加载 ' + $el.text() + ' 的地图…')
     $loading.appendTo('body')
     loadingArguments = mapArugments
   }
@@ -103,6 +110,14 @@
           loadMap.apply(this, loadingArguments)
           closeLoding()
         }
+      })
+      .catch(function(err) {
+        loadingError = err
+        if (loadingArguments) {
+          alert('地图加载失败，原因：' + err.message)
+          closeLoding()
+        }
+        throw err
       })
   }
 

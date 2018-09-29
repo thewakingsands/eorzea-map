@@ -1,0 +1,6 @@
+@keyframes loading{0%, 100%{transform: rotate(0deg);} 100%{transform: rotate(360deg);}}
+.ff14-loading{display: inline-block; animation: loading 3s steps(12, end) infinite;width: 60px;height: 60px;background-size: cover;background-image: url(https://huiji-public.huijistatic.com/ff14/uploads/0/02/Loading.png);}
+html {
+  background: #262626;
+  color: #cccccc;
+}
