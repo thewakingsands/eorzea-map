@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/devServer.js",
     "build": "rollup -c build/rollup.config.js",
-    "huiji": "node huiji/upload.js"
+    "huiji": "NODE_ENV=production yarn build && node huiji/upload.js"
   },
   "author": "oott123",
   "license": "UNLICENSED",

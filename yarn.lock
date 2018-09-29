@@ -1402,9 +1402,17 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
-es3ify@^0.2.0, es3ify@^0.2.2:
+es3ify@^0.2.0:
   version "0.2.2"
   resolved "http://registry.npm.taobao.org/es3ify/download/es3ify-0.2.2.tgz#5dae3e650e5be3684b88066513d528d092629862"
+  dependencies:
+    esprima "^2.7.1"
+    jstransform "~11.0.0"
+    through "~2.3.4"
+
+es3ify@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/es3ify/-/es3ify-0.2.2.tgz#5dae3e650e5be3684b88066513d528d092629862"
   dependencies:
     esprima "^2.7.1"
     jstransform "~11.0.0"

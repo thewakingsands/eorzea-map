@@ -24,10 +24,12 @@ module.exports = {
  * FINAL FANTASY XIV © 2010 - 2018 SQUARE ENIX CO., LTD. All Rights Reserved.
  */`,
     freeze: false,
-    sourcemap: true
+    sourcemap: !isProduction
   },
   plugins: [
-    typescript(),
+    typescript({
+      target: 'es5'
+    }),
     commonjs({
       include: 'node_modules/**',
       exclude: ['node_modules/leaflet/**']
