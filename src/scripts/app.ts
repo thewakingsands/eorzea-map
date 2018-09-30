@@ -1,6 +1,7 @@
 import { Icon, Marker, Point } from 'leaflet'
 import '../stylesheets/index.stylus'
 import { initEvents } from './events'
+import { setApiUrl } from './fetchData'
 import { IMapInfo } from './loader'
 import { initMap } from './map'
 import { fromGameXy, scaleGameXy, xy } from './XYPoint'
@@ -45,7 +46,13 @@ function simpleMarker(
 const untypedWindow = window as any
 
 untypedWindow.YZWF = untypedWindow.YZWF || {}
-untypedWindow.YZWF.eorzeaMap = { create, xy, fromGameXy, simpleMarker }
+untypedWindow.YZWF.eorzeaMap = {
+  create,
+  xy,
+  fromGameXy,
+  simpleMarker,
+  setApiUrl
+}
 
 if (untypedWindow.standaloneEorzeaMap) {
   init().catch(e => console.error(e))

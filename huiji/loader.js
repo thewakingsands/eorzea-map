@@ -79,6 +79,9 @@
 
   function initMap(eorzeaMap) {
     eorzea = eorzeaMap
+    eorzeaMap.setApiUrl(
+      'https://cdn.huijiwiki.com/ff14/index.php?title=Data:EorzeaMap/%s&action=raw'
+    )
     $mapContainer = $(
       [
         '<section class="erozea-map-outer">',

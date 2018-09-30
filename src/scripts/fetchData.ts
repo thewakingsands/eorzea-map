@@ -1,23 +1,26 @@
 import memoize from 'lodash-es/memoize'
 import { CDN_SERVER, IMapInfo, IMapMarker } from './loader'
 
-export const API_URL = CDN_SERVER
+let API_URL = CDN_SERVER + '/data'
+
+export function setApiUrl(url: string) {
+  API_URL = url
+}
+
 const fetchOptions: RequestInit = {
   mode: 'cors',
   credentials: 'omit'
 }
 
 async function realGetAllMaps(): Promise<IMapInfo[]> {
-  const res = await fetch(`${API_URL}/data/map.json`, fetchOptions)
-  const json = await res.json()
+  const json = await fetchDataFile('map.json')
   return json
 }
 
 const getAllMaps = memoize(realGetAllMaps)
 
 async function realGetAllMapMarkers(): Promise<IMapMarker[]> {
-  const res = await fetch(`${API_URL}/data/mapMarker.json`, fetchOptions)
-  const json = await res.json()
+  const json = await fetchDataFile('mapMarker.json')
   return json
 }
 
@@ -46,10 +49,22 @@ export async function getMapKeyById(mapId: string): Promise<number> {
 
 // tslint:disable-next-line:only-arrow-functions
 export const getRegion = memoize(async function(): Promise<IRegion[]> {
-  const res = await fetch(`${API_URL}/data/region.json`, fetchOptions)
-  const json = await res.json()
+  const json = await fetchDataFile('region.json')
   return json
 })
+
+async function fetchDataFile(filename: string) {
+  let requestUrl = API_URL + filename
+  if (API_URL.indexOf('%s') > -1) {
+    requestUrl = API_URL.replace(/%s/g, filename)
+  }
+  const res = await fetch(requestUrl, fetchOptions)
+  const json = await res.json()
+  if (json.data) {
+    return json.data
+  }
+  return json
+}
 
 export interface IRegion {
   regionName: string
