@@ -3,7 +3,7 @@ import '../stylesheets/index.stylus'
 import { initEvents } from './events'
 import { setApiUrl } from './fetchData'
 import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
-import { IMapInfo } from './loader'
+import * as loader from './loader'
 import { initMap } from './map'
 import { fromGameXy, scaleGameXy, xy } from './XYPoint'
 
@@ -32,7 +32,7 @@ function simpleMarker(
   x: number,
   y: number,
   iconUrl: string,
-  mapInfo: IMapInfo
+  mapInfo: loader.IMapInfo
 ) {
   const icon = new Icon({
     iconSize: new Point(32, 32),
@@ -53,7 +53,8 @@ untypedWindow.YZWF.eorzeaMap = {
   fromGameXy,
   simpleMarker,
   setApiUrl,
-  AdvancedTileLayer
+  AdvancedTileLayer,
+  loader
 }
 
 if (untypedWindow.standaloneEorzeaMap) {

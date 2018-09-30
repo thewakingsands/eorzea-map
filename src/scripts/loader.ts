@@ -3,20 +3,38 @@ export const MAP_ICON_GROUP = '060000'
 export const MINI_MAP_GROUP = '063000'
 export const NULL_ICON_GROUP = '000000'
 
+const urlFunc = {} as any
+
+export function setUrlFunction(key: string, func: any) {
+  urlFunc[key] = func
+}
+
 export function getMapUrl(id: string) {
+  if (urlFunc.getMapUrl) {
+    return urlFunc.getMapUrl(id)
+  }
   return `${CDN_SERVER}/maps/${id.replace(/\//g, '_')}.png`
 }
 
 export function getBgUrl() {
+  if (urlFunc.getBgUrl) {
+    return urlFunc.getBgUrl()
+  }
   return `${CDN_SERVER}/files/bg.jpg`
 }
 
 export function getTileUrl(id: string) {
+  if (urlFunc.getTileUrl) {
+    return urlFunc.getTileUrl()
+  }
   return `${CDN_SERVER}/tiles/${id.replace(/\//g, '_')}`
 }
 
 export function getIconUrl(icon: string) {
   const { id, group } = parseIcon(icon)
+  if (urlFunc.getIconUrl) {
+    return urlFunc.getIconUrl(icon, id, group)
+  }
   if (id === NULL_ICON_GROUP) {
     return null
   }

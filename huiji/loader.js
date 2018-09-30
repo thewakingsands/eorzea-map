@@ -160,18 +160,18 @@
       'https://cdn.huijiwiki.com/ff14/index.php?title=Data:EorzeaMap/%s&action=raw'
     )
     var oldGetUrl = eorzeaMap.AdvancedTileLayer.prototype.getTileUrl
-    eorzeaMap.AdvancedTileLayer.prototype.getTileUrl = function(coord) {
+    eorzeaMap.AdvancedTileLayer.prototype.getTileUrl = function() {
       var tile = oldGetUrl.apply(this, arguments)
       var filename =
         'EorzeaMapTile_' + tile.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
-      var hex = window.YZWF.md5(filename)
-      return [
-        'https://huiji-public.huijistatic.com/ff14/uploads',
-        hex[0],
-        hex[0] + hex[1],
-        filename
-      ].join('/')
+      return getHuijiUrl(filename)
     }
+    eorzeaMap.loader.setUrlFunction('getBgUrl', function() {
+      return getHuijiUrl('EorzeaMapAssets_bg.jpg')
+    })
+    eorzeaMap.loader.setUrlFunction('getIconUrl', function(x, i) {
+      return getHuijiUrl(i + '.png')
+    })
   }
 
   function loadMap(mapId, x, y) {
@@ -277,5 +277,15 @@
         diffY: diffY
       })
     })
+  }
+
+  function getHuijiUrl(filename) {
+    var hex = window.YZWF.md5(filename)
+    return [
+      'https://huiji-public.huijistatic.com/ff14/uploads',
+      hex[0],
+      hex[0] + hex[1],
+      filename
+    ].join('/')
   }
 })()

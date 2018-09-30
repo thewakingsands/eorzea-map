@@ -19,17 +19,22 @@ async function upload() {
   // }
 
   // 上传图片
-  const tiles = glob.sync('generated/webroot/tiles/w1f4_01/*.jpg')
-  for (const tile of tiles) {
-    try {
-      const filename =
-        'EorzeaMapTile_' + tile.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
-      await uploadFile(bot, tile, filename)
-      // console.log(filename)
-    } catch (e) {
-      console.log(e.message)
-    }
-  }
+  // const tiles = glob.sync('generated/webroot/tiles/w1f4_01/*.jpg')
+  // for (const tile of tiles) {
+  //   try {
+  //     const filename =
+  //       'EorzeaMapTile_' + tile.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
+  //     await uploadFile(bot, tile, filename)
+  //   } catch (e) {
+  //     console.log(e.message)
+  //   }
+  // }
+
+  // await uploadFile(
+  //   bot,
+  //   'generated/webroot/files/bg.jpg',
+  //   'EorzeaMapAssets_bg.jpg'
+  // )
 
   // await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
   // await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
