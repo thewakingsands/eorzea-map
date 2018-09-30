@@ -8,27 +8,31 @@ async function upload() {
   const bot = new MWBot('https://ff14.huijiwiki.com/w/api.php')
   await bot.login(config.huiji.username, config.huiji.password)
 
-  // 上传 icon
-  // const files = glob.sync('generated/webroot/icons/*.png')
-  // for (const file of files) {
-  //   try {
-  //     await uploadFile(bot, file, path.basename(file))
-  //   } catch (e) {
-  //     console.log(e.message)
-  //   }
-  // }
+  if (process.env.UPLOAD_ICON) {
+    // 上传 icon
+    const files = glob.sync('generated/webroot/icons/*.png')
+    for (const file of files) {
+      try {
+        await uploadFile(bot, file, path.basename(file))
+      } catch (e) {
+        console.log(e.message)
+      }
+    }
+  }
 
-  // 上传图片
-  // const tiles = glob.sync('generated/webroot/tiles/w1f4_01/*.jpg')
-  // for (const tile of tiles) {
-  //   try {
-  //     const filename =
-  //       'EorzeaMapTile_' + tile.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
-  //     await uploadFile(bot, tile, filename)
-  //   } catch (e) {
-  //     console.log(e.message)
-  //   }
-  // }
+  if (process.env.UPLOAD_TILE) {
+    // 上传图片
+    const tiles = glob.sync('generated/webroot/tiles/w1f4_01/*.jpg')
+    for (const tile of tiles) {
+      try {
+        const filename =
+          'EorzeaMapTile_' + tile.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
+        await uploadFile(bot, tile, filename)
+      } catch (e) {
+        console.log(e.message)
+      }
+    }
+  }
 
   // await uploadFile(
   //   bot,
@@ -36,23 +40,23 @@ async function upload() {
   //   'EorzeaMapAssets_bg.jpg'
   // )
 
-  // await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
-  // await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
-  // await updateGadget(bot, 'dist/map.css', 'EorzeaMap.css')
-  // await updateGadget(bot, 'dist/map.js', 'EorzeaMap.js')
-  // await updateData(bot, 'generated/webroot/data/map.json', 'map.json', true)
-  // await updateData(
-  //   bot,
-  //   'generated/webroot/data/mapMarker.json',
-  //   'mapMarker.json',
-  //   true
-  // )
-  // await updateData(
-  //   bot,
-  //   'generated/webroot/data/region.json',
-  //   'region.json',
-  //   true
-  // )
+  await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
+  await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
+  await updateGadget(bot, 'dist/map.css', 'EorzeaMap.css')
+  await updateGadget(bot, 'dist/map.js', 'EorzeaMap.js')
+  await updateData(bot, 'generated/webroot/data/map.json', 'map.json', true)
+  await updateData(
+    bot,
+    'generated/webroot/data/mapMarker.json',
+    'mapMarker.json',
+    true
+  )
+  await updateData(
+    bot,
+    'generated/webroot/data/region.json',
+    'region.json',
+    true
+  )
 }
 
 async function uploadFile(bot, src, dest) {
