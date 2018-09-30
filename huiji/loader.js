@@ -3,6 +3,7 @@
 ;(function() {
   /* globals $, mw */
   var map, eorzea, loadingArguments, loadingError, $loading, $mapContainer
+  var regionMap = {}
   var MARKER_URL =
     'https://huiji-public.huijistatic.com/ff14/uploads/e/e6/Map_mark.png'
 
@@ -24,12 +25,13 @@
   function delegateEvents() {
     $('#wiki-body').on('click', '.eorzea-map-trigger', function() {
       var mapId = $(this).data('map-id')
+      var mapName = $(this).data('map-name')
       var mapX = $(this).data('map-x')
       var mapY = $(this).data('map-y')
       if (map) {
-        loadMap(mapId, mapX, mapY)
+        loadMap(mapId, mapName, mapX, mapY)
       } else {
-        showLoading($(this), [mapId, mapX, mapY])
+        showLoading($(this), [mapId, mapName, mapX, mapY])
       }
     })
   }
@@ -85,6 +87,20 @@
   function initMap(eorzeaMap) {
     eorzea = eorzeaMap
     setHuijiDataUrls(eorzeaMap)
+
+    eorzea.getRegion().then(function(regions) {
+      for (var i = 0; i < regions.length; i++) {
+        for (var j = 0; j < regions[i].maps.length; j++) {
+          var meta = regions[i].maps[j]
+          if (meta.subName) {
+            regionMap[meta.name + ',' + meta.subName] = meta.key
+          } else {
+            regionMap[meta.name] = meta.key
+          }
+        }
+      }
+    })
+
     $mapContainer = $(
       [
         '<section class="erozea-map-outer">',
@@ -174,8 +190,14 @@
     })
   }
 
-  function loadMap(mapId, x, y) {
-    map.loadMapKey(mapId).then(function() {
+  function loadMap(mapKey, mapName, x, y) {
+    if (!mapKey && mapName) {
+      mapKey = regionMap[mapName]
+    }
+    if (!mapKey) {
+      alert('没有找到地图: ' + mapName + '，请检查拼写或地图名字')
+    }
+    map.loadMapKey(mapKey).then(function() {
       var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
       marker.addTo(map)
       map.markers.push(marker) // 保证地图切换时清空标记

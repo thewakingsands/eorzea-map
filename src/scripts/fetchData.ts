@@ -1,7 +1,7 @@
 import memoize from 'lodash-es/memoize'
 import { CDN_SERVER, IMapInfo, IMapMarker } from './loader'
 
-let API_URL = CDN_SERVER + '/data'
+let API_URL = CDN_SERVER + '/data/'
 
 export function setApiUrl(url: string) {
   API_URL = url

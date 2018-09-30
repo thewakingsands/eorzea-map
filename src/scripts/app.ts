@@ -1,7 +1,7 @@
 import { Icon, Marker, Point } from 'leaflet'
 import '../stylesheets/index.stylus'
 import { initEvents } from './events'
-import { setApiUrl } from './fetchData'
+import { getRegion, setApiUrl } from './fetchData'
 import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
 import * as loader from './loader'
 import { initMap } from './map'
@@ -54,7 +54,8 @@ untypedWindow.YZWF.eorzeaMap = {
   simpleMarker,
   setApiUrl,
   AdvancedTileLayer,
-  loader
+  loader,
+  getRegion
 }
 
 if (untypedWindow.standaloneEorzeaMap) {
