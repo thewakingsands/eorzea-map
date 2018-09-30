@@ -38,10 +38,17 @@ function getTileArgs() {
     const amount = calcTilesRowAmount(zoom)
     for (let row = 0; row < amount; row++) {
       for (let col = 0; col < amount; col++) {
-        const {top, left} = calcTopLeft(size, row, col)
+        const { top, left } = calcTopLeft(size, row, col)
         const fileName = getFilename(zoom, amount, row, col)
         tileArgs.push({
-          top, left, fileName, zoom, size, amount, col, row
+          top,
+          left,
+          fileName,
+          zoom,
+          size,
+          amount,
+          col,
+          row
         })
       }
     }
@@ -51,30 +58,41 @@ function getTileArgs() {
 
 function realGetScaledBuffer(filename, zoom) {
   const size = MAP_SIZE * Math.pow(2, zoom)
-  return sharp(filename).resize(size, size).toBuffer()
+  return sharp(filename)
+    .resize(size, size)
+    .toBuffer()
 }
 
-const getScaledBuffer = _.memoize(realGetScaledBuffer, (a, b, c) => [a, b, c].join('__'))
+const getScaledBuffer = _.memoize(realGetScaledBuffer, (a, b, c) =>
+  [a, b, c].join('__')
+)
 
 function tileFile(originalFile, outDir) {
   mkdirp.sync(outDir)
   const tileArgs = getTileArgs()
-  return Promise.map(tileArgs, async ({col, row, zoom, amount, top, left, fileName, size}) => {
-    const destFile = path.join(outDir, fileName)
-    if (fs.existsSync(destFile)){
-      return
-    }
-    console.log(`  + ${originalFile} (${row}, ${col}) @ ${zoom} ${size}; topLeft = (${col * TILE_SIZE}, ${row * TILE_SIZE})`)
-    return sharp(await getScaledBuffer(originalFile, zoom))
-    .extract({
-      top: col * TILE_SIZE,
-      left: row * TILE_SIZE,
-      width: TILE_SIZE,
-      height: TILE_SIZE
-    })
-    .jpeg({quality: 90, progressive: true})
-    .toFile(destFile)
-  }, { concurrency: 4 })
+  return Promise.map(
+    tileArgs,
+    async ({ col, row, zoom, amount, top, left, fileName, size }) => {
+      const destFile = path.join(outDir, fileName)
+      if (fs.existsSync(destFile)) {
+        return
+      }
+      console.log(
+        `  + ${originalFile} (${row}, ${col}) @ ${zoom} ${size}; topLeft = (${col *
+          TILE_SIZE}, ${row * TILE_SIZE})`
+      )
+      return sharp(await getScaledBuffer(originalFile, zoom))
+        .extract({
+          top: col * TILE_SIZE,
+          left: row * TILE_SIZE,
+          width: TILE_SIZE,
+          height: TILE_SIZE
+        })
+        .jpeg({ quality: 90, progressive: true })
+        .toFile(destFile)
+    },
+    { concurrency: 4 }
+  )
 }
 
 async function generateAll() {
@@ -90,12 +108,11 @@ async function generateAll() {
 
 async function generateBackground() {
   return sharp('generated/webroot/maps/region_99.png')
-  .jpeg({quality: 90, progressive: true})
-  .toFile('generated/webroot/files/bg.jpg')
+    .jpeg({ quality: 90, progressive: true })
+    .toFile('generated/webroot/files/bg.jpg')
 }
 
-generateAll()
-.catch(e => {
+generateAll().catch(e => {
   console.error(e)
   process.exit(1)
 })
