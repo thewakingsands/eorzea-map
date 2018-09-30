@@ -13,6 +13,7 @@ import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
 import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { createSvgUrl } from './gridSvg'
+import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
 import { DebugLayer } from './layers/DebugLayer'
 import {
   getBgUrl,
@@ -76,7 +77,10 @@ export class EoMap extends LFMap {
       maxNativeZoom: 0
     }
     const tileUrl = getTileUrl(mapInfo.id)
-    this.tileLayer = tileLayer(`${tileUrl}/{z}_{x}_{y}.jpg`, tileOptions)
+    this.tileLayer = new AdvancedTileLayer(
+      `${tileUrl}/{z}_{x}_{y}.jpg`,
+      tileOptions
+    )
     this.tileLayer.addTo(this)
 
     this.debugLayer = new DebugLayer(tileOptions)

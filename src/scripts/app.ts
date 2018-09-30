@@ -2,6 +2,7 @@ import { Icon, Marker, Point } from 'leaflet'
 import '../stylesheets/index.stylus'
 import { initEvents } from './events'
 import { setApiUrl } from './fetchData'
+import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
 import { IMapInfo } from './loader'
 import { initMap } from './map'
 import { fromGameXy, scaleGameXy, xy } from './XYPoint'
@@ -51,7 +52,8 @@ untypedWindow.YZWF.eorzeaMap = {
   xy,
   fromGameXy,
   simpleMarker,
-  setApiUrl
+  setApiUrl,
+  AdvancedTileLayer
 }
 
 if (untypedWindow.standaloneEorzeaMap) {

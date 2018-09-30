@@ -1,39 +1,69 @@
-const MWBot = require('mwbot')
+const { MWBot } = require('mediawiki2')
 const config = require('../config')
+const glob = require('glob')
 const fs = require('fs')
+const path = require('path')
 
 async function upload() {
-  const bot = new MWBot()
-  await bot.login({
-    apiUrl: 'https://ff14.huijiwiki.com/w/api.php',
-    username: config.huiji.username,
-    password: config.huiji.password
+  const bot = new MWBot('https://ff14.huijiwiki.com/w/api.php')
+  await bot.login(config.huiji.username, config.huiji.password)
+
+  // 上传 icon
+  // const files = glob.sync('generated/webroot/icons/*.png')
+  // for (const file of files) {
+  //   try {
+  //     await uploadFile(bot, file, path.basename(file))
+  //   } catch (e) {
+  //     console.log(e.message)
+  //   }
+  // }
+
+  // 上传图片
+  const tiles = glob.sync('generated/webroot/tiles/w1f4_01/*.jpg')
+  for (const tile of tiles) {
+    try {
+      const filename =
+        'EorzeaMapTile_' + tile.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
+      await uploadFile(bot, tile, filename)
+      // console.log(filename)
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
+
+  // await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
+  // await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
+  // await updateGadget(bot, 'dist/map.css', 'EorzeaMap.css')
+  // await updateGadget(bot, 'dist/map.js', 'EorzeaMap.js')
+  // await updateData(bot, 'generated/webroot/data/map.json', 'map.json', true)
+  // await updateData(
+  //   bot,
+  //   'generated/webroot/data/mapMarker.json',
+  //   'mapMarker.json',
+  //   true
+  // )
+  // await updateData(
+  //   bot,
+  //   'generated/webroot/data/region.json',
+  //   'region.json',
+  //   true
+  // )
+}
+
+async function uploadFile(bot, src, dest) {
+  console.log(`Uploading ${dest} ...`)
+  return bot.simpleUpload({
+    file: src,
+    filename: dest,
+    ignorewarnings: true,
+    comment: '上传游戏解包图标，有问题请找 [[用户:云泽宛风]]'
   })
-  await bot.getEditToken()
-  await updateGadget(bot, 'huiji/loader.js', 'EorzeaMapLoader.js')
-  await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
-  await updateGadget(bot, 'dist/map.css', 'EorzeaMap.css')
-  await updateGadget(bot, 'dist/map.js', 'EorzeaMap.js')
-  await updateData(bot, 'generated/webroot/data/map.json', 'map.json', true)
-  await updateData(
-    bot,
-    'generated/webroot/data/mapMarker.json',
-    'mapMarker.json',
-    true
-  )
-  await updateData(
-    bot,
-    'generated/webroot/data/region.json',
-    'region.json',
-    true
-  )
 }
 
 async function updateGadget(bot, src, dest) {
   console.log(`Updating ${dest} ...`)
   const content = fs.readFileSync(src).toString()
-  await bot.request({
-    action: 'edit',
+  await bot.edit({
     title: `Gadget:${dest}`,
     text: content,
     summary: '自动化脚本更新代码，有问题请联系 [[用户:云泽宛风]]',
@@ -49,8 +79,7 @@ async function updateData(bot, src, dest, wrap = false) {
   if (wrap) {
     content = JSON.stringify({ data: JSON.parse(content) })
   }
-  await bot.request({
-    action: 'edit',
+  await bot.edit({
     title: `Data:EorzeaMap/${dest}`,
     text: content,
     summary: '自动化脚本更新数据，有问题请联系 [[用户:云泽宛风]]',

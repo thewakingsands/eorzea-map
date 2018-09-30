@@ -7,7 +7,7 @@
     'https://huiji-public.huijistatic.com/ff14/uploads/e/e6/Map_mark.png'
 
   window.YZWF = window.YZWF || {}
-  window.YZWF.debug = function() {
+  window.YZWF.forceLoadMap = function() {
     loadModules(initMap)
   }
   window.YZWF.loadMap = loadMap
@@ -36,7 +36,12 @@
 
   function loadModules(callback) {
     mw.loader.using(
-      ['ext.gadget.Dom4', 'ext.gadget.babel-polyfill', 'ext.gadget.EorzeaMap'],
+      [
+        'ext.gadget.Dom4',
+        'ext.gadget.babel-polyfill',
+        'ext.gadget.Md5',
+        'ext.gadget.EorzeaMap'
+      ],
       function() {
         callback(window.YZWF.eorzeaMap)
       },
@@ -79,9 +84,7 @@
 
   function initMap(eorzeaMap) {
     eorzea = eorzeaMap
-    eorzeaMap.setApiUrl(
-      'https://cdn.huijiwiki.com/ff14/index.php?title=Data:EorzeaMap/%s&action=raw'
-    )
+    setHuijiDataUrls(eorzeaMap)
     $mapContainer = $(
       [
         '<section class="erozea-map-outer">',
@@ -137,7 +140,6 @@
           visibility: 'visible'
         })
         map = mapInstance
-        window.YZWF.eorzeaMap.map = map
         if (loadingArguments) {
           loadMap.apply(this, loadingArguments)
           closeLoding()
@@ -153,13 +155,34 @@
       })
   }
 
+  function setHuijiDataUrls(eorzeaMap) {
+    eorzeaMap.setApiUrl(
+      'https://cdn.huijiwiki.com/ff14/index.php?title=Data:EorzeaMap/%s&action=raw'
+    )
+    var oldGetUrl = eorzeaMap.AdvancedTileLayer.prototype.getTileUrl
+    eorzeaMap.AdvancedTileLayer.prototype.getTileUrl = function(coord) {
+      var tile = oldGetUrl.apply(this, arguments)
+      var filename =
+        'EorzeaMapTile_' + tile.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
+      var hex = window.YZWF.md5(filename)
+      return [
+        'https://huiji-public.huijistatic.com/ff14/uploads',
+        hex[0],
+        hex[0] + hex[1],
+        filename
+      ].join('/')
+    }
+  }
+
   function loadMap(mapId, x, y) {
     map.loadMapKey(mapId).then(function() {
       var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
       marker.addTo(map)
       map.markers.push(marker) // 保证地图切换时清空标记
       map.currentMarker = marker
-      map.panTo(eorzea.fromGameXy([x, y], map.mapInfo.sizeFactor))
+      setTimeout(function() {
+        map.panTo(eorzea.fromGameXy([x, y], map.mapInfo.sizeFactor))
+      }, 0)
     })
     $mapContainer.show()
   }
