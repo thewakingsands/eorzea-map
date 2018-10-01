@@ -67,7 +67,7 @@ async function uploadFile(bot, src, dest) {
   return bot.simpleUpload({
     file: src,
     filename: dest,
-    ignorewarnings: true,
+    // ignorewarnings: true,
     comment: '上传游戏解包图标/地图数据，有问题请找 [[用户:云泽宛风]]'
   })
 }
