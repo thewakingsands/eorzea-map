@@ -79,6 +79,7 @@ html.eorzea-map-standalone
       position absolute
       top 32px
       left -33px
+      margin 2px
       sliderThumb()
         -webkit-appearance none
         background url($url-areamap-thumb) no-repeat
