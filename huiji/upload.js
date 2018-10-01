@@ -22,7 +22,7 @@ async function upload() {
 
   if (process.env.UPLOAD_TILE) {
     // 上传图片
-    const tiles = glob.sync('generated/webroot/tiles/w1f4_01/*.jpg')
+    const tiles = glob.sync('generated/webroot/tiles/w1t2_02/*.jpg')
     for (const tile of tiles) {
       try {
         const filename =
@@ -32,6 +32,22 @@ async function upload() {
         console.log(e.message)
       }
     }
+  }
+
+  if (process.env.UPLOAD_DATA) {
+    await updateData(bot, 'generated/webroot/data/map.json', 'map.json', true)
+    await updateData(
+      bot,
+      'generated/webroot/data/mapMarker.json',
+      'mapMarker.json',
+      true
+    )
+    await updateData(
+      bot,
+      'generated/webroot/data/region.json',
+      'region.json',
+      true
+    )
   }
 
   // await uploadFile(
@@ -44,19 +60,6 @@ async function upload() {
   await updateGadget(bot, 'huiji/loader.css', 'EorzeaMapLoader.css')
   await updateGadget(bot, 'dist/map.css', 'EorzeaMap.css')
   await updateGadget(bot, 'dist/map.js', 'EorzeaMap.js')
-  await updateData(bot, 'generated/webroot/data/map.json', 'map.json', true)
-  await updateData(
-    bot,
-    'generated/webroot/data/mapMarker.json',
-    'mapMarker.json',
-    true
-  )
-  await updateData(
-    bot,
-    'generated/webroot/data/region.json',
-    'region.json',
-    true
-  )
 }
 
 async function uploadFile(bot, src, dest) {
@@ -65,7 +68,7 @@ async function uploadFile(bot, src, dest) {
     file: src,
     filename: dest,
     ignorewarnings: true,
-    comment: '上传游戏解包图标，有问题请找 [[用户:云泽宛风]]'
+    comment: '上传游戏解包图标/地图数据，有问题请找 [[用户:云泽宛风]]'
   })
 }
 
