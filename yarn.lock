@@ -1402,15 +1402,7 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
-es3ify@^0.2.0:
-  version "0.2.2"
-  resolved "http://registry.npm.taobao.org/es3ify/download/es3ify-0.2.2.tgz#5dae3e650e5be3684b88066513d528d092629862"
-  dependencies:
-    esprima "^2.7.1"
-    jstransform "~11.0.0"
-    through "~2.3.4"
-
-es3ify@^0.2.2:
+es3ify@^0.2.0, es3ify@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/es3ify/-/es3ify-0.2.2.tgz#5dae3e650e5be3684b88066513d528d092629862"
   dependencies:
@@ -2580,6 +2572,10 @@ mime@^1.4.0:
   version "1.6.0"
   resolved "http://registry.npm.taobao.org/mime/download/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
 
+mime@^2.3.1:
+  version "2.3.1"
+  resolved "http://registry.npm.taobao.org/mime/download/mime-2.3.1.tgz#b1621c54d63b97c47d3cfe7f7215f7d64517c369"
+
 mimic-fn@^1.0.0:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/mimic-fn/download/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
@@ -3609,6 +3605,13 @@ rollup-plugin-uglify@^6.0.0:
     jest-worker "^23.2.0"
     serialize-javascript "^1.5.0"
     uglify-js "^3.4.9"
+
+rollup-plugin-url@^1.4.0:
+  version "1.4.0"
+  resolved "http://registry.npm.taobao.org/rollup-plugin-url/download/rollup-plugin-url-1.4.0.tgz#346124cad853267b324cba0991f10bfd4be60c65"
+  dependencies:
+    mime "^2.3.1"
+    rollup-pluginutils "^2.0.1"
 
 rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.0, rollup-pluginutils@^2.3.1:
   version "2.3.3"

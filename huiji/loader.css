@@ -78,11 +78,25 @@
 }
 .eorzea-map-close-button {
   position: absolute;
-  top: 0;
-  left: 28px;
-  color: #93cac7;
+  top: -8px;
+  right: -8px;
+  color: transparent;
   z-index: 2002;
   line-height: 24px;
   font-size: 12px;
   cursor: pointer;
+}
+.eorzea-map-pos.leaflet-control {
+  padding-right: 20px;
+}
+.eorzea-map-close-button {
+  background: url('//huiji-public.huijistatic.com/ff14/uploads/4/42/EorzeaMapAssets_buttonClose.png') no-repeat top left;
+  width: 36px;
+  height: 36px;
+}
+.eorzea-map-close-button:hover {
+  background-position-x: -36px;
+}
+.eorzea-map-close-button:active {
+  background-position-x: -72px;
 }
