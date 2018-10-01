@@ -43,10 +43,14 @@
 }
 .eorzea-map-trigger {
   display: inline-block;
+  cursor: pointer;
+}
+.eorzea-map-trigger.show-as-link {
+  color: #77d1ff;
+}
+.eorzea-map-trigger.show-with-icon {
   background: url('//huiji-public.huijistatic.com/ff14/uploads/6/6c/Pos_prefix.png') no-repeat left;
   padding-left: 20px;
-  cursor: pointer;
-  color: #77d1ff;
 }
 .eorzea-map-move-handler {
   position: absolute;
