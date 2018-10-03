@@ -100,3 +100,27 @@
 .eorzea-map-close-button:active {
   background-position-x: -72px;
 }
+.eorzea-map-group {
+  display: inline-block;
+  border: 1px solid #666;
+  padding: 12px;
+  position: relative;
+  margin-top: 8px;
+  padding-bottom: 6px;
+}
+.eorzea-map-group-title {
+  position: absolute;
+  top: -12px;
+  left: 4px;
+  width: 100%;
+}
+.eorzea-map-group-show-all {
+  float: right;
+  margin-right: 8px;
+  color: #77d1ff;
+  cursor: pointer;
+}
+.eorzea-map-group-title > span {
+  background: #262626;
+  padding: 0 4px;
+}

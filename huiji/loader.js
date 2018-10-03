@@ -34,6 +34,25 @@
         showLoading($(this), [mapId, mapName, mapX, mapY])
       }
     })
+    $('#wiki-body').on('click', '.eorzea-map-group-show-all', function() {
+      var $group = $(this).parents('.eorzea-map-group')
+      if (!$group.length) {
+        alert('没有找到坐标组；或许是模板使用不正确？')
+        return
+      }
+      var $triggers = $group.find('.eorzea-map-trigger')
+      var mapName = ''
+      var coords = []
+      $triggers.each(function() {
+        mapName = $(this).data('map-name')
+        coords.push([$(this).data('map-x'), $(this).data('map-y')])
+      })
+      loadMap(null, mapName).then(function() {
+        for (var i = 0; i < coords.length; i++) {
+          addFlag(map, coords[i][0], coords[i][1])
+        }
+      })
+    })
   }
 
   function loadModules(callback) {
@@ -197,28 +216,29 @@
     if (!mapKey) {
       alert('没有找到地图: ' + mapName + '，请检查拼写或地图名字')
     }
-    map
+    $mapContainer.show()
+    return map
       .loadMapKey(mapKey)
       .then(function() {
         if (x && y) {
-          var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
-          marker.addTo(map)
-          map.markers.push(marker) // 保证地图切换时清空标记
-          map.currentMarker = marker
-          setTimeout(function() {
-            map.panTo(map.mapToLatLng2D(x, y))
-          }, 0)
+          addFlag(map, x, y, true)
         }
       })
       .catch(e => console.error(e))
-    $mapContainer.show()
+  }
+
+  function addFlag(map, x, y, pan) {
+    var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
+    marker.addTo(map)
+    map.markers.push(marker) // 保证地图切换时清空标记
+    if (pan) {
+      setTimeout(function() {
+        map.panTo(map.mapToLatLng2D(x, y))
+      }, 0)
+    }
   }
 
   function closeMap() {
-    if (map.currentMarker) {
-      map.currentMarker.remove()
-      map.currentMarker = null
-    }
     $mapContainer.hide()
   }
 
