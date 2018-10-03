@@ -192,10 +192,10 @@ export class EoMap extends LFMap {
   /**
    * 从解包数据的 3D 坐标点换算成 UI 用的地图坐标 XY 数据
    * @param x X 坐标
-   * @param y Y 坐标
+   * @param z Y 坐标
    */
-  public toMapXY3D(x: number, y: number) {
-    return toMapXY3D(this.mapInfo, x, y)
+  public toMapXY3D(x: number, z: number) {
+    return toMapXY3D(this.mapInfo, x, z)
   }
 
   /**
@@ -205,5 +205,14 @@ export class EoMap extends LFMap {
    */
   public fromMapXY2D(x: number, y: number) {
     return fromMapXY2D(this.mapInfo, x, y)
+  }
+
+  /**
+   * 从解包的 3D 数据换算为解包数据的 2D 坐标点
+   * @param x X 坐标
+   * @param z Z 坐标
+   */
+  public from3D(x: number, z: number) {
+    return this.fromMapXY2D(...this.toMapXY3D(x, z))
   }
 }
