@@ -11,6 +11,7 @@ import {
 } from 'leaflet'
 import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
+import { fromMapXY2D, toMapXY2D, toMapXY3D } from './coordinate'
 import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { createSvgUrl } from './gridSvg'
 import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
@@ -173,5 +174,36 @@ export class EoMap extends LFMap {
     if (this.updateInfoHandlers.has(handler)) {
       this.off('updateInfo', this.updateInfoHandlers.get(handler))
     }
+  }
+
+  /**
+   * 从解包数据的 2D 坐标点数据换算成 UI 用的地图坐标 XY 数据
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  public toMapXY2D(x: number, y: number) {
+    return toMapXY2D(this.mapInfo, x, y)
+  }
+
+  public toLatLng2D(x: number, y: number) {
+    return xy(this.toMapXY2D(x, y))
+  }
+
+  /**
+   * 从解包数据的 3D 坐标点换算成 UI 用的地图坐标 XY 数据
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  public toMapXY3D(x: number, y: number) {
+    return toMapXY3D(this.mapInfo, x, y)
+  }
+
+  /**
+   * 从 UI 上的坐标 XY 数据换算成解包数据的 2D 坐标点
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  public fromMapXY2D(x: number, y: number) {
+    return fromMapXY2D(this.mapInfo, x, y)
   }
 }

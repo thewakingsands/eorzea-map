@@ -44,21 +44,13 @@ export class PosControl extends Control {
   }
 
   private onMouseMoveEvent = (event: MouseEvent) => {
-    const [x, y] = eventToGame(event, this.map, this.scaleFactor)
-    if (x < 1 || y < 1) {
-      return
-    }
-    const maxSize = (MAP_SIZE / this.scaleFactor) * 2 + 1
-    if (x > maxSize || y > maxSize) {
-      return
-    }
-
+    const [x, y] = eventToGame(event, this.map)
     this.rootContainer.innerHTML = [
       '<span class="eorzea-map-letter">X: </span>',
-      `<span class="eorzea-map-int">${Math.ceil(x)}</span>`,
+      `<span class="eorzea-map-int">${Math.floor(x)}</span>`,
       `.<span class="eorzea-map-demical">${x.toFixed(2).split('.')[1]}</span>`,
       ' <span class="eorzea-map-letter">Y: </span>',
-      `<span class="eorzea-map-int">${Math.ceil(y)}</span>`,
+      `<span class="eorzea-map-int">${Math.floor(y)}</span>`,
       `.<span class="eorzea-map-demical">${y.toFixed(2).split('.')[1]}</span>`
     ].join('')
   }

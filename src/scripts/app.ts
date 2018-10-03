@@ -1,11 +1,12 @@
 import { Icon, Marker, Point } from 'leaflet'
 import '../stylesheets/index.stylus'
+import { toMapXY2D } from './coordinate'
 import { initEvents } from './events'
 import { getRegion, setApiUrl } from './fetchData'
 import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
 import * as loader from './loader'
 import { initMap } from './map'
-import { fromGameXy, scaleGameXy, xy } from './XYPoint'
+import { xy } from './XYPoint'
 
 async function create(mapEl: HTMLElement) {
   mapEl.innerHTML = ''
@@ -19,13 +20,6 @@ async function init() {
   const map = await create(mapEl)
 
   await map.loadMapKey(92)
-
-  const hot = (module as any).hot
-  if (hot) {
-    hot.accept(() => {
-      map.loadMapInfo(map.mapInfo)
-    })
-  }
 }
 
 function simpleMarker(
@@ -38,7 +32,7 @@ function simpleMarker(
     iconSize: new Point(32, 32),
     iconUrl
   })
-  const marker = new Marker(fromGameXy([x, y], mapInfo.sizeFactor), {
+  const marker = new Marker(xy(toMapXY2D(mapInfo, x, y)), {
     icon
   })
   return marker
@@ -50,7 +44,6 @@ untypedWindow.YZWF = untypedWindow.YZWF || {}
 untypedWindow.YZWF.eorzeaMap = {
   create,
   xy,
-  fromGameXy,
   simpleMarker,
   setApiUrl,
   AdvancedTileLayer,

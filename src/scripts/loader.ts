@@ -71,6 +71,8 @@ export interface IMapInfo {
   sizeFactor: number
   ['placeName{Region}']: string
   ['placeName{Sub}']: string
+  ['offset{X}']: number
+  ['offset{Y}']: number
   territoryType: string
   placeName: string
   mapMarkerRange: number

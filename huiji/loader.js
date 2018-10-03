@@ -204,7 +204,7 @@
         map.markers.push(marker) // 保证地图切换时清空标记
         map.currentMarker = marker
         setTimeout(function() {
-          map.panTo(eorzea.fromGameXy([x, y], map.mapInfo.sizeFactor))
+          map.panTo(map.toLatLng2D(x, y))
         }, 0)
       }
     })

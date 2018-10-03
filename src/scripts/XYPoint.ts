@@ -1,4 +1,5 @@
 import { DomEvent, LatLng, Point } from 'leaflet'
+import { toMapXY2D } from './coordinate'
 import { EoMap } from './EoMap'
 
 export class XYPoint extends Point {
@@ -7,7 +8,14 @@ export class XYPoint extends Point {
   }
 }
 
-export function xy(x: number, y: number): [number, number] {
+export function xy(xy: [number, number]): [number, number]
+export function xy(x: number, y: number): [number, number]
+export function xy(
+  arg1: number | [number, number],
+  arg2?: number
+): [number, number] {
+  const x = arg2 ? arg1 : arg1[0]
+  const y = arg2 ? arg2 : arg1[1]
   return [2048 - y, x]
 }
 
@@ -15,35 +23,11 @@ export function llXy(latlng: LatLng): [number, number] {
   return [latlng.lng, 2048 - latlng.lat]
 }
 
-export function scaleGameXy(
-  i: [number, number],
-  factor: number
-): [number, number] {
-  factor /= 2
-  let result: [number, number] = [i[0] / factor + 1, i[1] / factor + 1]
-  result = result.map(x => Math.round(x * 100) / 100) as [number, number]
-  return result
-}
-
-export function fromGameXy(
-  i: [number, number],
-  factor: number
-): [number, number] {
-  factor /= 2
-  return xy((i[0] - 2) * factor, (i[1] - 2) * factor)
-}
-
-export function eventToGame(
-  e: any,
-  map: EoMap,
-  scale: number
-): [number, number] {
-  return scaleGameXy(
-    llXy(
-      map.containerPointToLatLng(
-        DomEvent.getMousePosition(e, (map as any)._container)
-      )
-    ),
-    scale
+export function eventToGame(e: any, map: EoMap): [number, number] {
+  const c = llXy(
+    map.containerPointToLatLng(
+      DomEvent.getMousePosition(e, (map as any)._container)
+    )
   )
+  return toMapXY2D(map.mapInfo, ...c)
 }
