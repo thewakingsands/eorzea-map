@@ -1,6 +1,6 @@
 import { Icon, Marker, Point } from 'leaflet'
 import '../stylesheets/index.stylus'
-import { toMapXY2D } from './coordinate'
+import { fromMapXY2D, toMapXY2D } from './coordinate'
 import { initEvents } from './events'
 import { getRegion, setApiUrl } from './fetchData'
 import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
@@ -32,7 +32,7 @@ function simpleMarker(
     iconSize: new Point(32, 32),
     iconUrl
   })
-  const marker = new Marker(xy(toMapXY2D(mapInfo, x, y)), {
+  const marker = new Marker(xy(fromMapXY2D(mapInfo, x, y)), {
     icon
   })
   return marker

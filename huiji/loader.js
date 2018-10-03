@@ -197,17 +197,20 @@
     if (!mapKey) {
       alert('没有找到地图: ' + mapName + '，请检查拼写或地图名字')
     }
-    map.loadMapKey(mapKey).then(function() {
-      if (x && y) {
-        var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
-        marker.addTo(map)
-        map.markers.push(marker) // 保证地图切换时清空标记
-        map.currentMarker = marker
-        setTimeout(function() {
-          map.panTo(map.toLatLng2D(x, y))
-        }, 0)
-      }
-    })
+    map
+      .loadMapKey(mapKey)
+      .then(function() {
+        if (x && y) {
+          var marker = eorzea.simpleMarker(x, y, MARKER_URL, map.mapInfo)
+          marker.addTo(map)
+          map.markers.push(marker) // 保证地图切换时清空标记
+          map.currentMarker = marker
+          setTimeout(function() {
+            map.panTo(map.mapToLatLng2D(x, y))
+          }, 0)
+        }
+      })
+      .catch(e => console.error(e))
     $mapContainer.show()
   }
 

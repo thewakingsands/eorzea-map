@@ -185,8 +185,13 @@ export class EoMap extends LFMap {
     return toMapXY2D(this.mapInfo, x, y)
   }
 
-  public toLatLng2D(x: number, y: number) {
-    return xy(this.toMapXY2D(x, y))
+  /**
+   * 从解包数据的 2D 坐标换算成经纬度
+   * @param x X 坐标
+   * @param y Y 坐标
+   */
+  public mapToLatLng2D(x: number, y: number) {
+    return xy(this.fromMapXY2D(x, y))
   }
 
   /**
