@@ -8,10 +8,9 @@
     'https://huiji-public.huijistatic.com/ff14/uploads/e/e6/Map_mark.png'
 
   window.YZWF = window.YZWF || {}
-  window.YZWF.forceLoadMap = function() {
+  window.YZWF.setupMap = function() {
     loadModules(initMap)
   }
-  window.YZWF.loadMap = loadMap
 
   if ($('#wiki-body .eorzea-map-trigger').length > 0) {
     loadModules(initMap)
@@ -118,6 +117,7 @@
           }
         }
       }
+      window.YZWF.loadMap = loadMap
     })
 
     $mapContainer = $(
@@ -224,7 +224,9 @@
           addFlag(map, x, y, true)
         }
       })
-      .catch(e => console.error(e))
+      ['catch'](function (e) {
+        console.error(e)
+      })
   }
 
   function addFlag(map, x, y, pan) {

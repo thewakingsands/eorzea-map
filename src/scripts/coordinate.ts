@@ -23,7 +23,7 @@ export function fromMapCoordinate2D(
   sizeFactor: number,
   offset: number
 ) {
-  return ((coord - 1) / (4100 / sizeFactor)) * 2048 - offset
+  return ((coord - 1) / (4100 / sizeFactor)) * 2048 /* - offset*/
 }
 
 export function toMapCoordinate3D(

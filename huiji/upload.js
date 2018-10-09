@@ -22,7 +22,7 @@ async function upload() {
 
   if (process.env.UPLOAD_TILE) {
     // 上传图片
-    const tiles = glob.sync('generated/webroot/tiles/w1t2_02/*.jpg')
+    const tiles = glob.sync('generated/webroot/tiles/r2f1_00/*.jpg')
     for (const tile of tiles) {
       try {
         const filename =
