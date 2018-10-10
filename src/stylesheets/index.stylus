@@ -164,7 +164,7 @@ html.eorzea-map-standalone
   color #fff
   text-shadow 1px 1px #000, 0 0 5px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.3)
   box-shadow none
-  font-family "宋体", serif
+  font-family "微软雅黑", "Microsoft YaHei", sans-serif
   cursor pointer
   &::before
     content unset
