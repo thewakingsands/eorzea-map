@@ -7,7 +7,11 @@ pages:
     - cp config.example.js config.js
     - CDN_SERVER=$CDN_SERVER NODE_ENV=production yarn build
     - cp -r dist public
-    - cp example/standalone.html public/index.html
+    - cp example/pages.html public/index.html
+    - mkdir -p public/vendors
+    - cp node_modules/normalize.css/normalize.css public/vendors/normalize.css
+    - cp node_modules/leaflet/dist/leaflet.css public/vendors/leaflet.css
+    - cp node_modules/jquery/dist/jquery.js public/vendors/jquery.js
     - find public -name '*.map' -delete
   artifacts:
     paths:
