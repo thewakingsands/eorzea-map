@@ -24,6 +24,8 @@ html.eorzea-map-standalone
   background transparent
   border-radius 5px
   border-right 2px solid transparent
+.leaflet-tooltip-pane
+  opacity 0.9
 .eorzea-map-glass
   width 100%
   height 100%
