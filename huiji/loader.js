@@ -215,6 +215,7 @@
     }
     if (!mapKey) {
       alert('没有找到地图: ' + mapName + '，请检查拼写或地图名字')
+      return
     }
     $mapContainer.show()
     return map
