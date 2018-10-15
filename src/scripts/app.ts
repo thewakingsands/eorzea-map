@@ -66,7 +66,8 @@ function simpleMarker(
     iconUrl
   })
   const marker = new Marker(xy(fromMapXY2D(mapInfo, x, y)), {
-    icon
+    icon,
+    zIndexOffset: 1000
   })
   return marker
 }
