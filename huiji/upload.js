@@ -59,28 +59,37 @@ async function upload() {
         .set('tiles', tiles)
         .write()
     }
+    let success = 0
+    setInterval(function() {
+      console.log(`processed ${success} file(s), saving database`)
+      db.write()
+    }, 5000)
     while (true) {
       const toUpload = db
         .get('tiles')
         .filter(s => s.uploadedAt === null)
-        .take(3)
+        .take(20)
         .value()
       if (toUpload.length < 1) {
         break
       }
-      await Bluebird.map(toUpload, async tile => {
-        try {
-          const filename =
-            'EorzeaMapTile_' +
-            tile.filename.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
-          await uploadFile(bot, tile.filename, filename)
-          tile.uploadedAt = Date.now()
-        } catch (e) {
-          console.error(e)
-        }
-        return tile
-      })
-      db.write()
+      const result = await Bluebird.map(
+        toUpload,
+        async tile => {
+          try {
+            const filename =
+              'EorzeaMapTile_' +
+              tile.filename.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
+            await uploadFile(bot, tile.filename, filename)
+            tile.uploadedAt = Date.now()
+          } catch (e) {
+            console.error(e)
+          }
+          return tile
+        },
+        { concurrency: 3 }
+      )
+      success += result.filter(x => x.uploadedAt !== null).length
     }
   }
 
