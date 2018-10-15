@@ -236,7 +236,7 @@
     map.markers.push(marker) // 保证地图切换时清空标记
     if (pan) {
       setTimeout(function() {
-        map.panTo(map.mapToLatLng2D(x, y))
+        map.setView(map.mapToLatLng2D(x, y), -1)
       }, 0)
     }
   }
