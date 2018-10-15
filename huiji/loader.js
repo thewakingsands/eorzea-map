@@ -110,10 +110,12 @@
       for (var i = 0; i < regions.length; i++) {
         for (var j = 0; j < regions[i].maps.length; j++) {
           var meta = regions[i].maps[j]
+          var key = meta.name
           if (meta.subName) {
-            regionMap[meta.name + ',' + meta.subName] = meta.key
-          } else {
-            regionMap[meta.name] = meta.key
+            key = meta.name + ',' + meta.subName
+          }
+          if (!regionMap[key]) {
+            regionMap[key] = meta.key
           }
         }
       }
