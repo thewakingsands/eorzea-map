@@ -67,7 +67,8 @@ function simpleMarker(
   })
   const marker = new Marker(xy(fromMapXY2D(mapInfo, x, y)), {
     icon,
-    zIndexOffset: 1000
+    zIndexOffset: 1000,
+    pane: 'popupPane'
   })
   return marker
 }
