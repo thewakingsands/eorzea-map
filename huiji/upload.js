@@ -60,6 +60,7 @@ async function upload() {
         .write()
     }
     let success = 0
+    await bot.getCsrfToken()
     setInterval(function() {
       console.log(`processed ${success} file(s), saving database`)
       db.write()
