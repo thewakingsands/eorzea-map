@@ -63,7 +63,7 @@ async function upload() {
     setInterval(function() {
       console.log(`processed ${success} file(s), saving database`)
       db.write()
-    }, 5000)
+    }, 6000)
     while (true) {
       const toUpload = db
         .get('tiles')
@@ -88,7 +88,7 @@ async function upload() {
           return tile
         },
         { concurrency: 3 }
-      )
+      ).timeout(20000)
       success += result.filter(x => x.uploadedAt !== null).length
     }
   }
