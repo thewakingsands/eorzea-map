@@ -8,10 +8,17 @@ for (const map of maps) {
   if (!regionName) {
     continue
   }
-  const region = regions[regionName] = regions[regionName] || {regionName, maps: []}
+  const region = (regions[regionName] = regions[regionName] || {
+    regionName,
+    maps: []
+  })
   const subName = map['placeName{Sub}']
   const name = map['placeName']
   if (!name) {
+    continue
+  }
+  if (map['#'] === '487') {
+    // 一个假的沙都
     continue
   }
   region.maps.push({
@@ -19,7 +26,8 @@ for (const map of maps) {
     key: parseInt(map['#']),
     hierarchy: map.hierarchy,
     name,
-    subName
+    subName,
+    regionName
   })
 }
 
