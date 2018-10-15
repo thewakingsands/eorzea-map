@@ -61,7 +61,7 @@ async function upload() {
     }
     let success = 0
     await bot.getCsrfToken()
-    setInterval(function() {
+    const saveTimer = setInterval(function() {
       console.log(`processed ${success} file(s), saving database`)
       db.write()
     }, 6000)
@@ -72,6 +72,8 @@ async function upload() {
         .take(20)
         .value()
       if (toUpload.length < 1) {
+        console.log('finished upload')
+        clearInterval(saveTimer)
         break
       }
       const result = await Bluebird.map(
