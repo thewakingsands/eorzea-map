@@ -225,7 +225,7 @@
           addFlag(map, x, y, true)
         }
       })
-      ['catch'](function (e) {
+      ['catch'](function(e) {
         console.error(e)
       })
   }
