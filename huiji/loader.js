@@ -10,6 +10,7 @@
   window.YZWF = window.YZWF || {}
   window.YZWF.setupMap = function() {
     loadModules(initMap)
+    delegateEvents()
   }
 
   if ($('#wiki-body .eorzea-map-trigger').length > 0) {
