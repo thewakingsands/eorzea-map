@@ -111,6 +111,9 @@
         for (var j = 0; j < regions[i].maps.length; j++) {
           var meta = regions[i].maps[j]
           var key = meta.name
+          if (!regionMap[key]) {
+            regionMap[key] = meta.key
+          }
           if (meta.subName) {
             key = meta.name + ',' + meta.subName
           }
