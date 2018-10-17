@@ -56,6 +56,7 @@
   }
 
   function loadModules(callback) {
+    trackEvent('load')
     mw.loader.using(
       [
         'ext.gadget.Dom4',
@@ -65,8 +66,12 @@
       ],
       function() {
         callback(window.YZWF.eorzeaMap)
+        trackEvent('load_success')
       },
-      console.error
+      function(e) {
+        console.error(e)
+        trackEvent('load_error', e && e.message)
+      }
     )
   }
 
@@ -185,9 +190,11 @@
           loadMap.apply(this, loadingArguments)
           closeLoding()
         }
+        trackEvent('load_data_success')
       })
       ['catch'](function(err) {
         loadingError = err
+        trackEvent('load_data_error', err && err.message)
         if (loadingArguments) {
           alert('地图加载失败，原因：' + err.message)
           closeLoding()
@@ -220,19 +227,23 @@
       mapKey = regionMap[mapName]
     }
     if (!mapKey) {
+      trackEvent('map_not_found', mapName)
       alert('没有找到地图: ' + mapName + '，请检查拼写或地图名字')
       return
     }
+    trackEvent('open', mapName)
     $mapContainer.show()
     return map
       .loadMapKey(mapKey)
       .then(function() {
+        trackEvent('open_success', mapName)
         if (x && y) {
           addFlag(map, x, y, true)
         }
       })
       ['catch'](function(e) {
         console.error(e)
+        trackEvent('open_error', e && e.messasge)
       })
   }
 
@@ -249,6 +260,7 @@
 
   function closeMap() {
     $mapContainer.hide()
+    trackEvent('close')
   }
 
   function mapMover($handler, $container) {
@@ -270,6 +282,7 @@
         if (localStorage) {
           localStorage.YZWFEorzeaMapPos = pos.top + ',' + pos.left
         }
+        trackEvent('move_container')
       }
     })
   }
@@ -291,6 +304,7 @@
           localStorage.YZWFEorzeaMapSize =
             width + opts.diffX + ',' + (height + opts.diffY)
         }
+        trackEvent('resize_container')
       }
     })
   }
@@ -343,5 +357,12 @@
       hex[0] + hex[1],
       filename
     ].join('/')
+  }
+
+  function trackEvent(action, label, value) {
+    if (!window._hmt) {
+      window._hmt = []
+    }
+    window._hmt.push(['_trackEvent', 'eorzeaMap', action, label, value])
   }
 })()
