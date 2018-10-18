@@ -6,16 +6,22 @@
   var regionMap = {}
   var MARKER_URL =
     'https://huiji-public.huijistatic.com/ff14/uploads/e/e6/Map_mark.png'
+  var mapSettedUp = false
 
-  window.YZWF = window.YZWF || {}
-  window.YZWF.setupMap = function() {
+  function setupMap() {
+    if (mapSettedUp) {
+      return
+    }
     loadModules(initMap)
     delegateEvents()
+    mapSettedUp = true
   }
 
+  window.YZWF = window.YZWF || {}
+  window.YZWF.setupMap = setupMap
+
   if ($('#wiki-body .eorzea-map-trigger').length > 0) {
-    loadModules(initMap)
-    delegateEvents()
+    setupMap()
     var $openEls = $('#wiki-body .eorzea-map-trigger[data-map-open="true"]')
     if ($openEls.length > 0) {
       $openEls.eq(0).click()
