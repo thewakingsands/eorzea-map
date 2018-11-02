@@ -20,16 +20,16 @@
   window.YZWF = window.YZWF || {}
   window.YZWF.setupMap = setupMap
 
-  if ($('#wiki-body .eorzea-map-trigger').length > 0) {
+  if ($('.eorzea-map-trigger').length > 0) {
     setupMap()
-    var $openEls = $('#wiki-body .eorzea-map-trigger[data-map-open="true"]')
+    var $openEls = $('.eorzea-map-trigger[data-map-open="true"]')
     if ($openEls.length > 0) {
       $openEls.eq(0).click()
     }
   }
 
   function delegateEvents() {
-    $('#wiki-body').on('click', '.eorzea-map-trigger', function() {
+    $('body').on('click', '.eorzea-map-trigger', function() {
       var mapId = $(this).data('map-id')
       var mapName = $(this).data('map-name')
       var mapX = $(this).data('map-x')
@@ -40,7 +40,7 @@
         showLoading($(this), [mapId, mapName, mapX, mapY])
       }
     })
-    $('#wiki-body').on('click', '.eorzea-map-group-show-all', function() {
+    $('body').on('click', '.eorzea-map-group-show-all', function() {
       var $group = $(this).parents('.eorzea-map-group')
       if (!$group.length) {
         alert('没有找到坐标组；或许是模板使用不正确？')
