@@ -51,7 +51,7 @@ async function loadHash(map: EoMap) {
       marker.addTo(map)
       setTimeout(() => {
         map.setView(map.mapToLatLng2D(args.x, args.y), 0)
-      }, 0)
+      }, 100)
       return true
     }
   }
