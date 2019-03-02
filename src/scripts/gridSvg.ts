@@ -21,8 +21,9 @@ export function createSvgUrl(scaleFactor: number) {
   }
   const code = genSvgCode(scaleFactor / 2)
     .trim()
-    .replace(/\n\s+/, '')
-  const url = 'data:image/svg+xml,' + code
+    .replace(/\n\s*/, '')
+
+  const url = 'data:image/svg+xml,' + encodeURIComponent(code)
   urlMap.set(scaleFactor, url)
   return url
 }
