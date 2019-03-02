@@ -159,6 +159,11 @@ export class EoMap extends LFMap {
     return this.loadMapKey(mapKey)
   }
 
+  public addMaker(marker: Marker) {
+    marker.addTo(this)
+    this.markers.push(marker)
+  }
+
   public onUpdateInfo(handler: (info: IMapInfo) => void) {
     this.offUpdateInfo(handler)
 

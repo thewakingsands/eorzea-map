@@ -17,6 +17,11 @@ async function create(mapEl: HTMLElement) {
 }
 
 async function init() {
+  if (window !== top) {
+    console.error('本地图现在不允许在 iframe 中使用。CDN 成本高昂，请理解！')
+    console.error('如果需要在 iframe 中使用，请联系微博 @云泽宛风')
+  }
+
   const mapEl = document.querySelector('section.map') as HTMLElement
   const map = await create(mapEl)
 
@@ -39,21 +44,19 @@ async function loadHash(map: EoMap) {
       arg[kvpair[0]] = kvpair[1]
       return arg
     }, {})
-  if (args.f === 'mark' && args.id) {
+  if (args.f === 'mark' && args.id && args.x && args.y) {
     await map.loadMapKey(parseInt(args.id))
-    if (args.x && args.y) {
-      const marker = simpleMarker(
-        args.x,
-        args.y,
-        loader.getIconUrl('ui/icon/060000/060561.tex'),
-        map.mapInfo
-      )
-      marker.addTo(map)
-      setTimeout(() => {
-        map.setView(map.mapToLatLng2D(args.x, args.y), 0)
-      }, 100)
-      return true
-    }
+    const marker = simpleMarker(
+      args.x,
+      args.y,
+      loader.getIconUrl('ui/icon/060000/060561.tex'),
+      map.mapInfo
+    )
+    map.addMaker(marker)
+    setTimeout(() => {
+      map.setView(map.mapToLatLng2D(args.x, args.y), 0)
+    }, 100)
+    return true
   }
 }
 
