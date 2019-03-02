@@ -16,6 +16,10 @@ pages:
   artifacts:
     paths:
       - public
+  cache:
+    key: node-modulesv1
+    paths:
+      - node_modules/
   only:
     - master
 
