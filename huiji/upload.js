@@ -59,6 +59,22 @@ async function upload() {
         .set('tiles', tiles)
         .write()
     }
+    if (process.argv[3] === 'update') {
+      const tiles = new Set(glob.sync('generated/webroot/tiles/**/*.jpg'))
+      const tilesInDb = db.get('tiles').value()
+      for (const t of tilesInDb) {
+        tiles.delete(t.filename)
+      }
+      const values = tiles.values()
+      for (const v of values) {
+        tilesInDb.push({
+          id: shortid.generate(),
+          filename: v,
+          uploadedAt: null
+        })
+      }
+      db.set('tiles', tilesInDb).write()
+    }
     let success = 0
     await bot.getCsrfToken()
     const saveTimer = setInterval(function() {

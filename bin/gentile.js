@@ -98,7 +98,10 @@ function tileFile(originalFile, outDir) {
 async function generateAll() {
   // return tileFile('generated/webroot/maps/w1t1_01.png', 'generated/webroot/tiles/w1t1_01')
   await generateBackground()
-  const files = glob.sync('generated/webroot/maps/*.png')
+  let files = glob.sync('generated/webroot/maps/*.png')
+  if (process.argv[2]) {
+    files = process.argv.slice(2)
+  }
   for (const file of files) {
     const basename = path.basename(file).replace(/\.png$/, '')
     console.log(`- ${basename}`)

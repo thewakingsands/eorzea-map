@@ -3,6 +3,7 @@
 /.cache
 /generated
 /config.js
+/build/*.local.*
 
 .DS_Store
 
