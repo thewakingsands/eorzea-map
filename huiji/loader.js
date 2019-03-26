@@ -210,9 +210,15 @@
   }
 
   function setHuijiDataUrls(eorzeaMap) {
+    var isDebug = mw.config.get('debug')
+    var baseUrl = isDebug
+      ? 'https://ff14.huijiwiki.com'
+      : 'https://cdn.huijiwiki.com/ff14'
+
     eorzeaMap.setApiUrl(
-      'https://cdn.huijiwiki.com/ff14/index.php?title=Data:EorzeaMap/%s&action=raw'
+      baseUrl + '/index.php?title=Data:EorzeaMap/%s&action=raw'
     )
+
     var oldGetUrl = eorzeaMap.AdvancedTileLayer.prototype.getTileUrl
     eorzeaMap.AdvancedTileLayer.prototype.getTileUrl = function() {
       var tile = oldGetUrl.apply(this, arguments)

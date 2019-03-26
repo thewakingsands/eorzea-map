@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/devServer.js",
     "build": "rollup -c build/rollup.config.js",
-    "huiji": "NODE_ENV=production yarn build && node huiji/upload.js"
+    "huiji": "cross-env NODE_ENV=production yarn build && node huiji/upload.js"
   },
   "author": "oott123",
   "license": "UNLICENSED",
@@ -19,6 +19,7 @@
     "@types/node": "^9.6.2",
     "bluebird": "^3.5.2",
     "chalk": "^2.4.1",
+    "cross-env": "^5.2.0",
     "es3ify": "^0.2.2",
     "eslint": "^5.6.1",
     "eslint-config-prettier": "^3.0.1",
