@@ -4,6 +4,7 @@ export const MINI_MAP_GROUP = '063000'
 export const NULL_ICON_GROUP = '000000'
 
 const urlFunc = {} as any
+let baseUrl = CDN_SERVER
 
 export function setUrlFunction(key: string, func: any) {
   urlFunc[key] = func
@@ -13,21 +14,21 @@ export function getMapUrl(id: string) {
   if (urlFunc.getMapUrl) {
     return urlFunc.getMapUrl(id)
   }
-  return `${CDN_SERVER}/maps/${id.replace(/\//g, '_')}.png`
+  return `${baseUrl}/maps/${id.replace(/\//g, '_')}.png`
 }
 
 export function getBgUrl() {
   if (urlFunc.getBgUrl) {
     return urlFunc.getBgUrl()
   }
-  return `${CDN_SERVER}/files/bg.jpg`
+  return `${baseUrl}/files/bg.jpg`
 }
 
 export function getTileUrl(id: string) {
   if (urlFunc.getTileUrl) {
     return urlFunc.getTileUrl()
   }
-  return `${CDN_SERVER}/tiles/${id.replace(/\//g, '_')}`
+  return `${baseUrl}/tiles/${id.replace(/\//g, '_')}`
 }
 
 export function getIconUrl(icon: string) {
@@ -39,10 +40,10 @@ export function getIconUrl(icon: string) {
     return null
   }
   if (group === MAP_ICON_GROUP) {
-    return `${CDN_SERVER}/icons/${id}.png`
+    return `${baseUrl}/icons/${id}.png`
   }
   if (group === MINI_MAP_GROUP) {
-    return `${CDN_SERVER}/minimap/${id}.png`
+    return `${baseUrl}/minimap/${id}.png`
   }
   throw new Error(`Invalid icon url, no ${group} group: ${icon}`)
 }
@@ -58,6 +59,10 @@ export function parseIcon(icon: string): IIconParseResult {
     group,
     id
   }
+}
+
+export function setBaseUrl(url: string) {
+  baseUrl = url
 }
 
 export interface IIconParseResult {

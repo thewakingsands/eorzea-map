@@ -78,6 +78,11 @@ function simpleMarker(
   return marker
 }
 
+function setCdnUrl(url: string) {
+  setApiUrl(`${url}/data/`)
+  loader.setBaseUrl(url)
+}
+
 const untypedWindow = window as any
 
 untypedWindow.YZWF = untypedWindow.YZWF || {}
@@ -88,7 +93,8 @@ untypedWindow.YZWF.eorzeaMap = {
   setApiUrl,
   AdvancedTileLayer,
   loader,
-  getRegion
+  getRegion,
+  setCdnUrl
 }
 
 if (untypedWindow.standaloneEorzeaMap) {
