@@ -2,11 +2,16 @@
   "name": "@wakingsands/eorzea-interactive-map",
   "version": "0.0.0",
   "description": "Eorzea Interacive Map",
-  "main": "src/app.ts",
+  "main": "dist/map.js",
+  "files": [
+    "dist/map.css",
+    "dist/map.js"
+  ],
   "scripts": {
     "start": "node build/devServer.js",
     "build": "cross-env NODE_ENV=production rollup -c build/rollup.config.js",
-    "huiji": "cross-env NODE_ENV=production yarn build && node huiji/upload.js"
+    "huiji": "cross-env NODE_ENV=production yarn build && node huiji/upload.js",
+    "preversion": "rimraf dist && yarn build"
   },
   "author": "oott123",
   "license": "UNLICENSED",
