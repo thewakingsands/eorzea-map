@@ -1,6 +1,6 @@
 {
   "name": "@thewakingsands/eorzea-interactive-map",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Eorzea Interacive Map",
   "main": "dist/map.js",
   "files": [
