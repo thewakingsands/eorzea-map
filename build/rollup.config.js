@@ -19,8 +19,8 @@ module.exports = {
     format: 'iife',
     name: 'EorzeaMap',
     banner: `/*
- * EorzeaMap v${libVersion} | FF14 交互式地图 by 云泽宛风
- * Made with love for 最终幻想14中文维基 ff14.huijiwiki.com and 晚风资料站 www.wakingsands.com
+ * EorzeaMap v${libVersion} | FFXIV 中文交互式地图
+ * Made with love by 肥肥咖啡 FFCAFE.ORG
  * FINAL FANTASY XIV © 2010 - 2018 SQUARE ENIX CO., LTD. All Rights Reserved.
  */`,
     freeze: false,
