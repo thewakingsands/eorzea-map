@@ -27,7 +27,6 @@ Foreach ($name in ("Map", "MapMarker", "MapMarkerRegion", "MapSymbol")) {
 Remove-Item "$sc\$gameVersion\exd" -Recurse -Force
 
 $mapDir = "$sc\$gameVersion\ui\map\"
-$mapFiles = Get-ChildItem $mapDir
 
 echo "Dumping maps ..."
 
@@ -36,6 +35,8 @@ lang chs
 maps
 exit"
 $commandLine | & $sc\SaintCoinach.Cmd.exe $game | Tee-Object -Variable saintResult
+
+$mapFiles = Get-ChildItem $mapDir
 
 echo "Coping maps ..."
 
