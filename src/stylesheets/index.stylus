@@ -1,10 +1,10 @@
-$url-areamap-glass = 'https://huiji-public.huijistatic.com/ff14/uploads/f/f0/EorzeaMapAssets_glass.png'
-$url-areamap-nameFade = 'https://huiji-public.huijistatic.com/ff14/uploads/5/51/EorzeaMapAssets_NameFade.png'
-$url-areamap-thumb = 'https://huiji-public.huijistatic.com/ff14/uploads/7/7a/EorzeaMapAssets_thumb.png'
-$url-areamap-track = 'https://huiji-public.huijistatic.com/ff14/uploads/a/a0/EorzeaMapAssets_track.png'
-$url-areamap-zoomIn = 'https://huiji-public.huijistatic.com/ff14/uploads/7/79/EorzeaMapAssets_zoomIn.png'
-$url-areamap-zoomOut = 'https://huiji-public.huijistatic.com/ff14/uploads/9/9b/EorzeaMapAssets_zoomOut.png'
-$url-areamap-world = 'https://huiji-public.huijistatic.com/ff14/uploads/c/c2/EorzeaMapAssets_world.png'
+$url-areamap-glass = '../assets/areamap/glass.png'
+$url-areamap-nameFade = '../assets/areamap/nameFade.png'
+$url-areamap-thumb = '../assets/areamap/thumb.png'
+$url-areamap-track = '../assets/areamap/track.png'
+$url-areamap-zoomIn = '../assets/areamap/zoomIn.png'
+$url-areamap-zoomOut = '../assets/areamap/zoomOut.png'
+$url-areamap-world = '../assets/areamap/world.png'
 
 html.eorzea-map-standalone
   color white

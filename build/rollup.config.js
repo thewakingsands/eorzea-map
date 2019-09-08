@@ -7,6 +7,7 @@ const postcss = require('rollup-plugin-postcss')
 const replace = require('rollup-plugin-replace')
 const { uglify } = require('rollup-plugin-uglify')
 const es3ify = require('rollup-plugin-es3ify')
+const postcssUrl = require('postcss-url')
 
 const config = require('../config')
 const isProduction = process.env.NODE_ENV === 'production'
@@ -43,7 +44,10 @@ module.exports = {
       extract: true,
       extensions: ['.css', '.styl', '.stylus'],
       minimize: isProduction,
-      sourceMap: false
+      sourceMap: false,
+      plugins: [postcssUrl({
+        url: 'inline'
+      })]
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(
