@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@thewakingsands/eorzea-interactive-map/dist/map.css">
+  <style>
+body, html, .erozea-map-outer {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.eorzea-map-inner {
+  width: 100%;
+  height: 100%;
+}
+  </style>
+</head>
+<body>
+  <section class="erozea-map-outer">
+    <div class="eorzea-map-glass"></div>
+    <div class="eorzea-map-inner"></div>
+    <div class="eorzea-map-resize-handler"></div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@thewakingsands/eorzea-interactive-map/dist/map.js"></script>
+  <script>
+const el = document.querySelector('.eorzea-map-inner') // 地图容器，请自行创建
+
+window.YZWF.eorzeaMap.create(el)
+.then(function (map) {
+  window.map = map
+  map.loadMapKey(92) // 92 为地图编号（游戏内 Map 表）
+return
+  const x = 10
+  const y = 20
+  const iconUrl = window.YZWF.eorzeaMap.loader.getIconUrl('ui/icon/060000/060561.tex') // 小旗子标记；注意地图 CDN 上只有地图用到的图标
+  // const iconUrl = 'https://http.cat/204' // 也可以直接是 URL；如果没有的图标也可以从 cafemaker 上拿
+
+  const marker = window.YZWF.eorzeaMap.simpleMarker(
+    x, // 游戏 2D 坐标 X
+    y, // 游戏 2D 坐标 Y
+    iconUrl, // 图标 url
+    map.mapInfo // 直接照抄就行了，这是从 map 实例上拿的地图信息
+  )
+
+  //map.addMaker(marker)
+
+  setTimeout(() => {
+    //map.setView(map.mapToLatLng2D(x, y), 0) // 移动到视角中心；setView 参考 leaflet 用法即可
+  }, 100)
+})
+</script>
+</body>
+</html>

@@ -49,7 +49,7 @@ export function getIconUrl(icon: string) {
 }
 
 export function parseIcon(icon: string): IIconParseResult {
-  const matches = icon.match(/^ui\/icon\/(\d{6})\/(\d{6})\.tex/)
+  const matches = `${icon}`.match(/^ui\/icon\/(\d{6})\/(\d{6})\.tex/)
   if (!matches) {
     throw new Error(`Invalid icon url: ${icon}`)
   }

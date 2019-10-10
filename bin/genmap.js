@@ -21,6 +21,10 @@ for (const map of maps) {
     // 一个假的沙都
     continue
   }
+  if (map['#'] === '534') {
+    // 一个假的 loftland
+    continue
+  }
   region.maps.push({
     id: map.id,
     key: parseInt(map['#']),
@@ -32,7 +36,7 @@ for (const map of maps) {
 }
 
 const regionArr = Object.values(regions)
-const topNames = ['艾欧泽亚', '东方地域']
+const topNames = ['艾欧泽亚', '东方地域', '诺弗兰特']
 const bottomNames = ['？？？？']
 
 const tops = []
