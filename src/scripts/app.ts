@@ -52,7 +52,7 @@ async function loadHash(map: EoMap) {
       loader.getIconUrl('ui/icon/060000/060561.tex'),
       map.mapInfo
     )
-    map.addMaker(marker)
+    map.addMarker(marker)
     setTimeout(() => {
       map.setView(map.mapToLatLng2D(args.x, args.y), 0)
     }, 100)

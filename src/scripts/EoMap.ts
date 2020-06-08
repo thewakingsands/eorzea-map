@@ -160,8 +160,14 @@ export class EoMap extends LFMap {
   }
 
   public addMaker(marker: Marker) {
+    console.warn('[Deprecated] map.addMaker is a misspell, you should use map.addMarker instead.')
+    return this.addMarker(marker)
+  }
+
+  public addMarker(marker: Marker) {
     marker.addTo(this)
     this.markers.push(marker)
+    return marker
   }
 
   public onUpdateInfo(handler: (info: IMapInfo) => void) {
