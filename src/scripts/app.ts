@@ -1,3 +1,4 @@
+import * as L from 'leaflet'
 import { Icon, Marker, Point } from 'leaflet'
 import '../stylesheets/index.stylus'
 import { fromMapXY2D, toMapXY2D } from './coordinate'
@@ -89,6 +90,7 @@ untypedWindow.YZWF = untypedWindow.YZWF || {}
 untypedWindow.YZWF.eorzeaMap = {
   create,
   xy,
+  L,
   simpleMarker,
   setApiUrl,
   AdvancedTileLayer,
