@@ -1,10 +1,6 @@
-import { Coords, DoneCallback, GridLayer, TileLayerOptions } from 'leaflet'
+import { Coords, GridLayer } from 'leaflet'
 
 export class AxiesGridLayer extends GridLayer {
-  constructor(options: TileLayerOptions) {
-    super(options)
-  }
-
   public createTile(coords: Coords): HTMLElement {
     const tile = document.createElement('div')
     tile.style.border = '1px solid green'

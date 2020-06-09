@@ -1,12 +1,9 @@
 import {
-  Control,
   imageOverlay,
   ImageOverlay,
   Layer,
-  map,
   Map as LFMap,
   Marker,
-  tileLayer,
   TileLayerOptions
 } from 'leaflet'
 import { NavigateControl } from './controls/NavigateControl'
@@ -17,7 +14,6 @@ import { createSvgUrl } from './gridSvg'
 import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
 import { DebugLayer } from './layers/DebugLayer'
 import {
-  getBgUrl,
   getIconUrl,
   getTileUrl,
   IMapInfo,
@@ -36,7 +32,6 @@ export class EoMap extends LFMap {
 
   private tileLayer: Layer
   private debugLayer: Layer
-  private backgroundLayer: ImageOverlay
   private gridOverlay: ImageOverlay
 
   private previousMapInfo: IMapInfo
@@ -59,11 +54,6 @@ export class EoMap extends LFMap {
     new NavigateControl({
       position: 'topleft',
       regions
-    }).addTo(this)
-
-    this.backgroundLayer = imageOverlay(getBgUrl(), MAP_BOUNDS, {
-      opacity: 0.5,
-      pane: 'tilePane'
     }).addTo(this)
 
     this.gridOverlay = imageOverlay(createSvgUrl(100), MAP_BOUNDS, {
@@ -160,7 +150,9 @@ export class EoMap extends LFMap {
   }
 
   public addMaker(marker: Marker) {
-    console.warn('[Deprecated] map.addMaker is a misspell, you should use map.addMarker instead.')
+    console.warn(
+      '[Deprecated] map.addMaker is a misspell, you should use map.addMarker instead.'
+    )
     return this.addMarker(marker)
   }
 

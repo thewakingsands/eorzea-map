@@ -1,7 +1,6 @@
 import * as L from 'leaflet'
-import { Icon, Marker, Point } from 'leaflet'
 import '../stylesheets/index.stylus'
-import { fromMapXY2D, toMapXY2D } from './coordinate'
+import { fromMapXY2D } from './coordinate'
 import { EoMap } from './EoMap'
 import { initEvents } from './events'
 import { getRegion, setApiUrl } from './fetchData'
@@ -9,6 +8,8 @@ import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
 import * as loader from './loader'
 import { initMap } from './map'
 import { xy } from './XYPoint'
+
+const { Icon, Marker, Point } = L
 
 async function create(mapEl: HTMLElement) {
   mapEl.innerHTML = ''

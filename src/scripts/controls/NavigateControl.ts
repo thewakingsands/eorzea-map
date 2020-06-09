@@ -1,7 +1,7 @@
-import { $ } from '../jquery'
 import { Control, ControlOptions } from 'leaflet'
 import { EoMap } from '../EoMap'
 import { IRegion } from '../fetchData'
+import { $ } from '../jquery'
 import { IMapInfo } from '../loader'
 
 export class NavigateControl extends Control {
@@ -12,7 +12,7 @@ export class NavigateControl extends Control {
   private placeNameContainer: JQuery<HTMLElement>
   private rangeInput: JQuery<HTMLElement>
   private select: HTMLSelectElement
-  private rangeLock: boolean = false
+  private rangeLock = false
 
   constructor(options: INavigateControlOptions) {
     super(options)

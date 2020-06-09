@@ -1,5 +1,5 @@
-import { $ } from './jquery'
 import { EoMap } from './EoMap'
+import { $ } from './jquery'
 
 export function initEvents(el: HTMLElement, map: EoMap) {
   initTravelEvents(el, map)

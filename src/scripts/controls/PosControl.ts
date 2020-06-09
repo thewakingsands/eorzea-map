@@ -1,7 +1,6 @@
 import { Control, ControlOptions } from 'leaflet'
 import { EoMap } from '../EoMap'
 import { IMapInfo } from '../loader'
-import { MAP_SIZE } from '../map'
 import { eventToGame } from '../XYPoint'
 
 export class PosControl extends Control {

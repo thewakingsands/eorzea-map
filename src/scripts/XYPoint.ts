@@ -1,3 +1,4 @@
+/* eslint-disable import/export */
 import { DomEvent, LatLng, Point } from 'leaflet'
 import { toMapXY2D } from './coordinate'
 import { EoMap } from './EoMap'
@@ -15,7 +16,7 @@ export function xy(
   arg2?: number
 ): [number, number] {
   const x = arg2 ? arg1 : arg1[0]
-  const y = arg2 ? arg2 : arg1[1]
+  const y = arg2 || arg1[1]
   return [2048 - y, x]
 }
 

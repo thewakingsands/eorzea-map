@@ -3,7 +3,6 @@ import {
   getIconUrl,
   IMapMarker,
   MAP_ICON_GROUP,
-  MINI_MAP_GROUP,
   NULL_ICON_GROUP,
   parseIcon
 } from './loader'
@@ -15,7 +14,7 @@ export function getIcon(icon: string): Icon {
   if (ICON_STORAGE.has(icon)) {
     return ICON_STORAGE.get(icon)
   }
-  const { id, group } = parseIcon(icon)
+  const { group } = parseIcon(icon)
   if (group === NULL_ICON_GROUP) {
     ICON_STORAGE.set(icon, null)
     return null
