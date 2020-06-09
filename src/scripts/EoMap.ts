@@ -6,6 +6,7 @@ import {
   Marker,
   TileLayerOptions
 } from 'leaflet'
+import { AreaControl } from './controls/AreaControl'
 import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
 import { fromMapXY2D, toMapXY2D, toMapXY3D } from './coordinate'
@@ -51,9 +52,13 @@ export class EoMap extends LFMap {
       scaleFactor: 100
     }).addTo(this)
 
-    new NavigateControl({
+    new AreaControl({
       position: 'topleft',
       regions
+    }).addTo(this)
+
+    new NavigateControl({
+      position: 'topleft'
     }).addTo(this)
 
     this.gridOverlay = imageOverlay(createSvgUrl(100), MAP_BOUNDS, {

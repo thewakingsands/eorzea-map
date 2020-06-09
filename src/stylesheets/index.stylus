@@ -47,12 +47,22 @@ html.eorzea-map-standalone
   font-size 0
   *
     font-size 12px
-  margin-top 4px
+  margin-top 2px
   margin-left 1px
-  background url($url-areamap-nameFade) no-repeat transparent
-  background-position 3px 18px
   width 200px
-  background-size 200px 90px
+  &.eorzea-map-nav-upper
+    background none
+    width 20px
+  .eorzea-map-bg
+    width 203px
+    height 108px
+    pointer-events none
+    background url($url-areamap-nameFade) no-repeat transparent
+    background-position 3px 18px
+    background-size 200px 90px
+    position absolute
+    top 0
+    left 0
   .eorzea-map-nav-aside
     position absolute
     top 22px
