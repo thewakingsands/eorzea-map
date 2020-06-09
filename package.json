@@ -55,7 +55,7 @@
     "rollup-plugin-typescript": "^1.0.0",
     "rollup-plugin-uglify": "^6.0.0",
     "rollup-plugin-url": "^1.4.0",
-    "sharp": "^0.20.8",
+    "sharp": "^0.25.3",
     "shortid": "^2.2.13",
     "stylus": "^0.54.5",
     "ts-node": "^7.0.1",
