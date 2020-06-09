@@ -14,7 +14,7 @@ export async function initMap(el: HTMLElement) {
   const map: EoMap = Object.setPrototypeOf(lfMap, EoMap.prototype)
 
   const regions = await getRegion()
-  map.init(regions)
+  map.init(regions, el)
 
   return map
 }

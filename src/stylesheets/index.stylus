@@ -170,6 +170,8 @@ html.eorzea-map-standalone
   .eorzea-map-demical
     font-size 12px
 .eorzea-map-label
+  .eorzea-map-zoom-s &
+    display none
   background none
   border none
   text-align center
@@ -188,6 +190,14 @@ html.eorzea-map-standalone
     text-shadow 1px 1px #000, -1px -1px #000, 0 0 5px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5)
   &.eorzea-map-label-no-icon
     margin 0
+  &.eorzea-map-label-normal
+    .eorzea-map-zoom-m &
+      display none
+  &.eorzea-map-label-aetheryte
+    .eorzea-map-zoom-m &
+      display block
+    .eorzea-map-zoom-s &
+      display block
   &.eorzea-map-label.eorzea-map-label-tooltip
     margin 18px
     &::after

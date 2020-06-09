@@ -38,7 +38,11 @@ export class EoMap extends LFMap {
   private previousMapInfo: IMapInfo
   private updateInfoHandlers: Map<any, any>
 
-  public init(regions: IRegion[]) {
+  private el: HTMLElement
+
+  public init(regions: IRegion[], el: HTMLElement) {
+    this.el = el
+
     this.markers = []
     this.overlays = []
     this.updateInfoHandlers = new Map()
@@ -46,6 +50,9 @@ export class EoMap extends LFMap {
     this.setMaxBounds([[-1024, -1024], [3072, 3072]])
     this.fitBounds(MAP_BOUNDS)
     this.setZoom(-1)
+
+    this.on('zoomend', this.onZoomEnd)
+    this.onZoomEnd()
 
     new PosControl({
       position: 'topright',
@@ -64,6 +71,20 @@ export class EoMap extends LFMap {
     this.gridOverlay = imageOverlay(createSvgUrl(100), MAP_BOUNDS, {
       opacity: 0.3
     }).addTo(this)
+  }
+
+  private onZoomEnd() {
+    const zoom = this.getZoom()
+    const classes = [
+      'eorzea-map-zoom-s',
+      'eorzea-map-zoom-m',
+      'eorzea-map-zoom-l'
+    ]
+    const currentClass =
+      zoom <= -3 ? classes[0] : zoom <= -2 ? classes[1] : classes[2]
+
+    classes.map(cls => this.el.classList.remove(cls))
+    this.el.classList.add(currentClass)
   }
 
   private loadMapLayer(mapInfo: IMapInfo) {
