@@ -88,7 +88,8 @@ function setCdnUrl(url: string) {
 const untypedWindow = window as any
 
 untypedWindow.YZWF = untypedWindow.YZWF || {}
-untypedWindow.YZWF.eorzeaMap = {
+
+export {
   create,
   xy,
   L,

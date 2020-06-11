@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const typescript = require('rollup-plugin-typescript')
 const nodeResolve = require('rollup-plugin-node-resolve')
 const alias = require('rollup-plugin-alias')
@@ -17,10 +18,10 @@ module.exports = {
   input: 'src/scripts/app.ts',
   output: {
     file: 'dist/map.js',
-    format: 'iife',
-    name: 'EorzeaMap',
+    format: 'umd',
+    name: 'YZWF.eorzeaMap',
     banner: `/*
- * EorzeaMap v${libVersion} | FFXIV 中文交互式地图
+ * EorzeaMap v${libVersion} | FFXIV 中文交互地图
  * Made with love by 肥肥咖啡 FFCAFE.ORG
  * FINAL FANTASY XIV © 2010 - 2018 SQUARE ENIX CO., LTD. All Rights Reserved.
  */`,
@@ -45,9 +46,11 @@ module.exports = {
       extensions: ['.css', '.styl', '.stylus'],
       minimize: isProduction,
       sourceMap: false,
-      plugins: [postcssUrl({
-        url: 'inline'
-      })]
+      plugins: [
+        postcssUrl({
+          url: 'inline'
+        })
+      ]
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(
