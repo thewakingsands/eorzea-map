@@ -89,6 +89,8 @@ const untypedWindow = window as any
 
 untypedWindow.YZWF = untypedWindow.YZWF || {}
 
+const version = process.env.LIB_VERSION
+
 export {
   create,
   xy,
@@ -98,7 +100,8 @@ export {
   AdvancedTileLayer,
   loader,
   getRegion,
-  setCdnUrl
+  setCdnUrl,
+  version
 }
 
 if (untypedWindow.standaloneEorzeaMap) {

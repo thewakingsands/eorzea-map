@@ -58,7 +58,8 @@ module.exports = {
       ),
       'process.env.CDN_SERVER': JSON.stringify(
         config.cdnServer || process.env.CDN_SERVER || false
-      )
+      ),
+      'process.env.LIB_VERSION': JSON.stringify(libVersion)
     }),
     isProduction && uglify(),
     isProduction && es3ify()
