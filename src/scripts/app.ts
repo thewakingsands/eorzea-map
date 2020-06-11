@@ -104,6 +104,8 @@ export {
   version
 }
 
+export * from './markers'
+
 if (untypedWindow.standaloneEorzeaMap) {
   init().catch(e => console.error(e))
 }
