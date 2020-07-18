@@ -15,6 +15,7 @@ app.get('/', function(req, res) {
 app.use(express.static('./'))
 app.use('/files', express.static('./generated/webroot'))
 app.use('/huiji', express.static('./huiji'))
+app.use('/vendor', express.static('./node_modules'))
 
 console.log(`Starting server at http://localhost:${port}`)
 app.listen(port)
