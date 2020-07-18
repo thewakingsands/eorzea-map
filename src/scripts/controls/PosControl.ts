@@ -29,6 +29,7 @@ export class PosControl extends Control {
     this.mapContainer.addEventListener('mousemove', this.onMouseMoveEvent, {
       passive: false
     })
+    this.mapContainer.addEventListener('mouseleave', this.onMouseLeaveEvent)
     this.map.onUpdateInfo(this.onUpdateInfo)
     return this.rootContainer
   }
@@ -39,6 +40,7 @@ export class PosControl extends Control {
 
   public onRemove(map: EoMap) {
     this.mapContainer.removeEventListener('mousemove', this.onMouseMoveEvent)
+    this.mapContainer.removeEventListener('mouseleave', this.onMouseLeaveEvent)
     this.map.offUpdateInfo(this.onUpdateInfo)
   }
 
@@ -52,6 +54,10 @@ export class PosControl extends Control {
       `<span class="eorzea-map-int">${Math.floor(y)}</span>`,
       `.<span class="eorzea-map-demical">${y.toFixed(2).split('.')[1]}</span>`
     ].join('')
+  }
+
+  private onMouseLeaveEvent = () => {
+    this.rootContainer.innerHTML = ''
   }
 }
 
