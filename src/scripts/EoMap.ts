@@ -150,7 +150,11 @@ export class EoMap extends LFMap {
       this.tooltipsLayerGroup = null
     }
 
-    this.layersControl = new LFControl.Layers({}, {}, { collapsed: false })
+    this.layersControl = new LFControl.Layers(
+      {},
+      {},
+      { collapsed: false, position: 'topright' }
+    )
     this.loadMapLayer(mapInfo)
 
     this.markersLayerGroup = new LayerGroup()

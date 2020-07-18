@@ -5,6 +5,7 @@ $url-areamap-track = '../assets/areamap/track.png'
 $url-areamap-zoomIn = '../assets/areamap/zoomIn.png'
 $url-areamap-zoomOut = '../assets/areamap/zoomOut.png'
 $url-areamap-world = '../assets/areamap/world.png'
+$url-areamap-checkbox = '../assets/areamap/checkbox.png'
 
 html.eorzea-map-standalone
   color white
@@ -24,6 +25,42 @@ html.eorzea-map-standalone
   background transparent
   border-radius 5px
   border-right 2px solid transparent
+  .leaflet-control-layers
+    background none
+    border none
+    color #fff
+    text-shadow 1px 1px #000, 0 0 5px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.3)
+    margin 0
+    .leaflet-control-layers-selector
+      margin-top 0
+      top 0
+      position static
+  label
+    cursor pointer
+  input[type="checkbox"]
+    width 16px
+    height 16px
+    vertical-align middle
+    visibility hidden
+    + span
+      vertical-align middle
+      user-select none
+    &::after, &::before
+      content ' '
+      position absolute
+      display inline-block
+      width 16px
+      height 16px
+      visibility visible
+      background-image url($url-areamap-checkbox)
+      background-repeat no-repeat
+      background-position-y -1px
+    &:checked::after
+      background-position-x -16px
+    &:hover::before
+      filter contrast(1.5)
+    &:hover::after
+      filter contrast(1.3)
 .leaflet-tooltip-pane
   opacity 0.9
 .eorzea-map-glass
@@ -219,8 +256,3 @@ html.eorzea-map-standalone
       color #a8f0f2
       text-shadow 1px 1px #000, 0 0 5px #c4bcff
 
-.leaflet-container .leaflet-control-layers
-  background none
-  border none
-  color #fff
-  text-shadow 1px 1px #000, 0 0 5px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.3)
