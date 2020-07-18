@@ -1,7 +1,9 @@
 import {
+  Control as LFControl,
   imageOverlay,
   ImageOverlay,
   Layer,
+  LayerGroup,
   Map as LFMap,
   Marker,
   TileLayerOptions
@@ -33,7 +35,11 @@ export class EoMap extends LFMap {
 
   private tileLayer: Layer
   private debugLayer: Layer
+  private markersLayerGroup: LayerGroup
+  private tooltipsLayerGroup: LayerGroup
   private gridOverlay: ImageOverlay
+
+  private layersControl: LFControl.Layers
 
   private previousMapInfo: IMapInfo
   private updateInfoHandlers: Map<any, any>
@@ -94,6 +100,7 @@ export class EoMap extends LFMap {
       maxNativeZoom: 0
     }
     const tileUrl = getTileUrl(mapInfo.id)
+
     this.tileLayer = new AdvancedTileLayer(
       `${tileUrl}/{z}_{x}_{y}.jpg`,
       tileOptions
@@ -104,6 +111,10 @@ export class EoMap extends LFMap {
     // this.debugLayer.addTo(this)
 
     this.gridOverlay.setUrl(createSvgUrl(mapInfo.sizeFactor))
+
+    // this.layersControl.addBaseLayer(this.tileLayer, '艾欧泽亚')
+    // this.layersControl.addOverlay(this.debugLayer, '图块')
+    this.layersControl.addOverlay(this.gridOverlay, '网格')
 
     return this
   }
@@ -126,15 +137,46 @@ export class EoMap extends LFMap {
       this.debugLayer.remove()
       this.debugLayer = null
     }
+    if (this.layersControl) {
+      this.layersControl.remove()
+      this.layersControl = null
+    }
+    if (this.markersLayerGroup) {
+      this.markersLayerGroup.remove()
+      this.markersLayerGroup = null
+    }
+    if (this.tooltipsLayerGroup) {
+      this.tooltipsLayerGroup.remove()
+      this.tooltipsLayerGroup = null
+    }
+
+    this.layersControl = new LFControl.Layers({}, {}, { collapsed: false })
     this.loadMapLayer(mapInfo)
+
+    this.markersLayerGroup = new LayerGroup()
+    this.tooltipsLayerGroup = new LayerGroup()
+    this.markersLayerGroup.addTo(this)
+    this.tooltipsLayerGroup.addTo(this)
+    this.layersControl.addTo(this)
+
+    this.layersControl.addOverlay(this.markersLayerGroup, '标记')
+    this.layersControl.addOverlay(this.tooltipsLayerGroup, '文本')
+
     const markers = await getMapMarkers(mapInfo)
     const previousId = this.previousMapInfo && this.previousMapInfo.id
     let panPoint: [number, number] = xy(MAP_SIZE / 2, MAP_SIZE / 2)
     for (const marker of markers) {
       const mapMarker = createMarker(marker)
       if (mapMarker) {
-        mapMarker.addTo(this)
+        // mapMarker.addTo(this)
         this.markers.push(mapMarker)
+        this.markersLayerGroup.addLayer(mapMarker)
+
+        const tt = mapMarker.getTooltip()
+        if (tt) {
+          this.tooltipsLayerGroup.addLayer(tt)
+        }
+
         if (marker['data{Type}'] === 1 && marker['data{Key}'] === previousId) {
           panPoint = xy(marker.x, marker.y)
           mapMarker.getElement().classList.add('eorzeamap-label-current')

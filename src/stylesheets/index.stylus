@@ -165,6 +165,7 @@ html.eorzea-map-standalone
   color #ddd
   font-family sans-serif
   line-height 25px
+  height 25px
   font-size 13px
   transform skew(-20deg)
   .eorzea-map-demical
@@ -217,3 +218,9 @@ html.eorzea-map-standalone
     &:hover
       color #a8f0f2
       text-shadow 1px 1px #000, 0 0 5px #c4bcff
+
+.leaflet-container .leaflet-control-layers
+  background none
+  border none
+  color #fff
+  text-shadow 1px 1px #000, 0 0 5px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.3)
