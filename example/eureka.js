@@ -230,7 +230,11 @@ function formatText(meta, index, id, metaMap) {
     list.push(`击杀一定数量可触发 <b>${metaMap[triggers].name}</b>`)
   }
   if (triggerBy) {
-    list.push(`通过击杀一定数量 <b>${metaMap[triggerBy].name}</b> 触发`)
+    list.push(
+      `通过击杀一定数量 <b>${metaMap[triggerBy].name}(${
+        metaMap[triggerBy].level
+      })</b> 触发`
+    )
   }
   list.push(`<span class="debug">pos.json:${index + 2} meta#${id}</span>`)
 
