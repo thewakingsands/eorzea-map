@@ -1,0 +1,14 @@
+.eorzea-map-control-eureka {
+  user-select: none;
+  padding: 6px 10px 6px 6px;
+}
+
+.eorzea-map-control-eureka input[type="number"] {
+  width: 35px;
+}
+
+.eorzea-map-control-eureka .filter-label {
+  display: inline-block;
+  vertical-align: middle;
+  width: 32px;
+}

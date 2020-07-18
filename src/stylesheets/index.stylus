@@ -25,7 +25,7 @@ html.eorzea-map-standalone
   background transparent
   border-radius 5px
   border-right 2px solid transparent
-  .leaflet-control-layers
+  .leaflet-control
     background none
     border none
     color #fff
@@ -40,30 +40,32 @@ html.eorzea-map-standalone
       span
         display inline-block
         padding-right 2px
-  input[type="checkbox"]
-    width 16px
-    height 16px
-    vertical-align middle
-    visibility hidden
-    + span
+        vertical-align middle
+        user-select none
+  label
+    input[type="checkbox"]
       vertical-align middle
-      user-select none
-    &::after, &::before
-      content ' '
-      position absolute
-      display inline-block
-      width 16px
-      height 16px
-      visibility visible
-      background-image url($url-areamap-checkbox)
-      background-repeat no-repeat
-      background-position-y -1px
-    &:checked::after
-      background-position-x -16px
-    &:hover::before
-      filter contrast(1.5)
-    &:hover::after
-      filter contrast(1.3)
+      display none
+      cursor pointer
+      position relative
+      & ~ .input-after, & ~ .input-after::after
+        content ' '
+        display inline-block
+        vertical-align middle
+        width 16px
+        height 16px
+        background-image url($url-areamap-checkbox)
+        background-repeat no-repeat
+      & ~ .input-after::after
+        position absolute
+        display none
+      &:checked ~ .input-after::after
+        background-position-x -16px
+        display inline-block
+      &:hover ~ .input-after
+        filter contrast(1.5)
+      &:hover ~ .input-after::after
+        filter contrast(0.9)
 .leaflet-tooltip-pane
   opacity 0.9
 .eorzea-map-glass

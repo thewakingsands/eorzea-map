@@ -1,3 +1,4 @@
+import crel from 'crel'
 import * as L from 'leaflet'
 import '../stylesheets/index.stylus'
 import { fromMapXY2D } from './coordinate'
@@ -101,7 +102,8 @@ export {
   loader,
   getRegion,
   setCdnUrl,
-  version
+  version,
+  crel
 }
 
 export * from './markers'
