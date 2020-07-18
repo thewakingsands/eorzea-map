@@ -1,15 +1,15 @@
+import crel from 'crel'
 import { Control, ControlOptions } from 'leaflet'
 import { EoMap } from '../EoMap'
 import { IRegion } from '../fetchData'
-import { $ } from '../jquery'
 import { IMapInfo } from '../loader'
 
 export class AreaControl extends Control {
   public regions: IRegion[]
 
   private map: EoMap
-  private rootContainer: JQuery<HTMLElement>
-  private placeNameContainer: JQuery<HTMLElement>
+  private rootContainer: HTMLElement
+  private placeNameContainer: HTMLElement
   private select: HTMLSelectElement
 
   constructor(options: INavigateControlOptions) {
@@ -21,15 +21,21 @@ export class AreaControl extends Control {
     this.map = map
     this.map.onUpdateInfo(this.onUpdateInfo)
 
-    this.rootContainer = $(`<nav class="eorzea-map-nav">
-      <div class="eorzea-map-bg"></div>
-      <div class="eorzea-map-nav-aside">
-        <div class="eorzea-map-place-name" for="eroza-map-place-select">？？？？</div>
-        <div class="eorzea-map-place-select-container"></div>
-      </div>
-    </nav>`)
+    this.rootContainer = crel('nav', { class: 'eorzea-map-nav' }, [
+      crel('div', { class: 'eorzea-map-bg' }),
+      crel('div', { class: 'eorzea-map-nav-aside' }, [
+        crel(
+          'div',
+          { class: 'eorzea-map-place-name', for: 'eroza-map-place-select' },
+          '？？？？'
+        ),
+        crel('div', { class: 'eorzea-map-place-select-container' })
+      ])
+    ])
 
-    this.placeNameContainer = this.rootContainer.find('.eorzea-map-place-name')
+    this.placeNameContainer = this.rootContainer.querySelector(
+      '.eorzea-map-place-name'
+    )
 
     this.select = document.createElement('select')
     this.select.id = 'eroza-map-place-select'
@@ -54,15 +60,16 @@ export class AreaControl extends Control {
     }
 
     this.rootContainer
-      .find('.eorzea-map-place-select-container')
-      .append(this.select)
+      .querySelector('.eorzea-map-place-select-container')
+      .appendChild(this.select)
 
-    this.rootContainer.on(
-      'mousedown pointerdown mouseup pointerup click mousemove pointermove dblclick',
-      e => e.stopPropagation()
-    )
+    for (const eventName of 'mousedown pointerdown mouseup pointerup click mousemove pointermove dblclick'.split(
+      ' '
+    )) {
+      this.rootContainer.addEventListener(eventName, e => e.stopPropagation())
+    }
 
-    return this.rootContainer[0]
+    return this.rootContainer
   }
 
   private onSelectChange = () => {
@@ -83,7 +90,7 @@ export class AreaControl extends Control {
     if (mapInfo.id.startsWith('region')) {
       text += '<br>区域地图显示信息可能有所缺失<br>可点击上面地名选择地图'
     }
-    this.placeNameContainer.html(text)
+    this.placeNameContainer.innerHTML = text
     this.select.value = mapInfo['#']
   }
 }

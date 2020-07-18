@@ -1266,6 +1266,11 @@ cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     parse-json "^2.2.0"
     require-from-string "^1.1.0"
 
+crel@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.npm.taobao.org/crel/download/crel-4.2.1.tgz#5117dcad5cd07a963894517779e283a0843cee8b"
+  integrity sha1-URfcrVzQepY4lFF3eeKDoIQ87os=
+
 cross-env@^5.2.0:
   version "5.2.0"
   resolved "http://registry.npm.taobao.org/cross-env/download/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
