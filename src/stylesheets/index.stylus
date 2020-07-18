@@ -35,8 +35,11 @@ html.eorzea-map-standalone
       margin-top 0
       top 0
       position static
-  label
-    cursor pointer
+    label
+      cursor pointer
+      span
+        display inline-block
+        padding-right 2px
   input[type="checkbox"]
     width 16px
     height 16px

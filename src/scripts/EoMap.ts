@@ -11,6 +11,7 @@ import {
 import { AreaControl } from './controls/AreaControl'
 import { NavigateControl } from './controls/NavigateControl'
 import { PosControl } from './controls/PosControl'
+import { RightLayerControl } from './controls/RightLayerControl'
 import { fromMapXY2D, toMapXY2D, toMapXY3D } from './coordinate'
 import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { createSvgUrl } from './gridSvg'
@@ -150,7 +151,7 @@ export class EoMap extends LFMap {
       this.tooltipsLayerGroup = null
     }
 
-    this.layersControl = new LFControl.Layers(
+    this.layersControl = new RightLayerControl(
       {},
       {},
       { collapsed: false, position: 'topright' }

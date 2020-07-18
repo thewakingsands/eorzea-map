@@ -40,8 +40,13 @@ async function main(islandName) {
     const { x, y, r, id } = item
 
     const color = c(meta[id].elemental, meta[id].level, islandName)
-    const circle = L.circle(xy(map.fromMapXY2D(x, y)), Math.max(r, 2), {
-      color
+    const circle = L.circle(xy(map.fromMapXY2D(x, y)), Math.max(r, 6), {
+      fillColor: color,
+      fillOpacity: 0.7,
+      stroke: false,
+      color,
+      weight: 2,
+      opacity: 0.7
     }).bindTooltip(formatText(meta[id], index, id, meta))
 
     circle.addTo(map)
@@ -143,8 +148,5 @@ function c(type, level, islandName) {
   const levelRate = Math.max(level - levels[0], 0) / levels[1]
   const index = levelRate > 0.9 ? '9' : levelRate.toFixed(1)[2]
   const indexStr = index === '0' ? '50' : `${index}00`
-  if (!colors[colorNames[type]]) {
-    console.log(type)
-  }
   return colors[colorNames[type]][indexStr]
 }
