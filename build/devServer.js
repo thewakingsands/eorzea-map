@@ -35,7 +35,9 @@ watcher.on('event', function(event) {
       console.log(chalk.green(`* Built ${filename} in ${ms(event.duration)}.`))
       break
     case 'END':
-      console.log(chalk.green.bold('Build finished.'))
+      console.log(
+        chalk.green.bold(`Build finished at http://localhost:${port}`)
+      )
       break
     case 'ERROR':
       console.error('error', event)
