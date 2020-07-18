@@ -76,11 +76,12 @@ const EurekaControl = L.Control.extend({
           crel('span', { class: 'filter-label' }, ''),
           createCheckboxLeft('elemental', 'earth', '土', true),
           createCheckboxLeft('elemental', 'lightning', '雷', true),
-          createCheckboxLeft('elemental', 'water', '水', true)
+          createCheckboxLeft('elemental', 'water', '水', true),
+          createCheckboxLeft('elemental', 'none', '无', true)
         ]),
         crel('div', [
           crel('span', { class: 'filter-label' }, '分类'),
-          createCheckboxLeft('category', 'ashin', '不死系', true),
+          createCheckboxLeft('category', 'ashkin', '不死系', true),
           createCheckboxLeft('category', 'elemental', '元精系', true),
           createCheckboxLeft('category', 'other', '其它', true)
         ]),
@@ -91,21 +92,26 @@ const EurekaControl = L.Control.extend({
         ]),
         crel('div', [
           crel('span', { class: 'filter-label' }, '变异'),
-          createCheckboxLeft('mutation', 'yes', '突变', true),
-          createCheckboxLeft('mutation', 'yes', '适应', true),
+          createCheckboxLeft('mutation', 'mutation', '突变', true),
+          createCheckboxLeft('mutation', 'adaption', '适应', true),
           createCheckboxLeft('mutation', 'no', '其它', true)
         ])
       ]),
       form => {
-        form.addEventListener('change', () => {
+        form.addEventListener('input', () => {
           const formData = new FormData(form)
-          const data = {}
+          const condition = {}
           for (const [key, value] of formData.entries()) {
-            data[key] = data[key] || []
-            data[key].push(value)
+            condition[key] = condition[key] || []
+            condition[key].push(value)
           }
-          console.log(data)
-          // circleLayer.clearLayers()
+          circleLayer.clearLayers()
+          const filteredCircles = circles.filter(d =>
+            runFilter(d.filter, condition)
+          )
+          for (const c of filteredCircles) {
+            c.addTo(circleLayer)
+          }
         })
       }
     )
@@ -175,6 +181,7 @@ async function main(islandName) {
       opacity: 0.7
     }).bindTooltip(formatText(meta[id], index, id, meta))
     circle.meta = meta[id]
+    circle.filter = getFilterFromMeta(meta[id])
 
     circle.addTo(circleLayer)
     circles.push(circle)
@@ -228,6 +235,61 @@ function formatText(meta, index, id, metaMap) {
   list.push(`<span class="debug">pos.json:${index + 2} meta#${id}</span>`)
 
   return list.join('<br>')
+}
+
+function getFilterFromMeta(meta) {
+  const {
+    type,
+    elemental,
+    level,
+    isElements,
+    isAshkin,
+    mutation,
+    adaptation,
+    triggers
+  } = meta
+
+  const isMobNm = type in { mob: 1, nm: 1 }
+
+  return {
+    category: isMobNm
+      ? isElements
+        ? 'elemental'
+        : isAshkin
+          ? 'ashkin'
+          : 'other'
+      : undefined,
+    elemental: isMobNm ? elemental : undefined,
+    level: isMobNm ? level : undefined,
+    mutation: isMobNm
+      ? mutation
+        ? 'mutation'
+        : adaptation
+          ? 'adaption'
+          : 'no'
+      : undefined,
+    trigger: isMobNm ? (triggers ? 'yes' : 'no') : undefined,
+    type
+  }
+}
+
+function runFilter(data, conditions) {
+  for (const [key, candidates] of Object.entries(conditions)) {
+    if (data[key] === undefined) {
+      continue
+    }
+    if (key === 'level') {
+      const [min, max] = candidates.map(parseFloat)
+      if (data.level < min || data.level > max) {
+        return false
+      }
+    } else {
+      if (candidates.indexOf(data[key]) < 0) {
+        return false
+      }
+    }
+  }
+  return true
 }
 
 function onHashUpdate() {
