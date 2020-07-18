@@ -301,10 +301,10 @@ window.onhashchange = onHashUpdate
 onHashUpdate()
 
 const islandLevels = {
-  Anemos: [0, 20],
-  Pagos: [20, 35],
-  Pyros: [35, 50],
-  Hydatos: [50, 60]
+  Anemos: [0, 25],
+  Pagos: [20, 40],
+  Pyros: [35, 55],
+  Hydatos: [50, 65]
 }
 const colorNames = {
   fire: 'red',
@@ -321,5 +321,10 @@ function c(type, level, islandName) {
   const levelRate = Math.max(level - levels[0], 0) / levels[1]
   const index = levelRate > 0.9 ? '9' : levelRate.toFixed(1)[2]
   const indexStr = index === '0' ? '50' : `${index}00`
-  return colors[colorNames[type]][indexStr]
+  try {
+    return colors[colorNames[type]][indexStr]
+  } catch (e) {
+    console.log('type: ', type, 'level: ', level)
+    throw e
+  }
 }
