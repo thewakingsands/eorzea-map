@@ -47,6 +47,10 @@ async function loadHash(map: EoMap) {
       arg[kvpair[0]] = kvpair[1]
       return arg
     }, {})
+  if (args.f === 'area' && args.id) {
+    await map.loadMapKey(parseInt(args.id))
+    return true
+  }
   if (args.f === 'mark' && args.id && args.x && args.y) {
     await map.loadMapKey(parseInt(args.id))
     const marker = simpleMarker(
