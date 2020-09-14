@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('fs')
 
 function go(name) {
   console.log(name)
   const buf = fs.readFileSync(`generated/${name}.csv`)
-  const lines = buf.toString().split('\r\n')
+  const lines = buf
+    .toString()
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
+    .split('\n')
   if (lines.length < 3) {
-    return
+    throw new Error(`Failed to process file ${name}, lines < 3`)
   }
   const idrow = lines[0].split(',')
   const namerow = lines[1].split(',')
@@ -15,7 +20,7 @@ function go(name) {
   }
   const results = []
   for (let i = 0; i < datarows.length; i++) {
-    const row = datarows[i];
+    const row = datarows[i]
     if (!row) {
       continue
     }
@@ -30,18 +35,20 @@ function go(name) {
     for (let i = 0; i < namerow.length; i++) {
       if (namerow[i] === '#') {
         result[namerow[i]] = cols[i]
-      }
-      else {
+      } else {
         result[namerow[i]] = convert(cols[i])
       }
     }
     results.push(result)
   }
   const resultName = camelCase(name)
-  const resultJson = results.map(x => JSON.stringify(x));
-  fs.writeFileSync(`generated/webroot/data/${resultName}.json`, `[
+  const resultJson = results.map(x => JSON.stringify(x))
+  fs.writeFileSync(
+    `generated/webroot/data/${resultName}.json`,
+    `[
   ${resultJson.join(',\n  ')}
-]`)
+]`
+  )
 }
 
 function convert(data) {

@@ -10,8 +10,10 @@ const shortid = require('shortid')
 const Bluebird = require('bluebird')
 
 async function upload() {
+  console.log('Logging in ...')
   const bot = new MWBot('https://ff14.huijiwiki.com/w/api.php')
   await bot.login(config.huiji.username, config.huiji.password)
+  console.log('Logged in.')
 
   const action = process.argv[2]
 
@@ -181,4 +183,7 @@ async function updateData(bot, src, dest, wrap = false) {
   })
 }
 
-upload()
+upload().catch(e => {
+  console.error(e)
+  process.exit(1)
+})
