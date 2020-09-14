@@ -17,15 +17,9 @@ import { getMap, getMapKeyById, getMapMarkers, IRegion } from './fetchData'
 import { createSvgUrl } from './gridSvg'
 import { AdvancedTileLayer } from './layers/AdvancedTileLayer'
 import { DebugLayer } from './layers/DebugLayer'
-import {
-  getIconUrl,
-  getTileUrl,
-  IMapInfo,
-  MINI_MAP_GROUP,
-  parseIcon
-} from './loader'
+import { getIconUrl, getTileUrl, IMapInfo, parseIcon } from './loader'
 import { MAP_BOUNDS, MAP_SIZE } from './map'
-import { createMarker } from './marker'
+import { createMarker, isMinimap } from './marker'
 import { xy } from './XYPoint'
 
 export class EoMap extends LFMap {
@@ -187,8 +181,7 @@ export class EoMap extends LFMap {
           mapMarker.getElement().classList.add('eorzeamap-label-current')
         }
       }
-      const { group } = parseIcon(marker.icon)
-      if (group === MINI_MAP_GROUP) {
+      if (marker.icon && isMinimap(marker.icon)) {
         const url = getIconUrl(marker.icon)
         const overlay = imageOverlay(
           url,

@@ -1,6 +1,4 @@
 export const CDN_SERVER = process.env.CDN_SERVER || '/files'
-export const MAP_ICON_GROUP = '060000'
-export const MINI_MAP_GROUP = '063000'
 export const NULL_ICON_GROUP = '000000'
 
 const urlFunc = {} as any
@@ -39,16 +37,16 @@ export function getIconUrl(icon: string) {
   if (id === NULL_ICON_GROUP) {
     return null
   }
-  if (group === MAP_ICON_GROUP) {
-    return `${baseUrl}/icons/${id}.png`
-  }
-  if (group === MINI_MAP_GROUP) {
-    return `${baseUrl}/minimap/${id}.png`
-  }
-  throw new Error(`Invalid icon url, no ${group} group: ${icon}`)
+  return `https://cafemaker.wakingsands.com/i/${group}/${id}.png`
 }
 
 export function parseIcon(icon: string): IIconParseResult {
+  if (!icon) {
+    return {
+      group: NULL_ICON_GROUP,
+      id: NULL_ICON_GROUP
+    }
+  }
   const matches = `${icon}`.match(/^ui\/icon\/(\d{6})\/(\d{6})\.tex/)
   if (!matches) {
     throw new Error(`Invalid icon url: ${icon}`)

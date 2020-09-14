@@ -29,7 +29,7 @@ async function init() {
   const map = await create(mapEl)
 
   if (!(await loadHash(map))) {
-    await map.loadMapKey(92)
+    await map.loadMapKey(574)
   }
 
   window.addEventListener('hashchange', e => {
