@@ -64,7 +64,7 @@ async function upload() {
     }
     if (process.argv[3] === 'update') {
       const tiles = new Set(
-        glob.sync('generated/webroot/{tiles,icon,minimap,args}/**/*.{jpg,png}')
+        glob.sync('generated/webroot/{tiles,icons,minimap}/**/*.{jpg,png}')
       )
       const tilesInDb = db.get('tiles').value()
       for (const t of tilesInDb) {
