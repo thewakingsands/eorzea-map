@@ -50,7 +50,7 @@ async function upload() {
     if (db.get('first').value()) {
       console.log('首次上传，正在生成数据库……')
       const tiles = glob
-        .sync('generated/webroot/tiles/**/*.jpg')
+        .sync('generated/webroot/{tiles,icon,minimap,args}/**/*.{jpg,png}')
         .map(filename => {
           return {
             id: shortid.generate(),
@@ -63,7 +63,9 @@ async function upload() {
         .write()
     }
     if (process.argv[3] === 'update') {
-      const tiles = new Set(glob.sync('generated/webroot/tiles/**/*.jpg'))
+      const tiles = new Set(
+        glob.sync('generated/webroot/{tiles,icon,minimap,args}/**/*.{jpg,png}')
+      )
       const tilesInDb = db.get('tiles').value()
       for (const t of tilesInDb) {
         tiles.delete(t.filename)
@@ -91,6 +93,7 @@ async function upload() {
         .take(20)
         .value()
       if (toUpload.length < 1) {
+        db.write()
         console.log('finished upload')
         clearInterval(saveTimer)
         break
@@ -99,9 +102,13 @@ async function upload() {
         toUpload,
         async tile => {
           try {
-            const filename =
-              'EorzeaMapTile_' +
-              tile.filename.match(/tiles\/(.*)$/)[1].replace(/\//g, '_')
+            let filename = ''
+            const tileMatch = tile.filename.match(/tiles\/(.*)$/)
+            if (tileMatch) {
+              filename = 'EorzeaMapTile_' + tileMatch[1].replace(/\//g, '_')
+            } else {
+              filename = path.basename(tile.filename)
+            }
             await uploadFile(bot, tile.filename, filename)
             tile.uploadedAt = Date.now()
           } catch (e) {
