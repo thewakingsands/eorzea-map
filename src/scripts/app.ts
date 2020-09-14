@@ -28,8 +28,15 @@ async function init() {
   const mapEl = document.querySelector('section.map') as HTMLElement
   const map = await create(mapEl)
 
+  map.on('loadMapKey', (e: any) => {
+    untypedWindow.currentMapKey = e.mapKey
+    if (location.hash.toString().indexOf('f=mark') < 0) {
+      history.replaceState('', '', `#f=area&id=${e.mapKey}`)
+    }
+  })
+
   if (!(await loadHash(map))) {
-    await map.loadMapKey(92)
+    await map.loadMapKey(untypedWindow.currentMapKey)
   }
 
   window.addEventListener('hashchange', e => {
@@ -48,6 +55,10 @@ async function loadHash(map: EoMap) {
       return arg
     }, {})
   if (args.f === 'area' && args.id) {
+    console.log(args.id)
+    if (parseInt(args.id) === untypedWindow.currentMapKey) {
+      return
+    }
     await map.loadMapKey(parseInt(args.id))
     return true
   }

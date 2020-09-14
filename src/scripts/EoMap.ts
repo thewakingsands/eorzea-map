@@ -207,6 +207,7 @@ export class EoMap extends LFMap {
 
   public async loadMapKey(mapKey: number) {
     const mapInfo = await getMap(mapKey)
+    this.fire('loadMapKey', { mapKey })
     return this.loadMapInfo(mapInfo)
   }
 
