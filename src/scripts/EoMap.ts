@@ -172,7 +172,7 @@ export class EoMap extends LFMap {
         this.markersLayerGroup.addLayer(mapMarker)
 
         const tt = mapMarker.getTooltip()
-        if (tt) {
+        if (tt && tt.isOpen()) {
           this.tooltipsLayerGroup.addLayer(tt)
         }
 
