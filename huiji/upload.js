@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { MWBot } = require('mediawiki2')
 const config = require('../config')
 const glob = require('glob')
