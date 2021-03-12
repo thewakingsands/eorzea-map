@@ -8,7 +8,7 @@
     "dist/map.js"
   ],
   "scripts": {
-    "start": "node build/devServer.js",
+    "start": "cross-env CDN_SERVER=/files node build/devServer.js",
     "build": "cross-env NODE_ENV=production rollup -c build/rollup.config.js",
     "huiji": "cross-env NODE_ENV=production yarn build && node huiji/upload.js",
     "preversion": "rimraf dist && yarn build"
