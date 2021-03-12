@@ -42,6 +42,12 @@ function go(name) {
     results.push(result)
   }
   const resultName = camelCase(name)
+  // for js version < 1.0.0
+  if (resultName === 'mapMarker') {
+    results.forEach(v => {
+      v.icon = v.icon || 'ui/icon/000000/000000.tex'
+    })
+  }
   const resultJson = results.map(x => JSON.stringify(x))
   fs.writeFileSync(
     `generated/webroot/data/${resultName}.json`,
