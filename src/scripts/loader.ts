@@ -49,7 +49,11 @@ export function parseIcon(icon: string): IIconParseResult {
   }
   const matches = `${icon}`.match(/^ui\/icon\/(\d{6})\/(\d{6})\.tex/)
   if (!matches) {
-    throw new Error(`Invalid icon url: ${icon}`)
+    console.warn('invalid icon url: ', icon)
+    return {
+      group: NULL_ICON_GROUP,
+      id: NULL_ICON_GROUP
+    }
   }
   const group = matches[1]
   const id = matches[2]
