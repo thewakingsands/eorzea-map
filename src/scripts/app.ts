@@ -20,11 +20,7 @@ async function create(mapEl: HTMLElement) {
 }
 
 async function init() {
-  if (window !== top) {
-    console.error('本地图现在不允许在 iframe 中使用。CDN 成本高昂，请理解！')
-    console.error('如果需要在 iframe 中使用，请联系微博 @云泽宛风')
-  }
-
+  untypedWindow.currentMapKey = 92
   const mapEl = document.querySelector('section.map') as HTMLElement
   const map = await create(mapEl)
 
