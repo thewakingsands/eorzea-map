@@ -109,7 +109,9 @@ async function upload() {
             } else {
               filename = path.basename(tile.filename)
             }
-            await uploadFile(bot, tile.filename, filename)
+            await Bluebird.resolve(
+              uploadFile(bot, tile.filename, filename)
+            ).timeout(20000)
             tile.uploadedAt = Date.now()
           } catch (e) {
             console.error(e)
@@ -117,7 +119,7 @@ async function upload() {
           return tile
         },
         { concurrency: 3 }
-      ).timeout(20000)
+      )
       success += result.filter(x => x.uploadedAt !== null).length
     }
   }
